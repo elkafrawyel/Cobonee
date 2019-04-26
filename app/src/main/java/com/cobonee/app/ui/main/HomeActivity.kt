@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         cartImgv.setOnClickListener { cartClicked() }
 
         navigationView.setNavigationItemSelectedListener(this)
-
+        navigationView.menu.getItem(0).isChecked = true;
     }
 
     private fun cartClicked() {
@@ -49,7 +49,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
+        navigationView.menu.getItem(0).isChecked = false
+        item.isCheckable = true;
+        item.isChecked = true;
         when(item.itemId){
             R.id.nav_deals ->   findNavController(R.id.fragment).navigate(R.id.homeFragment)
             R.id.nav_cart ->    findNavController(R.id.fragment).navigate(R.id.cartFragment)
