@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Cobonee</string>
+    <string name="label_deals">عرض الصفقات</string>
+    <string name="label_cart">السلة</string>
+</resources>

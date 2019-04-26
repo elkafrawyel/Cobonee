@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/homeFragment">
+
+    <fragment android:id="@+id/homeFragment"
+        android:name="com.cobonee.app.ui.main.homeFragment.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_savedFragment"
+            app:destination="@id/savedFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_magazineFragment"
+            app:destination="@id/magazineFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.cobonee.app.ui.main.searchFragment.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.cobonee.app.ui.main.cartFragment.CartFragment"
+        android:label="cart_fragment"
+        tools:layout="@layout/cart_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.cobonee.app.ui.main.profileFragment.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.cobonee.app.ui.main.aboutUsFragment.AboutUsFragment"
+        android:label="about_us_fragment"
+        tools:layout="@layout/about_us_fragment" >
+        <action
+            android:id="@+id/action_aboutUsFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.cobonee.app.ui.main.detailsFragment.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.cobonee.app.ui.main.helpFragment.HelpFragment"
+        android:label="help_fragment"
+        tools:layout="@layout/help_fragment" />
+    <fragment
+        android:id="@+id/magazineFragment"
+        android:name="com.cobonee.app.ui.main.magazineFragment.MagazineFragment"
+        android:label="magazine_fragment"
+        tools:layout="@layout/magazine_fragment" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.cobonee.app.ui.main.ordersFragment.OrdersFragment"
+        android:label="orders_fragment"
+        tools:layout="@layout/orders_fragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.cobonee.app.ui.main.paymentFragment.PaymentFragment"
+        android:label="payment_fragment"
+        tools:layout="@layout/payment_fragment" />
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.cobonee.app.ui.main.aboutUsFragment.questionsFragment.QuestionsFragment"
+        android:label="questions_fragment"
+        tools:layout="@layout/questions_fragment" />
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.cobonee.app.ui.main.savedFragment.SavedFragment"
+        android:label="saved_fragment"
+        tools:layout="@layout/saved_fragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.cobonee.app.ui.main.settingsFragment.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
+</navigation>
