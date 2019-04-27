@@ -39,6 +39,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.menu.getItem(0).isCheckable = true;
 
         onNavigationDestinationChanged()
+
+//        findNavController(R.id.fragment).navigate(R.id.questionsFragment)
     }
 
     private fun cartClicked() {
