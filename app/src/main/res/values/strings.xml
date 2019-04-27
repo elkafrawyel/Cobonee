@@ -10,9 +10,10 @@
     <string name="label_settings">الاعدادات</string>
     <string name="label_logout">تسجيل الخروج</string>
     <string name="label_help">المساعدة</string>
+    <string name="label_questions">استفسارات العملاء</string>
     <string name="about_cobonee">عن شركة كوبون</string>
     <string name="about_cobonee_text">هذا نص تجريبي لاختبار شكل و حجم النصوص و طريقة عرضها في هذا المكان و حجم و لون الخط حيث يتم التحكم في هذا النص وامكانية تغييرة في اي وقت عن طريق ادارة الموقع</string>
-    <string name="contact_cobonee">يمكنك التواصل معنا عن طرييق</string>
+    <string name="contact_cobonee">يمكنك التواصل معنا عن طريق</string>
     <string name="cobonee_phone">01100122101</string>
     <string name="cobonee_email">cobonee@cobone.com</string>
     <string name="text_or">او</string>

@@ -14,9 +14,8 @@
         android:id="@+id/about_cobonee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/tajawal_medium"
         android:text="@string/about_cobonee"
-        android:textSize="18sp"
+        android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,10 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_10"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/dp_10"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/tajawal_medium"
             android:gravity="start"
             android:text="@string/about_cobonee_text" />
 
@@ -58,7 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardview" />
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview1"
         android:layout_width="match_parent"
@@ -74,10 +71,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -96,7 +93,10 @@
                     android:id="@+id/cobonee_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cobonee_phone" />
+                    android:text="@string/cobonee_phone"
+
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:padding="8dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -114,7 +114,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cobonee_email" />
+                    android:text="@string/cobonee_email"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:padding="8dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -123,45 +125,45 @@
                 android:orientation="horizontal"
                 android:padding="8dp">
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_4"
                     android:text="@string/text_or"
-                    android:fontFamily="@font/tajawal_medium" />
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:padding="8dp"/>
 
                 <TextView
+                    android:id="@+id/clickHereTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_4"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:padding="8dp"
                     android:text="@string/text_questions"
-                    android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/tajawal_medium"/>
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_questions_from"
-                    android:fontFamily="@font/tajawal_medium"/>
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:padding="8dp"
+                    android:text="@string/text_questions_from" />
             </LinearLayout>
         </LinearLayout>
-
-
     </androidx.cardview.widget.CardView>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardview1"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:padding="15dp"
         android:text="@string/text_send"
-        android:textStyle="bold"
         android:textAllCaps="false"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardview1"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
