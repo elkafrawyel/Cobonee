@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#D81D25</color>
     <color name="colorAccent">#05979B</color>
     <color name="colorBackground">#F1F1F1</color>
+    <color name="gray">#a7aaab</color>
+    <color name="rippleEffectColor">#5e000000</color>
+    <color name="facebookLogin">#3b5998</color>
+    <color name="register">#05979b</color>
 </resources>

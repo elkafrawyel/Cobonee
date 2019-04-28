@@ -25,6 +25,12 @@
     <string name="text_phone">رقم الهاتف</string>
     <string name="text_subject">عنوان الرسالة</string>
     <string name="text_message">تفاصيل الرالة</string>
+    <string name="text_pass">كلمة المرور</string>
+    <string name="text_forget_pass">نست كلمة المرور ؟</string>
+    <string name="text_login">تسجيل الدخول</string>
+    <string name="text_facebook_login">تسجيل الدخول بواسطة الفيس بوك</string>
+    <string name="text_register">إنشاء حساب جديد</string>
+    <string name="text_en_language">Einglish</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>
