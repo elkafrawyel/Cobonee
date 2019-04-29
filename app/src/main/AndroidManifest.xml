@@ -14,6 +14,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.launcher.LauncherActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.auth.registerActivity.RegisterActivity" />
-        <activity android:name=".ui.auth.loginActivity.LoginActivity" />
-        <activity android:name=".ui.main.HomeActivity">
-
-        </activity>
+        <activity
+            android:name=".ui.auth.registerActivity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.auth.loginActivity.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.HomeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

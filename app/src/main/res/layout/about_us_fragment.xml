@@ -43,7 +43,6 @@
             android:gravity="start"
             android:text="@string/about_cobonee_text" />
 
-
     </androidx.cardview.widget.CardView>
 
     <TextView

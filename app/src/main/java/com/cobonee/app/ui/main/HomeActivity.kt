@@ -15,6 +15,18 @@ import com.cobonee.app.utily.toast
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
+
+const val HOME_INDEX = 0
+const val CART_INDEX = 1
+const val SAVED_INDEX = 2
+const val ORDERS_INDEX = 3
+const val MAGAZINE_INDEX = 4
+const val PROFILE_INDEX = 5
+const val ABOUT_US_INDEX = 6
+const val SETTINGS_INDEX = 7
+const val LOGOUT_INDEX = 8
+const val HELP_INDEX = 9
+
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
@@ -35,12 +47,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         cartImgv.setOnClickListener { cartClicked() }
 
         navigationView.setNavigationItemSelectedListener(this)
-        navigationView.menu.getItem(0).isChecked = true;
-        navigationView.menu.getItem(0).isCheckable = true;
+        navigationView.menu.getItem(HOME_INDEX).isChecked = true;
+        navigationView.menu.getItem(HOME_INDEX).isCheckable = true;
 
         onNavigationDestinationChanged()
-
-//        findNavController(R.id.fragment).navigate(R.id.questionsFragment)
     }
 
     private fun cartClicked() {
@@ -76,6 +86,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_aboutUs -> {
                 findNavController(R.id.fragment).navigate(R.id.aboutUsFragment)
+
             }
             R.id.nav_settings -> {
                 findNavController(R.id.fragment).navigate(R.id.settingsFragment)
@@ -83,6 +94,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_logout -> logout()
             R.id.nav_help -> {
                 findNavController(R.id.fragment).navigate(R.id.helpFragment)
+
             }
         }
 
@@ -97,46 +109,64 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.app_name))
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
+                    navigationView.menu.getItem(HOME_INDEX).isChecked = true;
+                    navigationView.menu.getItem(HOME_INDEX).isCheckable = true;
                 }
                 R.id.cartFragment -> {
                     setHomeTitle(resources.getString(R.string.label_cart))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(CART_INDEX).isChecked = true;
+                    navigationView.menu.getItem(CART_INDEX).isCheckable = true;
                 }
                 R.id.savedFragment -> {
                     setHomeTitle(resources.getString(R.string.label_saved))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(SAVED_INDEX).isChecked = true;
+                    navigationView.menu.getItem(SAVED_INDEX).isCheckable = true;
                 }
                 R.id.ordersFragment -> {
                     setHomeTitle(resources.getString(R.string.label_orders))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(ORDERS_INDEX).isChecked = true;
+                    navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true;
                 }
                 R.id.magazineFragment -> {
                     setHomeTitle(resources.getString(R.string.label_magazine))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(MAGAZINE_INDEX).isChecked = true;
+                    navigationView.menu.getItem(MAGAZINE_INDEX).isCheckable = true;
                 }
                 R.id.profileFragment -> {
                     setHomeTitle(resources.getString(R.string.label_profile))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(PROFILE_INDEX).isChecked = true;
+                    navigationView.menu.getItem(PROFILE_INDEX).isCheckable = true;
                 }
                 R.id.aboutUsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_info))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(ABOUT_US_INDEX).isChecked = true;
+                    navigationView.menu.getItem(ABOUT_US_INDEX).isCheckable = true;
                 }
                 R.id.settingsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_settings))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(SETTINGS_INDEX).isChecked = true;
+                    navigationView.menu.getItem(SETTINGS_INDEX).isCheckable = true;
                 }
                 R.id.helpFragment -> {
                     setHomeTitle(resources.getString(R.string.label_help))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    navigationView.menu.getItem(HELP_INDEX).isChecked = true;
+                    navigationView.menu.getItem(HELP_INDEX).isCheckable = true;
                 }
             }
         }
@@ -144,7 +174,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun logout() {
         toast("Logout Done")
-        LoginActivity.start(this)
+        findNavController(R.id.fragment).navigate(R.id.homeFragment)
     }
 
     override fun onBackPressed() {
@@ -155,7 +185,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    public fun setHomeTitle(title: String) {
+    fun setHomeTitle(title: String) {
         homeTitleTv.text = title
     }
 

@@ -1,14 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true"
+    android:paddingBottom="12dp"
+    tools:context=".ui.main.detailsFragment.DetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.detailsFragment.DetailsFragment">
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello"/>
+        <ImageView
+            android:id="@+id/offerImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/offerDiscountPercentTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/discount_percent"
+            android:gravity="center"
+            android:text="خصم %50"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@id/offerShareImgv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/offerShareImgv" />
+
+        <ImageView
+            android:id="@+id/offerShareImgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/rounded_red"
+            android:src="@drawable/share"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/offerImage" />
+
+        <ImageView
+            android:id="@+id/offerSaveImgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/rounded_red"
+            android:src="@drawable/ic_favorite_stock"
+            app:layout_constraintRight_toLeftOf="@id/offerShareImgv"
+            app:layout_constraintTop_toBottomOf="@id/offerImage" />
+
+        <TextView
+            android:id="@+id/offerHeaderTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/about_cobonee_text"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/offerShareImgv" />
+
+        <TextView
+            android:id="@+id/offerDiscountPriceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:gravity="bottom"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="800"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/offerHeaderTv" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@id/offerDiscountPriceTv"
+            app:layout_constraintLeft_toLeftOf="@id/offerDiscountPriceTv"
+            app:layout_constraintRight_toRightOf="@id/offerDiscountPriceTv"
+            app:layout_constraintTop_toTopOf="@id/offerDiscountPriceTv" />
+
+        <TextView
+            android:id="@+id/offerPriceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="400 جنية"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@id/offerDiscountPriceTv"
+            app:layout_constraintTop_toBottomOf="@id/offerHeaderTv" />
+
+        <View
+            android:id="@+id/lineCenter"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/offerDiscountPriceTv" />
+
+        <TextView
+            android:id="@+id/coboneeTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/text_details_cobone_type"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="@id/offerDiscountPriceTv"
+            app:layout_constraintTop_toBottomOf="@id/lineCenter" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/offerCoboneeRv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coboneeTypeTv" />
+
+        <TextView
+            android:id="@+id/advantagesTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/text_details_advantages_type"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="@id/offerDiscountPriceTv"
+            app:layout_constraintTop_toBottomOf="@id/offerCoboneeRv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/advantagesRv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/advantagesTv" />
+
+
+        <TextView
+            android:id="@+id/termsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/text_details_terms_type"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="@id/offerDiscountPriceTv"
+            app:layout_constraintTop_toBottomOf="@id/advantagesRv" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/termsRv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/termsTv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
