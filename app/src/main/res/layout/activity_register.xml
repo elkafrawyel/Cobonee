@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_login"
-        tools:context=".ui.auth.registerActivity.RegisterActivity">
+    tools:context=".ui.auth.registerActivity.RegisterActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -90,20 +89,19 @@
                 android:textColorHint="@android:color/white" />
 
 
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_btn"
-                android:text="@string/text_register"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="20dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:backgroundTint="@color/colorPrimary"
-                app:rippleColor="@color/gray"
                 android:padding="15dp"
+                android:text="@string/text_register"
                 android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorPrimary"
                 app:cornerRadius="4dp"
-                android:textColor="@android:color/white" />
+                app:rippleColor="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,16 +138,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
-                android:text="@string/text_login"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:backgroundTint="@color/register"
-                app:rippleColor="@color/gray"
                 android:layout_marginTop="10dp"
-                app:cornerRadius="4dp"
+                android:text="@string/text_login"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/register"
+                app:cornerRadius="4dp"
+                app:rippleColor="@color/gray" />
 
             <TextView
                 android:id="@+id/change_language"

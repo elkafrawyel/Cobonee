@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cobonee</string>
+    <string name="app_name">كوبوني</string>
     <string name="label_deals">عرض الصفقات</string>
     <string name="label_cart">السلة</string>
     <string name="label_saved">المحفوظات</string>
@@ -37,6 +37,8 @@
     <string name="text_pass_confirm">تأكيد كلمة المرور</string>
     <string name="text_details_owner">حول التاجر</string>
     <string name="lable_offer_details">تفاصيل العرض</string>
+    <string name="label_search">البحث</string>
+    <string name="label_payment">الدفع</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>

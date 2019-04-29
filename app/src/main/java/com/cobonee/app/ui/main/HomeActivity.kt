@@ -4,10 +4,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
 import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
@@ -41,20 +45,24 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        menuImgv.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
-
         searchImgv.setOnClickListener { searchClicked() }
 
         cartImgv.setOnClickListener { cartClicked() }
 
+        setSupportActionBar(toolbar);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+
+        setupActionBarWithNavController(this, findNavController(R.id.fragment), drawerLayout);
+
+        setupWithNavController(navigationView, findNavController(R.id.fragment));
+
         navigationView.setNavigationItemSelectedListener(this)
-        navigationView.menu.getItem(HOME_INDEX).isChecked = true;
-        navigationView.menu.getItem(HOME_INDEX).isCheckable = true;
-
+        navigationView.menu.getItem(HOME_INDEX).isChecked = true
         onNavigationDestinationChanged()
-
-
     }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.fragment).navigateUp()
 
     private fun cartClicked() {
         findNavController(R.id.fragment).navigate(R.id.cartFragment)
@@ -65,9 +73,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        navigationView.menu.getItem(0).isChecked = false
-        item.isCheckable = true;
         item.isChecked = true;
+
+        drawerLayout.closeDrawers();
+
         when (item.itemId) {
             R.id.nav_deals -> {
                 findNavController(R.id.fragment).navigate(R.id.homeFragment)
@@ -100,7 +109,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
@@ -171,7 +179,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     navigationView.menu.getItem(HELP_INDEX).isCheckable = true;
                 }
 
-                R.id.detailsFragment ->{
+                R.id.detailsFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_offer_details))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.VISIBLE
@@ -179,6 +187,18 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
+                    drawerLayout.openDrawer(GravityCompat.START)
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun logout() {
         toast("Logout Done")

@@ -52,7 +52,7 @@
                 android:drawableStart="@drawable/ic_for_pass"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_pass"
-                android:inputType="textPersonName"
+                android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textColor="@android:color/white"
