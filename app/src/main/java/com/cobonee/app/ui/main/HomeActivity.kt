@@ -210,7 +210,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed()
+            if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
+                finish()
+            }else{
+                super.onBackPressed()
+            }
         }
     }
 
