@@ -35,6 +35,8 @@
     <string name="text_details_advantages_type">المميزات</string>
     <string name="text_details_terms_type">شروط الاستحدام</string>
     <string name="text_pass_confirm">تأكيد كلمة المرور</string>
+    <string name="text_details_owner">حول التاجر</string>
+    <string name="lable_offer_details">تفاصيل العرض</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>

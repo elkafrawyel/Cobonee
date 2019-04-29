@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 
 import com.cobonee.app.R
+import com.cobonee.app.ui.main.HomeActivity
 import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : Fragment() {
@@ -34,7 +35,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        openDetails.setOnClickListener { findNavController().navigate(R.id.detailsFragment) }
+        openDetails.setOnClickListener{
+            findNavController().navigate(R.id.detailsFragment)
+        }
     }
 
 }

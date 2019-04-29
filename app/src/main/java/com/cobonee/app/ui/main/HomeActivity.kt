@@ -170,6 +170,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     navigationView.menu.getItem(HELP_INDEX).isChecked = true;
                     navigationView.menu.getItem(HELP_INDEX).isCheckable = true;
                 }
+
+                R.id.detailsFragment ->{
+                    setHomeTitle(resources.getString(R.string.lable_offer_details))
+                    searchImgv.visibility = View.GONE
+                    cartImgv.visibility = View.VISIBLE
+                }
             }
         }
     }
