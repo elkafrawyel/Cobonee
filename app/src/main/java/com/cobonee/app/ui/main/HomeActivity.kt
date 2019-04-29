@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import com.cobonee.app.R
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
+import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.navigation.NavigationView
@@ -51,6 +52,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.menu.getItem(HOME_INDEX).isCheckable = true;
 
         onNavigationDestinationChanged()
+
+
     }
 
     private fun cartClicked() {
@@ -86,7 +89,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_aboutUs -> {
                 findNavController(R.id.fragment).navigate(R.id.aboutUsFragment)
-
             }
             R.id.nav_settings -> {
                 findNavController(R.id.fragment).navigate(R.id.settingsFragment)
@@ -175,6 +177,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun logout() {
         toast("Logout Done")
         findNavController(R.id.fragment).navigate(R.id.homeFragment)
+        LoginActivity.start(this);
     }
 
     override fun onBackPressed() {

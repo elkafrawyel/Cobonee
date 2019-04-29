@@ -62,7 +62,7 @@
                 android:id="@+id/forget_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/text_forget_pass"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/gray" />
@@ -70,25 +70,25 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="15dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:backgroundTint="@color/colorPrimary"
+                app:rippleColor="@color/gray"
                 android:padding="15dp"
                 android:text="@string/text_login"
                 android:textAllCaps="false"
-                app:cornerRadius="10dp"
+                app:cornerRadius="4dp"
                 android:textColor="@android:color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_facebook_btn"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="70dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:backgroundTint="@color/facebookLogin"
-                android:padding="15dp"
-                app:cornerRadius="10dp"
+                app:rippleColor="@color/gray"
+                app:cornerRadius="4dp"
                 android:text="@string/text_facebook_login"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
@@ -96,7 +96,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -129,12 +129,12 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_btn"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:backgroundTint="@color/register"
-                android:layout_marginTop="20dp"
-                app:cornerRadius="10dp"
-                android:padding="15dp"
+                app:rippleColor="@color/gray"
+                android:layout_marginTop="10dp"
+                app:cornerRadius="4dp"
                 android:text="@string/text_register"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/text_en_language"
                 android:textColor="@android:color/black"
                 android:textSize="19sp"

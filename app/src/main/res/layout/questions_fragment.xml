@@ -69,7 +69,7 @@
                 android:background="@drawable/drawer_edittext_background"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_phone"
-                android:inputType="text"
+                android:inputType="phone"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp" />
 
@@ -105,17 +105,34 @@
                 android:scrollHorizontally="false"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <Button
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:layout_marginEnd="30dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:layout_marginEnd="30dp"-->
+                <!--android:layout_marginBottom="40dp"-->
+                <!--android:padding="15dp"-->
+                <!--android:text="@string/text_send"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:background="@drawable/btn_default_backgroun"-->
+                <!--android:textColor="@android:color/white" />-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="30dp"
+                android:layout_height="70dp"
                 android:layout_marginBottom="40dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="15dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:backgroundTint="@color/colorPrimary"
+                app:rippleColor="@color/gray"
                 android:padding="15dp"
                 android:text="@string/text_send"
                 android:textAllCaps="false"
-                android:background="@drawable/btn_default_backgroun"
+                app:cornerRadius="4dp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
