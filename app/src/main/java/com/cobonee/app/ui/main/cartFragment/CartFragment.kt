@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 
 import com.cobonee.app.R
+import kotlinx.android.synthetic.main.cart_fragment.*
 
 class CartFragment : Fragment() {
 
@@ -30,4 +32,10 @@ class CartFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        open.setOnClickListener {
+            findNavController().navigate(R.id.paymentFragment)
+        }
+    }
 }

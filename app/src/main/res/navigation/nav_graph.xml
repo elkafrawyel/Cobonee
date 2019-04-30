@@ -67,7 +67,11 @@
         android:id="@+id/cartFragment"
         android:name="com.cobonee.app.ui.main.cartFragment.CartFragment"
         android:label="@string/label_cart"
-        tools:layout="@layout/cart_fragment" />
+        tools:layout="@layout/cart_fragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.cobonee.app.ui.main.profileFragment.ProfileFragment"
@@ -106,7 +110,14 @@
         android:id="@+id/paymentFragment"
         android:name="com.cobonee.app.ui.main.paymentFragment.PaymentFragment"
         android:label="@string/label_payment"
-        tools:layout="@layout/payment_fragment" />
+        tools:layout="@layout/payment_fragment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_visaFragment"
+            app:destination="@id/visaFragment" />
+        <action
+            android:id="@+id/action_paymentFragment_to_knetFragment"
+            app:destination="@id/knetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/questionsFragment"
         android:name="com.cobonee.app.ui.main.aboutUsFragment.questionsFragment.QuestionsFragment"
@@ -122,4 +133,14 @@
         android:name="com.cobonee.app.ui.main.settingsFragment.SettingsFragment"
         android:label="@string/label_settings"
         tools:layout="@layout/settings_fragment" />
+    <fragment
+        android:id="@+id/visaFragment"
+        android:name="com.cobonee.app.ui.main.paymentFragment.visa.VisaFragment"
+        android:label="visa_fragment"
+        tools:layout="@layout/visa_fragment" />
+    <fragment
+        android:id="@+id/knetFragment"
+        android:name="com.cobonee.app.ui.main.paymentFragment.knet.KnetFragment"
+        android:label="knet_fragment"
+        tools:layout="@layout/knet_fragment" />
 </navigation>

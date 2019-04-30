@@ -43,6 +43,14 @@
     <string name="text_expired_tab">انتهت صلاحيتة</string>
     <string name="label_code_text">الكود</string>
     <string name="label_order_quantity_text">الكمية</string>
+    <string name="text_paymentWayTextTv">أختر طريقة الدفع</string>
+    <string name="text_visa_header">بطاقات الائتمان</string>
+    <string name="text_visa_body">أدفع مستخدما بطاقة الائتمان أو البطاقات المدفوعة مقدما</string>
+    <string name="text_knet_header">كينت</string>
+    <string name="text_knet_body">أدفع مستخدما بطاقة الائتمان أو البطاقات المدفوعة مقدما</string>
+    <string name="lable_payment">طرق الدفع</string>
+    <string name="lable_visa">بطاقات الائتمان</string>
+    <string name="lable_knet">كينت</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>
