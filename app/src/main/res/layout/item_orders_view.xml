@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/orderCodeTextTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:padding="4dp"
+            android:text="@string/label_code_text"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/orderCodeValueTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:padding="4dp"
+            android:text="515566646"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/orderCodeTextTv"
+            app:layout_constraintTop_toTopOf="@id/orderCodeTextTv" />
+
+        <TextView
+            android:id="@+id/orderDiscountPercentTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/discount_percent"
+            android:gravity="center"
+            android:text="خصم %50"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/orderCodeTextTv" />
+
+        <TextView
+            android:id="@+id/orderQuantityValueTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:padding="4dp"
+            android:text="5"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/orderDiscountPercentTv"
+            app:layout_constraintEnd_toStartOf="@id/orderDiscountPercentTv"
+            app:layout_constraintTop_toTopOf="@id/orderCodeTextTv" />
+
+        <TextView
+            android:id="@+id/orderQuantityTextTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="4dp"
+            android:text="@string/label_order_quantity_text"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/orderDiscountPercentTv"
+            app:layout_constraintEnd_toStartOf="@id/orderQuantityValueTv"
+            app:layout_constraintTop_toTopOf="@id/orderCodeTextTv" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/orderOwnerMbtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="12dp"
+            android:clickable="false"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp"
+            android:text="اسماك الحسين"
+            android:textColor="@color/colorPrimary"
+            app:backgroundTint="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderDiscountPercentTv" />
+
+        <TextView
+            android:id="@+id/orderDescTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="@dimen/dp_4"
+            android:text="@string/about_cobonee_text"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toStartOf="@id/orderOwnerMbtn"
+            app:layout_constraintStart_toStartOf="@id/orderCodeTextTv"
+            app:layout_constraintTop_toTopOf="@id/orderOwnerMbtn" />
+
+        <TextView
+            android:id="@+id/orderDateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            android:text="من 564646 الي 565656"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/orderCodeTextTv"
+            app:layout_constraintTop_toBottomOf="@id/orderDescTv" />
+
+        <ImageView
+            android:id="@+id/orderExpiredImgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_expired"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

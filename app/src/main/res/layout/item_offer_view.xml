@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/offerCv"
+    app:cardCornerRadius="10dp"
+    android:layout_marginBottom="8dp"
     app:cardBackgroundColor="@android:color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +38,7 @@
             android:text="اسماك الحسين"
             android:textColor="@color/colorPrimary"
             app:backgroundTint="@android:color/transparent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/offerImgv" />
 
         <TextView
@@ -47,7 +49,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/offerOwnerMbtn"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/offerOwnerMbtn"
             android:text="خصم %50" />
 
@@ -83,7 +85,7 @@
             android:background="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/offerBodyTv" />
 
         <ImageView
@@ -95,7 +97,7 @@
             android:padding="8dp"
             android:src="@drawable/ic_favorite_stock"
             app:layout_constraintBottom_toBottomOf="@id/viewBottom"
-            app:layout_constraintLeft_toLeftOf="@id/viewBottom"
+            app:layout_constraintEnd_toEndOf="@id/viewBottom"
             app:layout_constraintTop_toTopOf="@id/viewBottom" />
 
         <TextView
@@ -111,7 +113,7 @@
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/viewBottom"
-            app:layout_constraintRight_toRightOf="@id/viewBottom"
+            app:layout_constraintStart_toStartOf="@id/viewBottom"
             app:layout_constraintTop_toTopOf="@id/viewBottom" />
 
         <View
@@ -119,8 +121,8 @@
             android:layout_height="1dp"
             android:background="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/offerDiscountPriceTv"
-            app:layout_constraintLeft_toLeftOf="@id/offerDiscountPriceTv"
-            app:layout_constraintRight_toRightOf="@id/offerDiscountPriceTv"
+            app:layout_constraintEnd_toEndOf="@id/offerDiscountPriceTv"
+            app:layout_constraintStart_toStartOf="@id/offerDiscountPriceTv"
             app:layout_constraintTop_toTopOf="@id/offerDiscountPriceTv" />
 
         <TextView
@@ -135,7 +137,7 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/viewBottom"
-            app:layout_constraintRight_toLeftOf="@id/offerDiscountPriceTv"
+            app:layout_constraintStart_toEndOf="@id/offerDiscountPriceTv"
             app:layout_constraintTop_toTopOf="@id/viewBottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -39,6 +39,10 @@
     <string name="lable_offer_details">تفاصيل العرض</string>
     <string name="label_search">البحث</string>
     <string name="label_payment">الدفع</string>
+    <string name="text_ready_to_use_tab">جاهز للاستخدام</string>
+    <string name="text_expired_tab">انتهت صلاحيتة</string>
+    <string name="label_code_text">الكود</string>
+    <string name="label_order_quantity_text">الكمية</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>
