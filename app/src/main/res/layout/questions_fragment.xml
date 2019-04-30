@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp" />
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_name"
                 android:inputType="textPersonName"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_email"
                 android:inputType="textEmailAddress"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_phone"
                 android:inputType="phone"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:hint="@string/text_subject"
                 android:inputType="text"
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/drawer_edittext_background"
+                android:background="@drawable/edittext_background"
                 android:gravity="top|start"
                 android:hint="@string/text_message"
                 android:inputType="textMultiLine"
@@ -115,7 +115,7 @@
                 <!--android:padding="15dp"-->
                 <!--android:text="@string/text_send"-->
                 <!--android:textAllCaps="false"-->
-                <!--android:background="@drawable/btn_default_backgroun"-->
+                <!--android:background="@drawable/btn_default_background"-->
                 <!--android:textColor="@android:color/white" />-->
 
             <com.google.android.material.button.MaterialButton

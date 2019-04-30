@@ -51,6 +51,13 @@
     <string name="lable_payment">طرق الدفع</string>
     <string name="lable_visa">بطاقات الائتمان</string>
     <string name="lable_knet">كينت</string>
+    <string name="text_profile_mainInfo">المعلومات الاساسية</string>
+    <string name="text_edit">تعديل</string>
+    <string name="text_profile_extraInfo">المعلومات الاضافية</string>
+    <string name="text_gender">الجنس</string>
+    <string name="text_country">البلد</string>
+    <string name="text_city">المدينة</string>
+    <string name="lable_search">البحث</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
         <item>عاوز ايه</item>

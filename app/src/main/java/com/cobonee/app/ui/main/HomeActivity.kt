@@ -214,6 +214,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     cartImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                 }
+
+                R.id.searchFragment-> {
+                    setHomeTitle(resources.getString(R.string.lable_search))
+                    searchImgv.visibility = View.GONE
+                    cartImgv.visibility = View.GONE
+                    cartImgv.visibility = View.GONE
+                }
             }
         }
     }
