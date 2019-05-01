@@ -71,4 +71,5 @@
         <item>فوكك مني</item>
         <item>بدل ما اعورك</item>
     </string-array>
+    <string name="text_coupon">coupon</string>
 </resources>
