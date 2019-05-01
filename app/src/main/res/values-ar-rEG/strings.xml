@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">كوبوني</string>
+    <string name="label_deals">عرض الصفقات</string>
+    <string name="label_cart">السلة</string>
+    <string name="label_saved">المحفوظات</string>
+    <string name="label_orders">طلباتي</string>
+    <string name="label_magazine">مجلة كوبوني</string>
+    <string name="label_profile">تفاصيل حسابي</string>
+    <string name="label_info">اعرف عنا</string>
+    <string name="label_settings">الاعدادات</string>
+    <string name="label_logout">تسجيل الخروج</string>
+    <string name="label_help">المساعدة</string>
+    <string name="label_questions">استفسارات العملاء</string>
+    <string name="about_cobonee">عن شركة كوبون</string>
+    <string name="about_cobonee_text">هذا نص تجريبي لاختبار شكل و حجم النصوص و طريقة عرضها في هذا المكان و حجم و لون الخط حيث يتم التحكم في هذا النص وامكانية تغييرة في اي وقت عن طريق ادارة الموقع</string>
+    <string name="contact_cobonee">يمكنك التواصل معنا عن طريق</string>
+    <string name="cobonee_phone">01100122101</string>
+    <string name="cobonee_email">cobonee@cobone.com</string>
+    <string name="text_or">او</string>
+    <string name="text_questions">اضغط هنا</string>
+    <string name="text_questions_from">استمارة الاستفسارات</string>
+    <string name="text_send">ارسال</string>
+    <string name="text_name">الاسم</string>
+    <string name="text_email">البريد الالكتروني</string>
+    <string name="text_phone">رقم الهاتف</string>
+    <string name="text_subject">عنوان الرسالة</string>
+    <string name="text_message">تفاصيل الرسالة</string>
+    <string name="text_pass">كلمة المرور</string>
+    <string name="text_forget_pass">نست كلمة المرور ؟</string>
+    <string name="text_login">تسجيل الدخول</string>
+    <string name="text_facebook_login">تسجيل الدخول بواسطة الفيس بوك</string>
+    <string name="text_register">إنشاء حساب جديد</string>
+    <string name="text_en_language">English</string>
+    <string name="text_details_cobone_type">اختر نوع الكوبون</string>
+    <string name="text_details_advantages_type">المميزات</string>
+    <string name="text_details_terms_type">شروط الاستخدام</string>
+    <string name="text_pass_confirm">تأكيد كلمة المرور</string>
+    <string name="text_details_owner">حول التاجر</string>
+    <string name="lable_offer_details">تفاصيل العرض</string>
+    <string name="label_search">البحث</string>
+    <string name="label_payment">الدفع</string>
+    <string name="text_ready_to_use_tab">جاهز للاستخدام</string>
+    <string name="text_expired_tab">انتهت صلاحيتة</string>
+    <string name="label_code_text">الكود</string>
+    <string name="label_order_quantity_text">الكمية:</string>
+    <string name="text_paymentWayTextTv">أختر طريقة الدفع</string>
+    <string name="text_visa_header">بطاقات الائتمان</string>
+    <string name="text_visa_body">أدفع مستخدما بطاقة الائتمان أو البطاقات المدفوعة مقدما</string>
+    <string name="text_knet_header">كينت</string>
+    <string name="text_knet_body">أدفع مستخدما بطاقة الائتمان أو البطاقات المدفوعة مقدما</string>
+    <string name="lable_payment">طرق الدفع</string>
+    <string name="lable_visa">بطاقات الائتمان</string>
+    <string name="lable_knet">كينت</string>
+    <string name="text_profile_mainInfo">المعلومات الاساسية</string>
+    <string name="text_edit">تعديل</string>
+    <string name="text_profile_extraInfo">المعلومات الاضافية</string>
+    <string name="text_gender">الجنس</string>
+    <string name="text_country">البلد</string>
+    <string name="text_city">المدينة</string>
+    <string name="lable_search">البحث</string>
+    <string name="text_cart_content">محتويات السلة</string>
+    <string name="text_total_cart_content">اجمالي محتويات السلة</string>
+    <string name="text_administrative_cost">مصاريف ادارية وضريبيه</string>
+    <string name="text_total">المجموع</string>
+    <string name="text_money">جنيه</string>
+    <string name="text_next">التالي</string>
+    <string-array name="test_array">
+        <item>سبب التواصل</item>
+        <item>عاوز ايه</item>
+        <item>اخلع يلا</item>
+        <item>فوكك مني</item>
+        <item>بدل ما اعورك</item>
+    </string-array>
+</resources>

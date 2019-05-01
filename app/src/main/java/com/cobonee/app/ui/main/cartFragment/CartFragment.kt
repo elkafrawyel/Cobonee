@@ -18,7 +18,7 @@ class CartFragment : Fragment() {
     }
 
     private lateinit var viewModel: CartViewModel
-
+    private val cartAdapter = AdapterCartItems()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +34,17 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        open.setOnClickListener {
+
+        cartAdapter.addData("A")
+        cartAdapter.addData("B")
+        cartAdapter.addData("C")
+        cartAdapter.addData("A")
+        cartAdapter.addData("A")
+        cartAdapter.addData("A")
+
+        cartRv.adapter = cartAdapter
+
+        next.setOnClickListener {
             findNavController().navigate(R.id.paymentFragment)
         }
     }

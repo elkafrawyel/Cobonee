@@ -60,6 +60,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.menu.getItem(HOME_INDEX).isChecked = true
         onNavigationDestinationChanged()
+
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fragment).navigateUp()
@@ -120,106 +121,106 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
                     cartNumberTv.visibility = View.VISIBLE
-                    navigationView.menu.getItem(HOME_INDEX).isChecked = true;
-                    navigationView.menu.getItem(HOME_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(HOME_INDEX).isChecked = true
+                    navigationView.menu.getItem(HOME_INDEX).isCheckable = true
                 }
                 R.id.cartFragment -> {
                     setHomeTitle(resources.getString(R.string.label_cart))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(CART_INDEX).isChecked = true;
-                    navigationView.menu.getItem(CART_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(CART_INDEX).isChecked = true
+                    navigationView.menu.getItem(CART_INDEX).isCheckable = true
                 }
                 R.id.savedFragment -> {
                     setHomeTitle(resources.getString(R.string.label_saved))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(SAVED_INDEX).isChecked = true;
-                    navigationView.menu.getItem(SAVED_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(SAVED_INDEX).isChecked = true
+                    navigationView.menu.getItem(SAVED_INDEX).isCheckable = true
                 }
                 R.id.ordersFragment -> {
                     setHomeTitle(resources.getString(R.string.label_orders))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
-                    navigationView.menu.getItem(ORDERS_INDEX).isChecked = true;
-                    navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(ORDERS_INDEX).isChecked = true
+                    navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true
                 }
                 R.id.magazineFragment -> {
                     setHomeTitle(resources.getString(R.string.label_magazine))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(MAGAZINE_INDEX).isChecked = true;
-                    navigationView.menu.getItem(MAGAZINE_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(MAGAZINE_INDEX).isChecked = true
+                    navigationView.menu.getItem(MAGAZINE_INDEX).isCheckable = true
                 }
                 R.id.profileFragment -> {
                     setHomeTitle(resources.getString(R.string.label_profile))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(PROFILE_INDEX).isChecked = true;
-                    navigationView.menu.getItem(PROFILE_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(PROFILE_INDEX).isChecked = true
+                    navigationView.menu.getItem(PROFILE_INDEX).isCheckable = true
                 }
                 R.id.aboutUsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_info))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(ABOUT_US_INDEX).isChecked = true;
-                    navigationView.menu.getItem(ABOUT_US_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(ABOUT_US_INDEX).isChecked = true
+                    navigationView.menu.getItem(ABOUT_US_INDEX).isCheckable = true
                 }
                 R.id.settingsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_settings))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(SETTINGS_INDEX).isChecked = true;
-                    navigationView.menu.getItem(SETTINGS_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(SETTINGS_INDEX).isChecked = true
+                    navigationView.menu.getItem(SETTINGS_INDEX).isCheckable = true
                 }
                 R.id.helpFragment -> {
                     setHomeTitle(resources.getString(R.string.label_help))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
-                    navigationView.menu.getItem(HELP_INDEX).isChecked = true;
-                    navigationView.menu.getItem(HELP_INDEX).isCheckable = true;
+                    navigationView.menu.getItem(HELP_INDEX).isChecked = true
+                    navigationView.menu.getItem(HELP_INDEX).isCheckable = true
                 }
 
                 R.id.detailsFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_offer_details))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.VISIBLE
-                    cartImgv.visibility = View.VISIBLE
+                    cartNumberTv.visibility = View.VISIBLE
                 }
 
                 R.id.paymentFragment-> {
                     setHomeTitle(resources.getString(R.string.lable_payment))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
+                    cartNumberTv.visibility = View.GONE
                 }
 
                 R.id.visaFragment-> {
                     setHomeTitle(resources.getString(R.string.lable_visa))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
+                    cartNumberTv.visibility = View.GONE
                 }
 
                 R.id.knetFragment-> {
                     setHomeTitle(resources.getString(R.string.lable_knet))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
+                    cartNumberTv.visibility = View.GONE
                 }
 
                 R.id.searchFragment-> {
                     setHomeTitle(resources.getString(R.string.lable_search))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
+                    cartNumberTv.visibility = View.GONE
                 }
             }
         }
