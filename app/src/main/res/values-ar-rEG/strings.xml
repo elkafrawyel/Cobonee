@@ -73,4 +73,10 @@
         <item>بدل ما اعورك</item>
     </string-array>
     <string name="text_coupon">كوبون</string>
+    <string name="text_amount">المبلغ</string>
+    <string name="text_recipient">المستفيد</string>
+    <string name="about_payment_information">معلومات الدفع</string>
+    <string name="text_expiry_date">تاريخ الانتهاء</string>
+    <string name="text_first_name">الاسم الاول</string>
+    <string name="text_card_number">رقم البطاقة</string>
 </resources>

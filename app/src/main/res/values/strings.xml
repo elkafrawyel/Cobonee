@@ -72,4 +72,9 @@
         <item>بدل ما اعورك</item>
     </string-array>
     <string name="text_coupon">coupon</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_recipient">Recipient</string>
+    <string name="about_payment_information">payment information</string>
+    <string name="text_expiry_date">Expiry date</string>
+    <string name="text_first_name">First Name</string>
 </resources>

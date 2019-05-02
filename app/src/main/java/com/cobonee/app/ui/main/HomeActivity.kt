@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.menu.getItem(HOME_INDEX).isChecked = true
         onNavigationDestinationChanged()
-
+        findNavController(R.id.fragment).navigate(R.id.visaFragment)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fragment).navigateUp()
@@ -250,6 +250,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
                 finish()
+            }else if(findNavController(R.id.fragment).currentDestination?.id == R.id.paymentFragment){
+                findNavController(R.id.fragment).navigate(R.id.homeFragment)
             }else{
                 super.onBackPressed()
             }
