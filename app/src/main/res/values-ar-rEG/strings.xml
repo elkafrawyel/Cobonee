@@ -79,4 +79,10 @@
     <string name="text_expiry_date">تاريخ الانتهاء</string>
     <string name="text_first_name">الاسم الاول</string>
     <string name="text_card_number">رقم البطاقة</string>
+    <string name="text_remember_my_information">تذكر معلوماتي المفصلة</string>
+    <string name="text_send_to_my_latest_deals">يرجي ارسال احدث الصفقات في مدينتي</string>
+    <string name="text_i_agree">أوافق علي</string>
+    <string name="text_terms_and_conditions">الشروط والاحكام</string>
+    <string name="text_Confirm_order">أكد الطلب</string>
+    <string name="text_password">الرقم السري</string>
 </resources>

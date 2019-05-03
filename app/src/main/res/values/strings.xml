@@ -64,6 +64,19 @@
     <string name="text_total">Total</string>
     <string name="text_money">Pound</string>
     <string name="text_next">Next</string>
+    <string name="text_coupon">coupon</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_recipient">Recipient</string>
+    <string name="about_payment_information">payment information</string>
+    <string name="text_expiry_date">Expiry date</string>
+    <string name="text_first_name">First Name</string>
+    <string name="text_card_number">Card Number</string>
+    <string name="text_remember_my_information">Remember my information</string>
+    <string name="text_send_to_my_latest_deals">Please send to my latest deals in my city</string>
+    <string name="text_i_agree">I agree to the</string>
+    <string name="text_terms_and_conditions">terms and conditions</string>
+    <string name="text_Confirm_order">Confirm Order</string>
+    <string name="text_password">Password</string>
     <string-array name="test_array">
         <item>Reason for communication</item>
         <item>what do you want</item>
@@ -71,10 +84,27 @@
         <item>فوكك مني</item>
         <item>بدل ما اعورك</item>
     </string-array>
-    <string name="text_coupon">coupon</string>
-    <string name="text_amount">Amount</string>
-    <string name="text_recipient">Recipient</string>
-    <string name="about_payment_information">payment information</string>
-    <string name="text_expiry_date">Expiry date</string>
-    <string name="text_first_name">First Name</string>
+    <string-array name="month_array">
+        <item>MM</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="year_array">
+        <item>YYYY</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+    </string-array>
 </resources>

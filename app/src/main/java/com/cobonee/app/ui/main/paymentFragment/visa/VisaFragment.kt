@@ -1,13 +1,17 @@
 package com.cobonee.app.ui.main.paymentFragment.visa
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 
 import com.cobonee.app.R
+import kotlinx.android.synthetic.main.visa_fragment.*
+import java.util.*
 
 class VisaFragment : Fragment() {
 
@@ -25,9 +29,38 @@ class VisaFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        changeLanguage(requireContext(),"en")
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(VisaViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        ArrayAdapter.createFromResource(requireContext(),R.array.month_array,android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner_month.adapter = adapter
+            }
+        ArrayAdapter.createFromResource(requireContext(),R.array.year_array,android.R.layout.simple_spinner_item)
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner_year.adapter = adapter
+            }
+
+
+    }
+
+    fun changeLanguage(context: Context, language : String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val config = context.resources.configuration
+        config.setLocale(locale)
+        context.createConfigurationContext(config)
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 
 }
