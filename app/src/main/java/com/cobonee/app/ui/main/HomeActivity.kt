@@ -60,7 +60,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.menu.getItem(HOME_INDEX).isChecked = true
         onNavigationDestinationChanged()
-        findNavController(R.id.fragment).navigate(R.id.knetFragment)
+
+//        findNavController(R.id.fragment).navigate(R.id.knetFragment)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fragment).navigateUp()
