@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.paymentFragment.operationCompleted.OperationCompletedFragment">
+
+    <TextView
+        android:id="@+id/headerTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:background="@drawable/bg_green"
+        android:gravity="center"
+        android:padding="18dp"
+        android:text="@string/payment_completed"
+        android:textAppearance="?attr/textAppearanceBody1"
+        app:layout_constraintBottom_toTopOf="@id/cardDetails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@id/headerTv"
+        app:layout_constraintStart_toStartOf="@id/headerTv"
+        app:layout_constraintTop_toBottomOf="@id/headerTv">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+
+            <TextView
+                android:id="@+id/transactionsDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/transactions_date"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/amountChargedText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/amountChargedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/amount_charged"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/result_text"
+                app:layout_constraintStart_toStartOf="@id/transactionsDateText"
+                app:layout_constraintTop_toBottomOf="@id/transactionsDateText" />
+
+            <TextView
+                android:id="@+id/result_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/result_text"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/paymentIdText"
+                app:layout_constraintStart_toStartOf="@id/transactionsDateText"
+                app:layout_constraintTop_toBottomOf="@id/amountChargedText" />
+
+            <TextView
+                android:id="@+id/paymentIdText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/payment_id"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/referenceNoText"
+                app:layout_constraintStart_toStartOf="@id/transactionsDateText"
+                app:layout_constraintTop_toBottomOf="@id/result_text" />
+
+            <TextView
+                android:id="@+id/referenceNoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/reference_no"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/trackIdText"
+                app:layout_constraintStart_toStartOf="@id/transactionsDateText"
+                app:layout_constraintTop_toBottomOf="@id/paymentIdText" />
+
+            <TextView
+                android:id="@+id/trackIdText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:padding="8dp"
+                android:text="@string/merchant_track_id"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="@id/transactionsDateText"
+                app:layout_constraintTop_toBottomOf="@id/referenceNoText" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="0.1dp"
+                android:layout_height="0dp"
+                android:layout_margin="12dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="@id/trackIdText"
+                app:layout_constraintStart_toEndOf="@id/transactionsDateText"
+                app:layout_constraintTop_toTopOf="@id/transactionsDateText" />
+
+
+            <TextView
+                android:id="@+id/transactionDateTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="8dp"
+                android:text="27/04/2019"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toEndOf="@id/line"
+                app:layout_constraintTop_toTopOf="@id/transactionsDateText" />
+
+            <TextView
+                android:id="@+id/amountTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="300 LE"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/resultTv"
+                app:layout_constraintStart_toStartOf="@id/transactionDateTv"
+                app:layout_constraintTop_toBottomOf="@id/transactionDateTv" />
+
+            <TextView
+                android:id="@+id/resultTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:text="Captured"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/paymentIdTv"
+                app:layout_constraintStart_toStartOf="@id/transactionDateTv"
+                app:layout_constraintTop_toBottomOf="@id/amountTv" />
+
+            <TextView
+                android:id="@+id/paymentIdTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:text="35464646436846"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/referenceIdTv"
+                app:layout_constraintStart_toStartOf="@id/transactionDateTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/resultTv" />
+
+            <TextView
+                android:id="@+id/referenceIdTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:text="646494684645"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintBottom_toTopOf="@id/trackIdTv"
+                app:layout_constraintStart_toStartOf="@id/transactionDateTv"
+                app:layout_constraintTop_toBottomOf="@id/paymentIdTv" />
+
+            <TextView
+                android:id="@+id/trackIdTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:text="5465465465165168"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintStart_toStartOf="@id/transactionDateTv"
+                app:layout_constraintTop_toBottomOf="@id/referenceIdTv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

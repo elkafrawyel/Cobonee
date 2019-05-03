@@ -85,4 +85,14 @@
     <string name="text_terms_and_conditions">الشروط والاحكام</string>
     <string name="text_Confirm_order">أكد الطلب</string>
     <string name="text_password">الرقم السري</string>
+
+    <string name="payment_completed">تمت العملية بنجاح</string>
+    <string name="transactions_date">تاريخ التحويل :</string>
+    <string name="amount_charged">Amount Charged :</string>
+    <string name="result_text">النتيجة :</string>
+    <string name="payment_id">Payment ID:</string>
+    <string name="reference_no">Reference No:</string>
+    <string name="merchant_track_id">Merchant Track ID:</string>
+    <string name="questions">أسئلة متكررة</string>
+
 </resources>

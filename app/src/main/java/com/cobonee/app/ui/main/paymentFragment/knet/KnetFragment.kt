@@ -7,9 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 
 import com.cobonee.app.R
+import kotlinx.android.synthetic.main.knet_fragment.*
 import kotlinx.android.synthetic.main.visa_fragment.*
+import kotlinx.android.synthetic.main.visa_fragment.spinner_month
+import kotlinx.android.synthetic.main.visa_fragment.spinner_year
 
 class KnetFragment : Fragment() {
 
@@ -45,7 +49,9 @@ class KnetFragment : Fragment() {
                 spinner_year.adapter = adapter
             }
 
-
+        paymentKentConfirmMbtn.setOnClickListener {
+            findNavController().navigate(R.id.operationCompletedFragment)
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 
 import com.cobonee.app.R
 import kotlinx.android.synthetic.main.visa_fragment.*
@@ -51,16 +52,10 @@ class VisaFragment : Fragment() {
             }
 
 
-    }
+        paymentVisaConfirmMbtn.setOnClickListener {
+            findNavController().navigate(R.id.operationCompletedFragment)
+        }
 
-    fun changeLanguage(context: Context, language : String) {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-
-        val config = context.resources.configuration
-        config.setLocale(locale)
-        context.createConfigurationContext(config)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 
 }

@@ -4,18 +4,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
-import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
-import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
@@ -49,13 +45,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         cartImgv.setOnClickListener { cartClicked() }
 
-        setSupportActionBar(toolbar);
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        setupActionBarWithNavController(this, findNavController(R.id.fragment), drawerLayout);
+        setupActionBarWithNavController(this, findNavController(R.id.fragment), drawerLayout)
 
-        setupWithNavController(navigationView, findNavController(R.id.fragment));
+        setupWithNavController(navigationView, findNavController(R.id.fragment))
 
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.menu.getItem(HOME_INDEX).isChecked = true
@@ -75,9 +71,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.isChecked = true;
+        item.isChecked = true
 
-        drawerLayout.closeDrawers();
+        drawerLayout.closeDrawers()
 
         when (item.itemId) {
             R.id.nav_deals -> {
@@ -145,6 +141,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_orders))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
+                    cartNumberTv.visibility = View.GONE
                     navigationView.menu.getItem(ORDERS_INDEX).isChecked = true
                     navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true
                 }
@@ -196,28 +193,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     cartNumberTv.visibility = View.VISIBLE
                 }
 
-                R.id.paymentFragment-> {
+                R.id.paymentFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_payment))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
                 }
 
-                R.id.visaFragment-> {
+                R.id.visaFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_visa))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
                 }
 
-                R.id.knetFragment-> {
+                R.id.knetFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_knet))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
                     cartNumberTv.visibility = View.GONE
                 }
 
-                R.id.searchFragment-> {
+                R.id.searchFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_search))
                     searchImgv.visibility = View.GONE
                     cartImgv.visibility = View.GONE
@@ -232,6 +229,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             android.R.id.home -> {
                 if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
                     drawerLayout.openDrawer(GravityCompat.START)
+                    return true
+                }else if (findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment) {
+                    findNavController(R.id.fragment).popBackStack()
+                    findNavController(R.id.fragment).navigate(R.id.homeFragment)
+                    return true
                 }
             }
         }
@@ -241,20 +243,20 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun logout() {
         toast("Logout Done")
-        findNavController(R.id.fragment).navigate(R.id.homeFragment)
-        LoginActivity.start(this);
+        LoginActivity.start(this)
     }
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
-                finish()
-            }else if(findNavController(R.id.fragment).currentDestination?.id == R.id.paymentFragment){
-                findNavController(R.id.fragment).navigate(R.id.homeFragment)
-            }else{
-                super.onBackPressed()
+            when {
+                findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment -> finish()
+                findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment -> {
+                    findNavController(R.id.fragment).popBackStack()
+                    findNavController(R.id.fragment).navigate(R.id.homeFragment)
+                }
+                else -> super.onBackPressed()
             }
         }
     }

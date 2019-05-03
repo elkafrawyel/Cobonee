@@ -137,10 +137,23 @@
         android:id="@+id/visaFragment"
         android:name="com.cobonee.app.ui.main.paymentFragment.visa.VisaFragment"
         android:label="visa_fragment"
-        tools:layout="@layout/visa_fragment" />
+        tools:layout="@layout/visa_fragment" >
+        <action
+            android:id="@+id/action_visaFragment_to_operationCompletedFragment"
+            app:destination="@id/operationCompletedFragment" />
+    </fragment>
     <fragment
         android:id="@+id/knetFragment"
         android:name="com.cobonee.app.ui.main.paymentFragment.knet.KnetFragment"
         android:label="knet_fragment"
-        tools:layout="@layout/knet_fragment" />
+        tools:layout="@layout/knet_fragment" >
+        <action
+            android:id="@+id/action_knetFragment_to_operationCompletedFragment"
+            app:destination="@id/operationCompletedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/operationCompletedFragment"
+        android:name="com.cobonee.app.ui.main.paymentFragment.operationCompleted.OperationCompletedFragment"
+        android:label="operation_completed_fragment"
+        tools:layout="@layout/operation_completed_fragment" />
 </navigation>

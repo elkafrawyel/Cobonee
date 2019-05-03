@@ -107,4 +107,14 @@
         <item>2022</item>
         <item>2023</item>
     </string-array>
+
+    <string name="payment_completed">Operation Completed Successfully</string>
+    <string name="transactions_date">Transactions Date :</string>
+    <string name="amount_charged">Amount Charged :</string>
+    <string name="result_text">Result :</string>
+    <string name="payment_id">Payment ID:</string>
+    <string name="reference_no">Reference No:</string>
+    <string name="merchant_track_id">Merchant Track ID:</string>
+    <string name="questions">Repeated Questions</string>
+
 </resources>
