@@ -79,10 +79,10 @@
     <string name="text_password">Password</string>
     <string-array name="test_array">
         <item>Reason for communication</item>
-        <item>what do you want</item>
-        <item>go away</item>
-        <item>فوكك مني</item>
-        <item>بدل ما اعورك</item>
+        <item>option1</item>
+        <item>option2</item>
+        <item>option3</item>
+        <item>option4</item>
     </string-array>
     <string-array name="month_array">
         <item>MM</item>

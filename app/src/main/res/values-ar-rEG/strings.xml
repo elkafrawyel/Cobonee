@@ -67,10 +67,10 @@
     <string name="text_next">التالي</string>
     <string-array name="test_array">
         <item>سبب التواصل</item>
-        <item>عاوز ايه</item>
-        <item>اخلع يلا</item>
-        <item>فوكك مني</item>
-        <item>بدل ما اعورك</item>
+        <item>الاختيار الاول</item>
+        <item>الاختيار الثاني</item>
+        <item>الاختيار الثالث</item>
+        <item>الاختيار الرابع</item>
     </string-array>
     <string name="text_coupon">كوبون</string>
     <string name="text_amount">المبلغ</string>
