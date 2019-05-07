@@ -11,9 +11,20 @@ data class OffersResponse(
     val meta: Meta
 )
 
+
 data class Offer(
-    @field:Json(name = "offer")
-    val links: Links?
+    @field:Json(name = "id")
+    val id: Int,
+    @field:Json(name = "name")
+    val name: String,
+    @field:Json(name = "description")
+    val description: String,
+    @field:Json(name = "price")
+    val price: String,
+    @field:Json(name = "discount")
+    val discount: String,
+    @field:Json(name = "price_after_discount")
+    val priceAfterDiscount: Int
 )
 
 data class Links(

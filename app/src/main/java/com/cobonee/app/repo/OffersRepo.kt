@@ -6,9 +6,8 @@ import com.cobonee.app.storage.remote.RetrofitApiService
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.safeApiCall
-import java.io.IOException
 
-class HomeFragmentRepo(private val apiService: RetrofitApiService) {
+class OffersRepo(private val apiService: RetrofitApiService) {
 
     //=====================================Offers=========================================================
 
@@ -20,8 +19,9 @@ class HomeFragmentRepo(private val apiService: RetrofitApiService) {
     }
 
     private suspend fun loginCall(department_id: String, city_id: String): DataResource<OffersResponse> {
-        val response = apiService.getOffers(department_id, city_id).await()
+        val response = apiService.getOffersAsync(department_id, city_id).await()
         return DataResource.Success(response)
     }
     //=======================================================================================================
+
 }

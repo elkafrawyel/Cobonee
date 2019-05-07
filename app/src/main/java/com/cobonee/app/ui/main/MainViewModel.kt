@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
-import com.cobonee.app.entity.CitiesResponse
+import com.cobonee.app.entity.CityResponse
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
@@ -62,12 +62,9 @@ class MainViewModel : CoboneeViewModel() {
         _citiesUiState.value = CitiesUiState.Loading
     }
 
-    private fun showSuccess(data: CitiesResponse) {
+    private fun showSuccess(data: CityResponse) {
         citiesList.clear()
-//        selectedCity.value = data.cities[0]
         citiesList.addAll(data.cities)
-        citiesList.add(City(2,"Alex"))
-        citiesList.add(City(3,"Cairo"))
         _citiesUiState.value = CitiesUiState.Success
     }
 

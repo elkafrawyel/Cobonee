@@ -2,7 +2,7 @@ package com.cobonee.app.entity
 
 import com.squareup.moshi.Json
 
-data class CitiesResponse(
+data class CityResponse(
     @field:Json(name = "data")
     val cities: List<City>
 )

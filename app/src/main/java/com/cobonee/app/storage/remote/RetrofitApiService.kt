@@ -1,6 +1,7 @@
 package com.cobonee.app.storage.remote
 
-import com.cobonee.app.entity.CitiesResponse
+import com.cobonee.app.entity.CityResponse
+import com.cobonee.app.entity.DepartmentResponse
 import com.cobonee.app.entity.OffersResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -12,14 +13,18 @@ import retrofit2.http.Query
 
 interface RetrofitApiService {
 
+    @GET("cities")
+    fun getCitiesAsync(): Deferred<CityResponse>
+
+    @GET("departments")
+    fun getDepartmentsAsync(): Deferred<DepartmentResponse>
+
     @GET("offers")
-    fun getOffers(
+    fun getOffersAsync(
         @Query("department_id") department_id: String,
         @Query("city_id") city_id: String
     ): Deferred<OffersResponse>
 
-    @GET("cities")
-    fun getCities(): Deferred<CitiesResponse>
 
     companion object {
         fun create(baseUrl: String, client: OkHttpClient): RetrofitApiService {

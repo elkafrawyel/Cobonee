@@ -1,13 +1,13 @@
 package com.cobonee.app.useCases
 
-import com.cobonee.app.entity.CitiesResponse
-import com.cobonee.app.repo.MainRepo
+import com.cobonee.app.entity.CityResponse
+import com.cobonee.app.repo.CitiesRepo
 import com.cobonee.app.utily.DataResource
 
-class CitiesUseCase(private val mainRepo: MainRepo) {
+class CitiesUseCase(private val citiesRepo: CitiesRepo) {
 
-    suspend fun getCities(): DataResource<CitiesResponse> {
+    suspend fun getCities(): DataResource<CityResponse> {
 
-        return mainRepo.getCities()
+        return citiesRepo.getCities()
     }
 }

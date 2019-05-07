@@ -33,6 +33,7 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minHeight="0dp"
+            android:textAllCaps="false"
             android:clickable="false"
             android:padding="8dp"
             android:text="اسماك الحسين"
@@ -45,13 +46,15 @@
             android:id="@+id/offerDiscountPercentTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/discount_percent"
+            android:background="@drawable/discount_percent_mirror"
             android:gravity="center"
+            android:padding="4dp"
+            android:layout_marginEnd="4dp"
+            android:paddingStart="8dp"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/offerOwnerMbtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/offerOwnerMbtn"
-            android:text="خصم %50" />
+            app:layout_constraintTop_toTopOf="@id/offerOwnerMbtn" />
 
         <TextView
             android:id="@+id/offerHeaderTv"
@@ -71,6 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:maxLines="4"
             android:text="خصم علي وجبات السمك المشوي في مطعم "
             android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="@android:color/darker_gray"

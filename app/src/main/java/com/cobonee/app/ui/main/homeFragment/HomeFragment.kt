@@ -17,8 +17,9 @@ import com.cobonee.app.entity.City
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.profile_fragment.*
 
 class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.OnRefreshListener,
     RequestLoadMoreListener {
@@ -47,29 +48,84 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
 
+        viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
+        viewModel.getDepartments()
+
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { it ->
             viewModel.setParameters(cityId = it.id.toString())
             resetOffers()
             viewModel.getOffers()
         })
 
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
 
-        viewModel.setParameters(deptId = "1")
-        resetOffers()
-        viewModel.getOffers()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val deptId = viewModel.departmentList[tab?.position!!].id
+                viewModel.setParameters(deptId = deptId.toString())
+                resetOffers()
+                viewModel.getOffers()
+            }
+        })
+    }
+
+    private fun onDepartmentResponse(state: HomeViewModel.DepartmentsUiState?) {
+        when (state) {
+            HomeViewModel.DepartmentsUiState.Loading -> {
+                onDepartmentLoading()
+            }
+            HomeViewModel.DepartmentsUiState.Success -> {
+                onDepartmentSuccess()
+            }
+            is HomeViewModel.DepartmentsUiState.Error -> {
+                onDepartmentError(state.message)
+            }
+            HomeViewModel.DepartmentsUiState.NoConnection -> {
+                onDepartmentNoConnection()
+            }
+            null -> {
+            }
+        }
+    }
+
+    private fun onDepartmentNoConnection() {
+        offersSwipe.isRefreshing = false
+        homePb.visibility = View.GONE
+        activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
+    }
+
+    private fun onDepartmentError(message: String) {
+        activity?.snackBar(message, rootView)
+    }
+
+    private fun onDepartmentSuccess() {
+        // add to tabs
+
+        for (dept in viewModel.departmentList) {
+            val tab = tabLayout.newTab()
+            tab.text = dept.name
+            tabLayout.addTab(tab)
+        }
+
+        tabLayout.selectTab(tabLayout.getTabAt(0))
+
+    }
+
+    private fun onDepartmentLoading() {
+        homePb.visibility = View.VISIBLE
+        offersRv.visibility = View.GONE
+        offersSwipe.isRefreshing = false
     }
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        for (i in 1..8) {
-            var tab = tabLayout.newTab()
-            tab.text = "Tab $i"
-
-            tabLayout.addTab(tab)
-        }
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -90,7 +146,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     }
 
-    fun resetOffers(){
+    private fun resetOffers() {
         viewModel.offersList.clear()
         offersRv.recycledViewPool.clear()
         offersAdapter.data.clear()
@@ -132,11 +188,11 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersRv.visibility = View.VISIBLE
         offersSwipe.isRefreshing = false
 
-        if (viewModel.offersList.isEmpty()) {
-            offersAdapter.emptyView = layoutInflater.inflate(R.layout.empty_view, null, false)
-        } else {
+//        if (viewModel.offersList.isEmpty()) {
+//            offersAdapter.emptyView = layoutInflater.inflate(R.layout.empty_view, null, false)
+//        } else {
             offersAdapter.replaceData(viewModel.offersList)
-        }
+//        }
 
         offersAdapter.loadMoreComplete()
     }
