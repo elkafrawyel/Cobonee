@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     }
 
     private fun onDepartmentError(message: String) {
-        activity?.snackBar(message, rootView)
+        activity?.snackBar(message, homeRootView)
     }
 
     private fun onDepartmentSuccess() {
