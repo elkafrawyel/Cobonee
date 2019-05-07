@@ -78,7 +78,6 @@
     <string name="text_Confirm_order">Confirm Order</string>
     <string name="text_password">Password</string>
     <string-array name="test_array">
-        <item>Reason for communication</item>
         <item>option1</item>
         <item>option2</item>
         <item>option3</item>
@@ -116,5 +115,9 @@
     <string name="reference_no">Reference No:</string>
     <string name="merchant_track_id">Merchant Track ID:</string>
     <string name="questions">Repeated Questions</string>
+    <string name="error_offers">Error getting offers</string>
+    <string name="no_connection_error">No Internet Connection.</string>
+    <string name="error_general">Error happened</string>
+    <string name="error_city_or_dept">Error Find City or Department</string>
 
 </resources>

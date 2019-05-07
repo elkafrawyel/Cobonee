@@ -6,12 +6,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
+import com.cobonee.app.entity.City
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
+import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
@@ -37,9 +43,25 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        viewModel.citiesUiState.observe(this, Observer { onCitiesResponse(it) })
+        viewModel.getCities()
+
+        citiesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.selectedCity.value = viewModel.citiesList[position]
+            }
+        }
 
         searchImgv.setOnClickListener { searchClicked() }
 
@@ -58,6 +80,32 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onNavigationDestinationChanged()
 
 //        findNavController(R.id.fragment).navigate(R.id.knetFragment)
+    }
+
+    private fun onCitiesResponse(state: MainViewModel.CitiesUiState?) {
+        when (state) {
+            MainViewModel.CitiesUiState.Loading -> {
+                mainPb.visibility = View.VISIBLE
+            }
+            MainViewModel.CitiesUiState.Success -> {
+                mainPb.visibility = View.GONE
+
+                val citiesAdapter =
+                    ArrayAdapter<City>(this@HomeActivity, R.layout.simple_spinner_item, viewModel.citiesList)
+                citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                citiesSpinner.adapter = citiesAdapter
+            }
+            is MainViewModel.CitiesUiState.Error -> {
+                mainPb.visibility = View.GONE
+                snackBar(resources.getString(R.string.error_general), rootView)
+            }
+            MainViewModel.CitiesUiState.NoConnection -> {
+                mainPb.visibility = View.GONE
+                snackBar(resources.getString(R.string.no_connection_error), rootView)
+            }
+            null -> {
+            }
+        }
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.fragment).navigateUp()
@@ -114,111 +162,125 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         findNavController(R.id.fragment).addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> {
-                    setHomeTitle(resources.getString(R.string.app_name))
+                    setHomeTitle("")
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
                     cartNumberTv.visibility = View.VISIBLE
+                    citiesSpinner.visibility = View.VISIBLE
                     navigationView.menu.getItem(HOME_INDEX).isChecked = true
                     navigationView.menu.getItem(HOME_INDEX).isCheckable = true
                 }
                 R.id.cartFragment -> {
                     setHomeTitle(resources.getString(R.string.label_cart))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(CART_INDEX).isChecked = true
                     navigationView.menu.getItem(CART_INDEX).isCheckable = true
                 }
                 R.id.savedFragment -> {
                     setHomeTitle(resources.getString(R.string.label_saved))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(SAVED_INDEX).isChecked = true
                     navigationView.menu.getItem(SAVED_INDEX).isCheckable = true
                 }
                 R.id.ordersFragment -> {
                     setHomeTitle(resources.getString(R.string.label_orders))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(ORDERS_INDEX).isChecked = true
                     navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true
                 }
                 R.id.magazineFragment -> {
                     setHomeTitle(resources.getString(R.string.label_magazine))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(MAGAZINE_INDEX).isChecked = true
                     navigationView.menu.getItem(MAGAZINE_INDEX).isCheckable = true
                 }
                 R.id.profileFragment -> {
                     setHomeTitle(resources.getString(R.string.label_profile))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(PROFILE_INDEX).isChecked = true
                     navigationView.menu.getItem(PROFILE_INDEX).isCheckable = true
                 }
                 R.id.aboutUsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_info))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(ABOUT_US_INDEX).isChecked = true
                     navigationView.menu.getItem(ABOUT_US_INDEX).isCheckable = true
                 }
                 R.id.settingsFragment -> {
                     setHomeTitle(resources.getString(R.string.label_settings))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(SETTINGS_INDEX).isChecked = true
                     navigationView.menu.getItem(SETTINGS_INDEX).isCheckable = true
                 }
                 R.id.helpFragment -> {
                     setHomeTitle(resources.getString(R.string.label_help))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(HELP_INDEX).isChecked = true
                     navigationView.menu.getItem(HELP_INDEX).isCheckable = true
                 }
 
                 R.id.detailsFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_offer_details))
-                    searchImgv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.VISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
                     cartNumberTv.visibility = View.VISIBLE
                 }
 
                 R.id.paymentFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_payment))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.visaFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_visa))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.knetFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_knet))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.searchFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_search))
-                    searchImgv.visibility = View.GONE
-                    cartImgv.visibility = View.GONE
-                    cartNumberTv.visibility = View.GONE
+                    searchImgv.visibility = View.INVISIBLE
+                    citiesSpinner.visibility = View.INVISIBLE
+                    cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
                 }
             }
         }
@@ -230,7 +292,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
                     drawerLayout.openDrawer(GravityCompat.START)
                     return true
-                }else if (findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment) {
+                } else if (findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment) {
                     findNavController(R.id.fragment).popBackStack()
                     findNavController(R.id.fragment).navigate(R.id.homeFragment)
                     return true

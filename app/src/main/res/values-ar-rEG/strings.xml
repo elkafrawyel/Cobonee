@@ -66,7 +66,6 @@
     <string name="text_money">جنيه</string>
     <string name="text_next">التالي</string>
     <string-array name="test_array">
-        <item>سبب التواصل</item>
         <item>الاختيار الاول</item>
         <item>الاختيار الثاني</item>
         <item>الاختيار الثالث</item>
@@ -95,4 +94,10 @@
     <string name="merchant_track_id">Merchant Track ID:</string>
     <string name="questions">أسئلة متكررة</string>
 
+    <string name="error_offers">خطأ في عرض العروض</string>
+    <string name="no_connection_error">لا يوجد تصال بالانترنت</string>
+
+
+    <string name="error_general">حدث خطأ ما</string>
+    <string name="error_city_or_dept">خطأ في ايجاد المدينة او القسم</string>
 </resources>
