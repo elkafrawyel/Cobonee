@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-
+import com.cobonee.app.R
 import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.Constants
 import com.cobonee.app.utily.changeLanguage
@@ -27,7 +27,7 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.cobonee.app.R.layout.settings_fragment, container, false)
+        return inflater.inflate(R.layout.settings_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -42,11 +42,10 @@ class SettingsFragment : Fragment() {
         val currentLocale = resources.configuration.locale.language
         ArrayAdapter.createFromResource(
             requireContext(),
-            com.cobonee.app.R.array.language_array,
-            android.R.layout.simple_spinner_item
-        )
+            R.array.language_array,
+            R.layout.spinner_item_black)
             .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 spinner_language.adapter = adapter
             }
         if (currentLocale == "ar") {

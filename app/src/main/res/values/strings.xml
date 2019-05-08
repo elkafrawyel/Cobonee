@@ -129,5 +129,6 @@
     <string name="text_language">Language</string>
     <string name="text_change_password">Change password</string>
     <string name="text_change_country">Change country</string>
+    <string name="addToCart">Add To Cart</string>
 
 </resources>

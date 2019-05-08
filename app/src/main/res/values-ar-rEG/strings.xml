@@ -105,5 +105,6 @@
     <string name="text_change_password">تغير كلمة السر</string>
     <string name="text_change_payment">اختر طريقة الدفع</string>
     <string name="text_language">اللغة</string>
+    <string name="addToCart">أضف الي السلة</string>
 
 </resources>
