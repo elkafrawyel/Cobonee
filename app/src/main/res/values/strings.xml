@@ -106,6 +106,10 @@
         <item>2022</item>
         <item>2023</item>
     </string-array>
+    <string-array name="language_array">
+        <item>English</item>
+        <item>العربية</item>
+    </string-array>
 
     <string name="payment_completed">Operation Completed Successfully</string>
     <string name="transactions_date">Transactions Date :</string>
@@ -121,5 +125,9 @@
     <string name="error_city_or_dept">Error Find City or Department</string>
     <string name="label_discount">discount</string>
     <string name="label_price">%1$s EP</string>
+    <string name="text_change_payment">Change payment method</string>
+    <string name="text_language">Language</string>
+    <string name="text_change_password">Change password</string>
+    <string name="text_change_country">Change country</string>
 
 </resources>

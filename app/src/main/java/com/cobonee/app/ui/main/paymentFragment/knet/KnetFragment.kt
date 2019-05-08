@@ -34,16 +34,18 @@ class KnetFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(KnetViewModel::class.java)
         // TODO: Use the ViewModel
-    }    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        ArrayAdapter.createFromResource(requireContext(),R.array.month_array,android.R.layout.simple_spinner_item)
+        ArrayAdapter.createFromResource(requireContext(), R.array.month_array, android.R.layout.simple_spinner_item)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner_month.adapter = adapter
             }
-        ArrayAdapter.createFromResource(requireContext(),R.array.year_array,android.R.layout.simple_spinner_item)
+        ArrayAdapter.createFromResource(requireContext(), R.array.year_array, android.R.layout.simple_spinner_item)
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner_year.adapter = adapter
