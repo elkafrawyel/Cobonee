@@ -2,12 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/offerCv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/offerCv"
-    app:cardCornerRadius="10dp"
     android:layout_marginBottom="8dp"
-    app:cardBackgroundColor="@android:color/white">
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,29 +16,36 @@
         <ImageView
             android:id="@+id/offerImgv"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:src="@drawable/test"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offerOwnerMbtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        <ProgressBar
+            android:id="@+id/offerImageLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/offerImgv"
+            app:layout_constraintEnd_toEndOf="@id/offerImgv"
+            app:layout_constraintStart_toStartOf="@id/offerImgv"
+            app:layout_constraintTop_toTopOf="@id/offerImgv" />
+
+        <TextView
+            android:id="@+id/offerOwnerTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="0dp"
-            android:textAllCaps="false"
+            android:background="@drawable/rounded"
             android:clickable="false"
             android:padding="8dp"
             android:text="اسماك الحسين"
             android:textColor="@color/colorPrimary"
-            app:backgroundTint="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@id/offerDiscountPercentTv"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/offerImgv" />
 
@@ -49,12 +56,11 @@
             android:background="@drawable/discount_percent_mirror"
             android:gravity="center"
             android:padding="4dp"
-            android:layout_marginEnd="4dp"
             android:paddingStart="8dp"
             android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@id/offerOwnerMbtn"
+            app:layout_constraintBottom_toBottomOf="@id/offerOwnerTv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/offerOwnerMbtn" />
+            app:layout_constraintTop_toTopOf="@id/offerOwnerTv" />
 
         <TextView
             android:id="@+id/offerHeaderTv"
@@ -67,16 +73,16 @@
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/offerOwnerMbtn" />
+            app:layout_constraintTop_toBottomOf="@id/offerOwnerTv" />
 
         <TextView
             android:id="@+id/offerBodyTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:maxLines="4"
+            android:padding="8dp"
             android:text="خصم علي وجبات السمك المشوي في مطعم "
-            android:textAppearance="?attr/textAppearanceCaption"
+            android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="@id/offerHeaderTv"
             app:layout_constraintStart_toStartOf="@id/offerHeaderTv"

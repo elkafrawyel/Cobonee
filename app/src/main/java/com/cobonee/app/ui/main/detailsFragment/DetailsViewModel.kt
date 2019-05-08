@@ -1,7 +1,9 @@
 package com.cobonee.app.ui.main.detailsFragment
 
-import androidx.lifecycle.ViewModel;
+import com.cobonee.app.entity.Offer
+import com.cobonee.app.ui.CoboneeViewModel
 
-class DetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class DetailsViewModel : CoboneeViewModel() {
+
+    var offer: Offer? = null
 }

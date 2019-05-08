@@ -14,23 +14,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter.*
 import com.cobonee.app.R
 import com.cobonee.app.entity.City
+import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.home_fragment.*
 
-class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.OnRefreshListener,
-    RequestLoadMoreListener {
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
+class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var mainViewModel: MainViewModel
-    private val offersAdapter = AdapterOffers()
+    private lateinit var offersAdapter: AdapterOffers
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,16 +41,11 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         //activity lifecycle owner not fragment
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
+
+        mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
-
         viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-        viewModel.getDepartments()
 
-        mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { it ->
-            viewModel.setParameters(cityId = it.id.toString())
-            resetOffers()
-            viewModel.getOffers()
-        })
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -67,12 +57,59 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val deptId = viewModel.departmentList[tab?.position!!].id
-                viewModel.setParameters(deptId = deptId.toString())
-                resetOffers()
-                viewModel.getOffers()
+                if (!viewModel.firstOpen) {
+                    viewModel.selectedTab = tab?.position!!
+                } else {
+                    viewModel.firstOpen = false
+                    viewModel.selectedTab = 0
+                }
+
+                val deptId = viewModel.departmentList[viewModel.selectedTab].id
+
+                viewModel.setDepartment(deptId = deptId.toString())
+
             }
         })
+        viewModel.getDepartments()
+
+        viewModel.getOffers()
+
+    }
+
+    private fun onCityChanged(city: City) {
+        viewModel.setCity(cityId = city.id.toString())
+    }
+
+    @SuppressLint("InflateParams")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        offersSwipe.setOnRefreshListener(this)
+
+        offersSwipe.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
+
+        setUpAdapter()
+
+    }
+
+    private fun setUpAdapter() {
+        offersAdapter = AdapterOffers().apply {
+            setEnableLoadMore(true)
+            openLoadAnimation(SLIDEIN_LEFT)
+        }
+
+        offersAdapter.onItemChildClickListener = this
+
+        offersAdapter.setOnLoadMoreListener({ viewModel.getOffers() }, offersRv)
+
+        offersAdapter.setEnableLoadMore(true)
+
+        offersRv.adapter = offersAdapter
     }
 
     private fun onDepartmentResponse(state: HomeViewModel.DepartmentsUiState?) {
@@ -101,20 +138,19 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     }
 
     private fun onDepartmentError(message: String) {
+        homePb.visibility = View.GONE
         activity?.snackBar(message, homeRootView)
     }
 
     private fun onDepartmentSuccess() {
-        // add to tabs
-
+        homePb.visibility = View.GONE
+        tabLayout.removeAllTabs()
         for (dept in viewModel.departmentList) {
             val tab = tabLayout.newTab()
             tab.text = dept.name
             tabLayout.addTab(tab)
         }
-
-        tabLayout.selectTab(tabLayout.getTabAt(0))
-
+        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTab))
     }
 
     private fun onDepartmentLoading() {
@@ -123,35 +159,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersSwipe.isRefreshing = false
     }
 
-    @SuppressLint("InflateParams")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        offersSwipe.setOnRefreshListener(this)
-
-        offersSwipe.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
-        )
-
-        offersAdapter.onItemChildClickListener = this
-
-        offersAdapter.setOnLoadMoreListener(this, offersRv)
-
-        offersAdapter.openLoadAnimation(SLIDEIN_LEFT)
-
-        offersRv.adapter = offersAdapter
-
-    }
-
-    private fun resetOffers() {
-        viewModel.offersList.clear()
-        offersRv.recycledViewPool.clear()
-        offersAdapter.data.clear()
-        offersAdapter.notifyDataSetChanged()
-    }
 
     private fun onOffersResponse(state: HomeViewModel.OffersUiState) {
         when (state) {
@@ -159,15 +166,11 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             is HomeViewModel.OffersUiState.Success -> onOffersSuccess()
             is HomeViewModel.OffersUiState.Error -> onOffersError(state.message)
             HomeViewModel.OffersUiState.NoConnection -> onOffersNoConnection()
-            HomeViewModel.OffersUiState.LastPage -> onOffersEnded()
+            HomeViewModel.OffersUiState.LastPage -> onOffersLastPage()
+            is HomeViewModel.OffersUiState.NextPage -> onOffersNextPage()
         }
     }
 
-    private fun onOffersEnded() {
-        homePb.visibility = View.GONE
-        offersAdapter.loadMoreEnd()
-        offersSwipe.isRefreshing = false
-    }
 
     private fun onOffersNoConnection() {
         offersSwipe.isRefreshing = false
@@ -182,18 +185,27 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         activity?.snackBar(message, homeRootView)
     }
 
+    private fun onOffersLastPage() {
+        homePb.visibility = View.GONE
+        offersAdapter.loadMoreEnd(true)
+        offersSwipe.isRefreshing = false
+    }
+
+    private fun onOffersNextPage() {
+        homePb.visibility = View.GONE
+        offersRv.visibility = View.VISIBLE
+        offersSwipe.isRefreshing = false
+        offersAdapter.addData(viewModel.offersList)
+        offersAdapter.loadMoreComplete()
+    }
+
     private fun onOffersSuccess() {
+        setUpAdapter()
 
         homePb.visibility = View.GONE
         offersRv.visibility = View.VISIBLE
         offersSwipe.isRefreshing = false
-
-//        if (viewModel.offersList.isEmpty()) {
-//            offersAdapter.emptyView = layoutInflater.inflate(R.layout.empty_view, null, false)
-//        } else {
-            offersAdapter.replaceData(viewModel.offersList)
-//        }
-
+        offersAdapter.replaceData(viewModel.offersList)
         offersAdapter.loadMoreComplete()
     }
 
@@ -207,7 +219,9 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.offerCv -> {
-                findNavController().navigate(R.id.detailsFragment)
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToDetailsFragment(adapter!!.data[position] as Offer)
+                findNavController().navigate(action)
             }
             R.id.offerSaveImgv -> {
                 requireContext().toast("Saved")
@@ -215,21 +229,14 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
-    override fun onLoadMoreRequested() {
-        viewModel.getOffers()
-    }
-
     override fun onRefresh() {
+        if (viewModel.departmentList.size == 0) {
+            viewModel.getDepartments()
+        }
 
-        offersRv.recycledViewPool.clear()
+        viewModel.newOffers()
 
-        viewModel.offersList.clear()
-
-        offersAdapter.notifyDataSetChanged()
-
-        viewModel.refreshOffers()
-
-        //when refresh enable reload pages
         offersAdapter.setEnableLoadMore(true)
     }
+
 }

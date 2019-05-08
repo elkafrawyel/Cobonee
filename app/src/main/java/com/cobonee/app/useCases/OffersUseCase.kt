@@ -6,8 +6,8 @@ import com.cobonee.app.utily.DataResource
 
 class OffersUseCase(private val offersRepo: OffersRepo) {
 
-    suspend fun getOffers(department_id: String, city_id: String): DataResource<OffersResponse> {
+    suspend fun getOffers(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
 
-        return offersRepo.getOffers(department_id, city_id)
+        return offersRepo.getOffers(department_id, city_id,page)
     }
 }

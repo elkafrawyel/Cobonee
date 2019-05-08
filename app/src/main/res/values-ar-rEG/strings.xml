@@ -99,7 +99,7 @@
 
     <string name="error_general">حدث خطأ ما</string>
     <string name="error_city_or_dept">خطأ في ايجاد المدينة او القسم</string>
-    <string name="label_discount">%1$s خصم</string>
+    <string name="label_discount">خصم</string>
     <string name="label_price">%1$s جنية</string>
 
 </resources>

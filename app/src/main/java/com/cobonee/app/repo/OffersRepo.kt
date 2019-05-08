@@ -11,15 +11,15 @@ class OffersRepo(private val apiService: RetrofitApiService) {
 
     //=====================================Offers=========================================================
 
-    suspend fun getOffers(department_id: String, city_id: String): DataResource<OffersResponse> {
+    suspend fun getOffers(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
         return safeApiCall(
-            call = { loginCall(department_id, city_id) },
+            call = { loginCall(department_id, city_id, page) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_offers)
         )
     }
 
-    private suspend fun loginCall(department_id: String, city_id: String): DataResource<OffersResponse> {
-        val response = apiService.getOffersAsync(department_id, city_id).await()
+    private suspend fun loginCall(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
+        val response = apiService.getOffersAsync(department_id, city_id, page.toString()).await()
         return DataResource.Success(response)
     }
     //=======================================================================================================

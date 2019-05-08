@@ -119,7 +119,7 @@
     <string name="no_connection_error">No Internet Connection.</string>
     <string name="error_general">Error happened</string>
     <string name="error_city_or_dept">Error Find City or Department</string>
-    <string name="label_discount">discount %1$s</string>
+    <string name="label_discount">discount</string>
     <string name="label_price">%1$s EP</string>
 
 </resources>

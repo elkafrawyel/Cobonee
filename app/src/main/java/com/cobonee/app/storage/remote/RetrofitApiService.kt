@@ -22,7 +22,8 @@ interface RetrofitApiService {
     @GET("offers")
     fun getOffersAsync(
         @Query("department_id") department_id: String,
-        @Query("city_id") city_id: String
+        @Query("city_id") city_id: String,
+        @Query("page") page: String
     ): Deferred<OffersResponse>
 
 

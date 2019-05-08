@@ -24,6 +24,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/offerImageLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/offerImage"
+            app:layout_constraintEnd_toEndOf="@id/offerImage"
+            app:layout_constraintStart_toStartOf="@id/offerImage"
+            app:layout_constraintTop_toTopOf="@id/offerImage" />
+
         <TextView
             android:id="@+id/offerDiscountPercentTv"
             android:layout_width="wrap_content"
@@ -31,6 +40,7 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/discount_percent_mirror"
             android:gravity="center"
+            android:paddingStart="8dp"
             android:text="خصم %50"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/offerShareImgv"
@@ -68,6 +78,17 @@
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/offerBodyTv" />
+
+        <TextView
+            android:id="@+id/offerBodyTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/about_cobonee_text"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/offerShareImgv" />
 
         <TextView
@@ -84,7 +105,7 @@
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/offerHeaderTv" />
+            app:layout_constraintTop_toBottomOf="@id/offerBodyTv" />
 
         <View
             android:layout_width="0dp"
@@ -109,7 +130,7 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/offerDiscountPriceTv"
-            app:layout_constraintTop_toBottomOf="@id/offerHeaderTv" />
+            app:layout_constraintTop_toBottomOf="@id/offerBodyTv" />
 
         <View
             android:id="@+id/lineCenter"
@@ -157,16 +178,14 @@
             app:layout_constraintStart_toStartOf="@id/coboneeTypeTv"
             app:layout_constraintTop_toBottomOf="@id/offerCoboneeRv" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/advantagesRv"
+        <TextView
+            android:id="@+id/advantagesValueTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/advantagesTv" />
-
 
         <TextView
             android:id="@+id/termsTv"
@@ -178,13 +197,12 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/coboneeTypeTv"
-            app:layout_constraintTop_toBottomOf="@id/advantagesRv" />
+            app:layout_constraintTop_toBottomOf="@id/advantagesValueTv" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/termsRv"
+        <TextView
+            android:id="@+id/termsValueTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +216,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/termsRv" />
+            app:layout_constraintTop_toBottomOf="@id/termsValueTv" />
 
         <TextView
             android:id="@+id/ownerTv"
@@ -210,23 +228,18 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/coboneeTypeTv"
-            app:layout_constraintTop_toBottomOf="@id/termsRv" />
+            app:layout_constraintTop_toBottomOf="@id/termsValueTv" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offerOwnerMbtn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        <TextView
+            android:id="@+id/offerOwnerTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="0dp"
+            android:background="@drawable/rounded"
             android:padding="8dp"
-            android:text="اسماك الحسين"
             android:textColor="@color/colorPrimary"
-            app:backgroundTint="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ownerTv" />
 
@@ -236,8 +249,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/offerOwnerMbtn"
-            app:layout_constraintTop_toBottomOf="@id/offerOwnerMbtn">
+            app:layout_constraintStart_toStartOf="@id/offerOwnerTv"
+            app:layout_constraintTop_toBottomOf="@id/offerOwnerTv">
 
             <ImageView
                 android:layout_width="25dp"
@@ -246,10 +259,10 @@
                 android:src="@drawable/ic_phone_black" />
 
             <TextView
+                android:id="@+id/ownerPhoneTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="01019744661"
                 android:textAppearance="?attr/textAppearanceBody2" />
         </LinearLayout>
 
@@ -263,11 +276,10 @@
             app:layout_constraintStart_toStartOf="@id/linearOwnerPhone"
             app:layout_constraintTop_toBottomOf="@id/linearOwnerPhone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/locationsRv"
+        <TextView
+            android:id="@+id/locationsTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/locationImgv"
             app:layout_constraintTop_toTopOf="@id/locationImgv" />
@@ -279,8 +291,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/locationsRv"
-            app:layout_constraintTop_toBottomOf="@id/locationsRv">
+            app:layout_constraintStart_toStartOf="@id/locationsTv"
+            app:layout_constraintTop_toBottomOf="@id/locationsTv">
 
             <ImageView
                 android:layout_width="25dp"
@@ -289,10 +301,10 @@
                 android:src="@drawable/facebook_logo" />
 
             <TextView
+                android:id="@+id/facebookTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="/elkafrawyel"
                 android:textAppearance="?attr/textAppearanceBody2" />
         </LinearLayout>
 
@@ -312,10 +324,10 @@
                 android:src="@drawable/instagram" />
 
             <TextView
+                android:id="@+id/instagramTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="/elkafrawyel"
                 android:textAppearance="?attr/textAppearanceBody2" />
         </LinearLayout>
 
@@ -335,13 +347,12 @@
                 android:src="@drawable/twitter" />
 
             <TextView
+                android:id="@+id/twitterTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="/elkafrawyel"
                 android:textAppearance="?attr/textAppearanceBody2" />
         </LinearLayout>
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/offerAddToCart"
