@@ -76,11 +76,11 @@ object Injector {
 
     //===================================Repo=========================================
 
-    fun getCitiesRepo() = CitiesRepo(getApiService())
+    private fun getCitiesRepo() = CitiesRepo(getApiService())
 
-    fun getOffersRepo() = OffersRepo(getApiService())
+    private fun getOffersRepo() = OffersRepo(getApiService())
 
-    fun getDepartmentRepo() = DepartmentsRepo(getApiService())
+    private fun getDepartmentRepo() = DepartmentsRepo(getApiService())
 
     //=================================== UseCases ====================================
 
