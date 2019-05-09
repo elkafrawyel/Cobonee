@@ -11,8 +11,10 @@ import android.widget.ArrayAdapter
 import com.cobonee.app.R
 import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.Constants
+import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.changeLanguage
 import kotlinx.android.synthetic.main.settings_fragment.*
+import org.intellij.lang.annotations.Language
 
 
 class SettingsFragment : Fragment() {
@@ -43,28 +45,32 @@ class SettingsFragment : Fragment() {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.language_array,
-            R.layout.spinner_item_black)
+            R.layout.spinner_item_black
+        )
             .also { adapter ->
                 adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 spinner_language.adapter = adapter
             }
         if (currentLocale == "ar") {
             spinner_language.setSelection(1)
-        }else{
+
+        } else {
             spinner_language.setSelection(0)
         }
 
-        spinner_language?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spinner_language?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if(position==1 &&currentLocale !="ar"){
+                if (position == 1 && currentLocale != "ar") {
+                    Injector.getPreferenceHelper().language = Constants.Language.ARABIC.value
                     activity?.changeLanguage(Constants.Language.ARABIC)
                     activity?.finish()
                     HomeActivity.start(requireContext());
-                }else if(position==0 &&currentLocale !="en"){
+                } else if (position == 0 && currentLocale != "en") {
+                    Injector.getPreferenceHelper().language = Constants.Language.ENGLISH.value
                     activity?.changeLanguage(Constants.Language.ENGLISH)
                     activity?.finish()
                     HomeActivity.start(requireContext());

@@ -9,6 +9,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface RetrofitApiService {
@@ -26,17 +28,4 @@ interface RetrofitApiService {
         @Query("page") page: String
     ): Deferred<OffersResponse>
 
-
-    companion object {
-        fun create(baseUrl: String, client: OkHttpClient): RetrofitApiService {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
-                .client(client)
-                .build()
-
-            return retrofit.create(RetrofitApiService::class.java)
-        }
-    }
 }

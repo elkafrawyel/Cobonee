@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.cobonee.app.R
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
+import com.cobonee.app.utily.Constants
+import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.changeLanguage
 import kotlinx.android.synthetic.main.activity_login.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -20,7 +23,11 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
+        if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)){
+            changeLanguage(Constants.Language.ARABIC)
+        }else{
+            changeLanguage(Constants.Language.ENGLISH)
+        }
         login_btn.setOnClickListener {
             LoginActivity.start(this)
         }

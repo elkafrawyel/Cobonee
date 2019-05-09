@@ -17,8 +17,7 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
-import com.cobonee.app.utily.snackBar
-import com.cobonee.app.utily.toast
+import com.cobonee.app.utily.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -48,6 +47,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)){
+            changeLanguage(Constants.Language.ARABIC)
+        }else{
+            changeLanguage(Constants.Language.ENGLISH)
+        }
+
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.citiesUiState.observe(this, Observer { onCitiesResponse(it) })
@@ -148,7 +153,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_settings -> {
                 findNavController(R.id.fragment).navigate(R.id.settingsFragment)
             }
-            R.id.nav_logout -> logout()
+            R.id.nav_logout -> {
+                navigationView.menu.getItem(HELP_INDEX).isChecked = true
+                navigationView.menu.getItem(HELP_INDEX).isCheckable = true
+                logout()
+            }
             R.id.nav_help -> {
                 findNavController(R.id.fragment).navigate(R.id.helpFragment)
 

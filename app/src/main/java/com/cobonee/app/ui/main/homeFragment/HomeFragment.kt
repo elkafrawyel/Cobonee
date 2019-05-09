@@ -18,6 +18,7 @@ import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
+import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.home_fragment.*
 
@@ -34,8 +35,13 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun onCityChanged(city: City) {
+        viewModel.setCity(cityId = city.id.toString())
+    }
+
+    @SuppressLint("InflateParams")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         //activity lifecycle owner not fragment
@@ -45,44 +51,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
         viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (!viewModel.firstOpen) {
-                    viewModel.selectedTab = tab?.position!!
-                } else {
-                    viewModel.firstOpen = false
-                    viewModel.selectedTab = 0
-                }
-
-                val deptId = viewModel.departmentList[viewModel.selectedTab].id
-
-                viewModel.setDepartment(deptId = deptId.toString())
-
-            }
-        })
-        viewModel.getDepartments()
-
-        viewModel.getOffers()
-
-    }
-
-    private fun onCityChanged(city: City) {
-        viewModel.setCity(cityId = city.id.toString())
-    }
-
-    @SuppressLint("InflateParams")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -95,6 +63,41 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
         setUpAdapter()
 
+
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (viewModel.lastSelectedTab != null) {
+                    if (tab?.position == viewModel.lastSelectedTab ){
+                        val deptId = viewModel.departmentList[tab?.position!!].id
+                        viewModel.setDepartment(deptId = deptId.toString())
+                    }
+                } else {
+                    val deptId = viewModel.departmentList[tab?.position!!].id
+                    viewModel.setDepartment(deptId = deptId.toString())
+                }
+            }
+        })
+
+        if (!viewModel.started) {
+            viewModel.started = true
+
+            viewModel.getDepartments()
+
+            viewModel.getOffers()
+        } else {
+            //opened Before
+//            onDepartmentSuccess()
+            onOffersSuccess()
+        }
     }
 
     private fun setUpAdapter() {
@@ -145,12 +148,23 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private fun onDepartmentSuccess() {
         homePb.visibility = View.GONE
         tabLayout.removeAllTabs()
-        for (dept in viewModel.departmentList) {
+        var lastTab: TabLayout.Tab? = null
+        viewModel.departmentList.forEachIndexed { index, dept ->
             val tab = tabLayout.newTab()
             tab.text = dept.name
             tabLayout.addTab(tab)
+
+            if (viewModel.lastSelectedTab != null && index == viewModel.lastSelectedTab) {
+                lastTab = tab
+            }
         }
-        tabLayout.selectTab(tabLayout.getTabAt(viewModel.selectedTab))
+
+
+        if (lastTab != null) {
+            lastTab?.select()
+        }
+
+
     }
 
     private fun onDepartmentLoading() {
@@ -167,7 +181,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             is HomeViewModel.OffersUiState.Error -> onOffersError(state.message)
             HomeViewModel.OffersUiState.NoConnection -> onOffersNoConnection()
             HomeViewModel.OffersUiState.LastPage -> onOffersLastPage()
-            is HomeViewModel.OffersUiState.NextPage -> onOffersNextPage()
+//            is HomeViewModel.OffersUiState.NextPage -> onOffersNextPage()
         }
     }
 
@@ -191,13 +205,13 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersSwipe.isRefreshing = false
     }
 
-    private fun onOffersNextPage() {
-        homePb.visibility = View.GONE
-        offersRv.visibility = View.VISIBLE
-        offersSwipe.isRefreshing = false
-        offersAdapter.addData(viewModel.offersList)
-        offersAdapter.loadMoreComplete()
-    }
+//    private fun onOffersNextPage() {
+//        homePb.visibility = View.GONE
+//        offersRv.visibility = View.VISIBLE
+//        offersSwipe.isRefreshing = false
+//        offersAdapter.addData(viewModel.offersList)
+//        offersAdapter.loadMoreComplete()
+//    }
 
     private fun onOffersSuccess() {
         setUpAdapter()
@@ -216,17 +230,27 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        saveCurrentTab()
+    }
+
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.offerCv -> {
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToDetailsFragment(adapter!!.data[position] as Offer)
                 findNavController().navigate(action)
+                saveCurrentTab()
             }
             R.id.offerSaveImgv -> {
                 requireContext().toast("Saved")
             }
         }
+    }
+
+    private fun saveCurrentTab() {
+        viewModel.lastSelectedTab = tabLayout.selectedTabPosition
     }
 
     override fun onRefresh() {

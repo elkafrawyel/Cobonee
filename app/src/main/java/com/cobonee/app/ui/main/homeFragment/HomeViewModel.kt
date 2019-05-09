@@ -17,8 +17,14 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel : CoboneeViewModel() {
 
+    //===========================================Load Data Configurations ===============================================
+
+    var started: Boolean = false
+    var lastSelectedTab: Int? = null
+
+    //=================================================================================================================
+
     //============================================== Offers ==========================================================
-    var firstOpen = true
     var page: Int = 0
     private var lastPage: Int = 1
     var deptId: String = ""
@@ -35,9 +41,15 @@ class HomeViewModel : CoboneeViewModel() {
     var offersList: ArrayList<Offer> = arrayListOf()
 
     fun setDepartment(deptId: String = this.deptId) {
+        if (lastSelectedTab != null){
+            lastSelectedTab = null
+            return
+        }
+
+
         if (deptId != "" && this.deptId != deptId) {
             this.deptId = deptId
-            if (this.cityId!= "") {
+            if (this.cityId != "") {
                 newOffers()
             }
         }
@@ -55,6 +67,7 @@ class HomeViewModel : CoboneeViewModel() {
     fun newOffers() {
         page = 0
         lastPage = 1
+        offersList.clear()
         getOffers()
     }
 
@@ -93,11 +106,11 @@ class HomeViewModel : CoboneeViewModel() {
                     is DataResource.Success -> {
                         lastPage = result.data.meta.lastPage!!
 //                        lastPage = 3
-                        if (this@HomeViewModel.page == 1) {
-                            showOffersSuccess(result.data)
-                        } else {
-                            showOffersNextPage(result.data)
-                        }
+//                        if (this@HomeViewModel.page == 1) {
+                        showOffersSuccess(result.data)
+//                        } else {
+//                            showOffersNextPage(result.data)
+//                        }
                     }
                     is DataResource.Error -> showOffersError(result.exception.message)
                 }
@@ -110,15 +123,14 @@ class HomeViewModel : CoboneeViewModel() {
     }
 
     private fun showOffersSuccess(data: OffersResponse) {
-        offersList.clear()
         offersList.addAll(data.offers)
         _offerUiState.value = OffersUiState.Success(offersList)
     }
 
-    private fun showOffersNextPage(data: OffersResponse) {
-        offersList.addAll(data.offers)
-        _offerUiState.value = OffersUiState.NextPage(offersList)
-    }
+//    private fun showOffersNextPage(data: OffersResponse) {
+//        offersList.addAll(data.offers)
+//        _offerUiState.value = OffersUiState.NextPage(offersList)
+//    }
 
     private fun showOffersError(message: String?) {
         if (message != null) _offerUiState.value = OffersUiState.Error(message)
@@ -129,8 +141,9 @@ class HomeViewModel : CoboneeViewModel() {
     sealed class OffersUiState {
         object Loading : OffersUiState()
         data class Success(val offers: List<Offer>) : OffersUiState()
-        data class NextPage(val offers: List<Offer>) : OffersUiState()
+        //        data class NextPage(val offers: List<Offer>) : OffersUiState()
         data class Error(val message: String) : OffersUiState()
+
         object NoConnection : OffersUiState()
         object LastPage : OffersUiState()
     }
@@ -148,8 +161,6 @@ class HomeViewModel : CoboneeViewModel() {
     private val _departmentsUiState = MutableLiveData<DepartmentsUiState>()
     val departmentsUiState: LiveData<DepartmentsUiState>
         get() = _departmentsUiState
-
-    var selectedTab: Int = 0
 
     var departmentList: ArrayList<Department> = arrayListOf()
 

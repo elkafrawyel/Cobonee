@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -63,7 +64,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun addOfferToCart() {
-
+        findNavController().navigate(R.id.cartFragment)
     }
 
     private fun setOffer(offer: Offer) {
