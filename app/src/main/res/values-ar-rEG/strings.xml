@@ -106,5 +106,8 @@
     <string name="text_change_payment">اختر طريقة الدفع</string>
     <string name="text_language">اللغة</string>
     <string name="addToCart">أضف الي السلة</string>
+    <string name="error_login">خطأ في البريد او كلمة السر</string>
+    <string name="error_login_empty">من فضلك اكتب البريد وكلمة السر</string>
+    <string name="no_password_match">كلمة السر غير متطابقة</string>
 
 </resources>

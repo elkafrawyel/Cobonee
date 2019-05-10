@@ -1,14 +1,10 @@
 package com.cobonee.app.utily
 
 import com.cobonee.app.MyApp
-import com.cobonee.app.repo.DepartmentsRepo
-import com.cobonee.app.repo.CitiesRepo
-import com.cobonee.app.repo.OffersRepo
+import com.cobonee.app.repo.*
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
-import com.cobonee.app.useCases.CitiesUseCase
-import com.cobonee.app.useCases.DepartmentsUseCase
-import com.cobonee.app.useCases.OffersUseCase
+import com.cobonee.app.useCases.*
 import com.cobonee.app.utily.Constants.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +78,10 @@ object Injector {
 
     private fun getDepartmentRepo() = DepartmentsRepo(getApiService())
 
+    private fun getLoginRepo() = LoginRepo(getApiService())
+
+    private fun getRegisterRepo() = RegisterRepo(getApiService())
+
     //=================================== UseCases ====================================
 
     fun getCitiesUseCase() = CitiesUseCase(getCitiesRepo())
@@ -89,6 +89,10 @@ object Injector {
     fun getOffersUseCase() = OffersUseCase(getOffersRepo())
 
     fun getDepartmentsUseCase() = DepartmentsUseCase(getDepartmentRepo())
+
+    fun getLoginUseCase() = LoginUseCase(getLoginRepo())
+
+    fun getRegisterUseCase() = RegisterUseCase(getRegisterRepo())
 
 
 }

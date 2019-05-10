@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login"
-    tools:context=".ui.auth.registerActivity.RegisterActivity">
+    tools:context=".ui.auth.registerActivity.RegisterActivity"
+    android:id="@+id/registerRootView">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,65 +29,87 @@
                 android:layout_marginTop="40dp"
                 android:src="@drawable/coponee_logo" />
 
-            <EditText
-                android:id="@+id/edit_name"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/bg_gray"
-                android:drawableStart="@drawable/ic_for_name"
-                android:gravity="center_vertical|start"
-                android:hint="@string/text_name"
-                android:inputType="textPersonName"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp">
+                <LinearLayout
+                    android:id="@+id/editsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                    <EditText
+                        android:id="@+id/edit_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_gray"
+                        android:drawableStart="@drawable/ic_for_name"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/text_name"
+                        android:inputType="textPersonName"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
 
-            <EditText
-                android:id="@+id/edit_email"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_gray"
-                android:drawableStart="@drawable/ic_for_email"
-                android:gravity="center_vertical|start"
-                android:hint="@string/text_email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                    <EditText
+                        android:id="@+id/edit_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_gray"
+                        android:drawableStart="@drawable/ic_for_email"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/text_email"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
 
-            <EditText
-                android:id="@+id/edit_pass"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_gray"
-                android:drawableStart="@drawable/ic_for_pass"
-                android:gravity="center_vertical|start"
-                android:hint="@string/text_pass"
-                android:inputType="textPassword"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                    <EditText
+                        android:id="@+id/edit_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_gray"
+                        android:drawableStart="@drawable/ic_for_pass"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/text_pass"
+                        android:inputType="textPassword"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
 
-            <EditText
-                android:id="@+id/edit_pass_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_gray"
-                android:drawableStart="@drawable/ic_for_pass"
-                android:gravity="center_vertical|start"
-                android:hint="@string/text_pass_confirm"
-                android:inputType="textPassword"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                    <EditText
+                        android:id="@+id/edit_pass_confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_gray"
+                        android:drawableStart="@drawable/ic_for_pass"
+                        android:gravity="center_vertical|start"
+                        android:hint="@string/text_pass_confirm"
+                        android:inputType="textPassword"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white" />
+                </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/registerLoading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/CheckBox"
+                    android:visibility="gone"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <com.google.android.material.button.MaterialButton

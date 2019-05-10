@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
+import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.utily.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
@@ -47,10 +48,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)){
-            changeLanguage(Constants.Language.ARABIC)
-        }else{
-            changeLanguage(Constants.Language.ENGLISH)
+        if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)) {
+            Injector.getApplicationContext().changeLanguage(Constants.Language.ARABIC)
+        } else {
+            Injector.getApplicationContext().changeLanguage(Constants.Language.ENGLISH)
         }
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -85,6 +86,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onNavigationDestinationChanged()
 
 //        findNavController(R.id.fragment).navigate(R.id.knetFragment)
+//        RegisterActivity.start(this)
     }
 
     private fun onCitiesResponse(state: MainViewModel.CitiesUiState?) {
