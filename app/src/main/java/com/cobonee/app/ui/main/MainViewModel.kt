@@ -15,6 +15,19 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel : CoboneeViewModel() {
 
+    init {
+        isLoggedIn()
+    }
+
+    fun logOut() {
+        Injector.getPreferenceHelper().clear()
+    }
+
+    fun isLoggedIn(): Boolean {
+        return Injector.getPreferenceHelper().isLoggedIn
+
+    }
+
     //========================================== Cities ====================================
     private var citiesJob: Job? = null
 
@@ -84,4 +97,6 @@ class MainViewModel : CoboneeViewModel() {
     }
 
     //======================================================================================
+
+
 }

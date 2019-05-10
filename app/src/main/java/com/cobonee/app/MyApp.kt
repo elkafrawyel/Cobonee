@@ -27,6 +27,7 @@ class MyApp : Application() {
         } else {
             changeLanguage(Constants.Language.ENGLISH)
         }
+
     }
 
     companion object {

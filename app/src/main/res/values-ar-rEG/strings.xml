@@ -109,5 +109,17 @@
     <string name="error_login">خطأ في البريد او كلمة السر</string>
     <string name="error_login_empty">من فضلك اكتب البريد وكلمة السر</string>
     <string name="no_password_match">كلمة السر غير متطابقة</string>
+    <string name="error_save_offer">لم يتم حفظ العرض</string>
+    <string name="login_success">تم تسجيل الدخول بنجاح</string>
+    <string name="register_success">تم انشاء حسابك بنجاح</string>
+    <string name="error_register_empty">من فضلك تأكد من كتابة كل البيانات</string>
+    <string name="text_logOut">تسجيل الخروج</string>
 
+    <string-array name="gender_array">
+        <item>ذكر</item>
+        <item>انثي</item>
+    </string-array>
+    <string name="error_update_profile">حدث خطأ اثناء تعديل ملفك الشخصي</string>
+    <string name="text_save">حفظ</string>
+    <string name="text_cancel">الغاء</string>
 </resources>

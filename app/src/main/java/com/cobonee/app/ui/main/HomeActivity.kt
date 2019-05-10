@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)) {
+        if (Injector.getPreferenceHelper().language == Constants.Language.ARABIC.value) {
             Injector.getApplicationContext().changeLanguage(Constants.Language.ARABIC)
         } else {
             Injector.getApplicationContext().changeLanguage(Constants.Language.ENGLISH)
@@ -57,6 +57,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.citiesUiState.observe(this, Observer { onCitiesResponse(it) })
+
         viewModel.getCities()
 
         citiesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -82,11 +83,32 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupWithNavController(navigationView, findNavController(R.id.fragment))
 
         navigationView.setNavigationItemSelectedListener(this)
-        navigationView.menu.getItem(HOME_INDEX).isChecked = true
         onNavigationDestinationChanged()
 
 //        findNavController(R.id.fragment).navigate(R.id.knetFragment)
 //        RegisterActivity.start(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        navigationView.menu.getItem(HOME_INDEX).isChecked = true
+        navigationView.menu.getItem(HOME_INDEX).isCheckable = true
+        if (viewModel.isLoggedIn()) {
+
+            navigationView.menu.getItem(1).isVisible = true
+            navigationView.menu.getItem(2).isVisible = true
+            navigationView.menu.getItem(3).isVisible = true
+            navigationView.menu.getItem(5).isVisible = true
+            navigationView.menu.getItem(8).title = resources.getString(R.string.text_logOut)
+        } else {
+            navigationView.menu.getItem(1).isVisible = false
+            navigationView.menu.getItem(2).isVisible = false
+            navigationView.menu.getItem(3).isVisible = false
+            navigationView.menu.getItem(5).isVisible = false
+            navigationView.menu.getItem(8).title = resources.getString(R.string.text_login)
+        }
+
     }
 
     private fun onCitiesResponse(state: MainViewModel.CitiesUiState?) {
@@ -156,8 +178,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 findNavController(R.id.fragment).navigate(R.id.settingsFragment)
             }
             R.id.nav_logout -> {
-                navigationView.menu.getItem(HELP_INDEX).isChecked = true
-                navigationView.menu.getItem(HELP_INDEX).isCheckable = true
                 logout()
             }
             R.id.nav_help -> {
@@ -313,11 +333,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onOptionsItemSelected(item)
     }
 
-
     private fun logout() {
-        toast("Logout Done")
+        if (viewModel.isLoggedIn()) {
+            //Logout
+            viewModel.logOut()
+
+        } else {
+            //login
+
+        }
+
+        navigationView.menu.getItem(HOME_INDEX).isChecked = true
+        navigationView.menu.getItem(HOME_INDEX).isCheckable = true
+        navigationView.menu.getItem(LOGOUT_INDEX).isChecked = false
+        navigationView.menu.getItem(LOGOUT_INDEX).isCheckable = false
         LoginActivity.start(this)
     }
+
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
         viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
+        viewModel.save.observe(this, Observer { onOfferSaved(it) })
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -76,7 +77,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (viewModel.lastSelectedTab != null) {
-                    if (tab?.position == viewModel.lastSelectedTab ){
+                    if (tab?.position == viewModel.lastSelectedTab) {
                         val deptId = viewModel.departmentList[tab?.position!!].id
                         viewModel.setDepartment(deptId = deptId.toString())
                     }
@@ -95,15 +96,28 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             viewModel.getOffers()
         } else {
             //opened Before
-//            onDepartmentSuccess()
             onOffersSuccess()
+        }
+    }
+
+    private fun onOfferSaved(state: HomeViewModel.SaveStates?) {
+        when (state) {
+            is HomeViewModel.SaveStates.Saved -> {
+                viewModel.offersList[state.index].isSaved = true
+                offersAdapter.notifyItemChanged(state.index)
+            }
+            is HomeViewModel.SaveStates.Error -> {
+                activity?.snackBar(state.message, homeRootView)
+            }
+            null -> {
+            }
         }
     }
 
     private fun setUpAdapter() {
         offersAdapter = AdapterOffers().apply {
             setEnableLoadMore(true)
-            openLoadAnimation(SLIDEIN_LEFT)
+//            openLoadAnimation(SLIDEIN_LEFT)
         }
 
         offersAdapter.onItemChildClickListener = this
@@ -205,14 +219,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersSwipe.isRefreshing = false
     }
 
-//    private fun onOffersNextPage() {
-//        homePb.visibility = View.GONE
-//        offersRv.visibility = View.VISIBLE
-//        offersSwipe.isRefreshing = false
-//        offersAdapter.addData(viewModel.offersList)
-//        offersAdapter.loadMoreComplete()
-//    }
-
     private fun onOffersSuccess() {
         setUpAdapter()
 
@@ -244,7 +250,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 saveCurrentTab()
             }
             R.id.offerSaveImgv -> {
-                requireContext().toast("Saved")
+                viewModel.saveOffer(adapter!!.data[position] as Offer, position)
             }
         }
     }
@@ -256,6 +262,10 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     override fun onRefresh() {
         if (viewModel.departmentList.size == 0) {
             viewModel.getDepartments()
+        }
+
+        if (mainViewModel.citiesList.size == 0) {
+            mainViewModel.getCities()
         }
 
         viewModel.newOffers()

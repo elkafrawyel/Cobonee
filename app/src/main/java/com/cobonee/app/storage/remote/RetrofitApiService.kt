@@ -29,4 +29,10 @@ interface RetrofitApiService {
         @Body registerBody: RegisterBody
     ): Deferred<LoginResponse>
 
+    @PATCH("profile/update")
+    fun updateProfileAsync(
+        @Header("Authorization") token: String,
+        @Body updateProfileBody: UpdateProfileBody
+    ):Deferred<LoginResponse>
+
 }

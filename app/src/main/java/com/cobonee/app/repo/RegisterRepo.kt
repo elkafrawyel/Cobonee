@@ -1,7 +1,7 @@
 package com.cobonee.app.repo
 
+import android.text.Editable
 import com.cobonee.app.R
-import com.cobonee.app.entity.LoginBody
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.RegisterBody
 import com.cobonee.app.storage.remote.RetrofitApiService
@@ -15,7 +15,11 @@ class RegisterRepo(private val apiService: RetrofitApiService) {
 
     //=====================================Cities=========================================================
 
-    suspend fun getRegister(name: String,username: String, password: String): DataResource<LoginResponse> {
+    suspend fun register(
+        name: String,
+        username: String,
+        password: String
+    ): DataResource<LoginResponse> {
         return safeApiCall(
             call = { registerCall(name,username,password) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_general)
@@ -23,15 +27,15 @@ class RegisterRepo(private val apiService: RetrofitApiService) {
     }
 
     private suspend fun registerCall(name: String,username: String, password: String): DataResource<LoginResponse> {
-        if (name.isNotBlank() &&username.isNotBlank() && password.isNotBlank()) {
+        return if (name.isNotBlank() &&username.isNotBlank() && password.isNotBlank()) {
             val response = apiService.getRegisterAsync(RegisterBody(name,username, password)).await()
             if (response.errors != null) {
-                return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
+                DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
             } else {
-                return DataResource.Success(response)
+                DataResource.Success(response)
             }
         }else{
-            return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login_empty)))
+            DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_register_empty)))
         }
     }
     //=======================================================================================================

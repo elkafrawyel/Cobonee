@@ -111,6 +111,10 @@
         <item>العربية</item>
     </string-array>
 
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
     <string name="payment_completed">Operation Completed Successfully</string>
     <string name="transactions_date">Transactions Date :</string>
     <string name="amount_charged">Amount Charged :</string>
@@ -133,5 +137,13 @@
     <string name="error_login">Invalid Username or password</string>
     <string name="error_login_empty">Empty username or Password</string>
     <string name="no_password_match">Password is not match</string>
+    <string name="error_save_offer">Not Saved</string>
+    <string name="login_success">Login success</string>
+    <string name="register_success">Registration Completed Successfully</string>
+    <string name="error_register_empty">Please Complete All Fields</string>
+    <string name="text_logOut">LogOut</string>
+    <string name="error_update_profile">Error Updating Your Profile</string>
+    <string name="text_save">Save</string>
+    <string name="text_cancel">Cancel</string>
 
 </resources>

@@ -2,9 +2,18 @@ package com.cobonee.app.utily
 
 import com.cobonee.app.MyApp
 import com.cobonee.app.repo.*
+import com.cobonee.app.repo.DepartmentsRepo
+import com.cobonee.app.repo.CitiesRepo
+import com.cobonee.app.repo.OffersRepo
+import com.cobonee.app.repo.SavedRepo
+import com.cobonee.app.storage.local.ObjectBox
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
 import com.cobonee.app.useCases.*
+import com.cobonee.app.useCases.CitiesUseCase
+import com.cobonee.app.useCases.DepartmentsUseCase
+import com.cobonee.app.useCases.OffersUseCase
+import com.cobonee.app.useCases.SavedOffersUseCase
 import com.cobonee.app.utily.Constants.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +24,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object Injector {
+
+    init {
+        ObjectBox.init(getApplicationContext())
+    }
 
     private val coroutinesDispatcherProvider = CoroutinesDispatcherProvider(
         Dispatchers.Main,
@@ -70,6 +83,8 @@ object Injector {
 
     fun getPreferenceHelper() = PreferencesHelper(getApplicationContext())
 
+    private fun getBoxStore() = ObjectBox.boxStore
+
     //===================================Repo=========================================
 
     private fun getCitiesRepo() = CitiesRepo(getApiService())
@@ -82,6 +97,10 @@ object Injector {
 
     private fun getRegisterRepo() = RegisterRepo(getApiService())
 
+    private fun getSavedRepo() = SavedRepo(getBoxStore())
+
+    private fun getUserRepo() = UserRepo(getPreferenceHelper(), getApiService())
+
     //=================================== UseCases ====================================
 
     fun getCitiesUseCase() = CitiesUseCase(getCitiesRepo())
@@ -93,6 +112,14 @@ object Injector {
     fun getLoginUseCase() = LoginUseCase(getLoginRepo())
 
     fun getRegisterUseCase() = RegisterUseCase(getRegisterRepo())
+
+    fun getSaveUserUseCase() = SaveUserUseCase(getUserRepo())
+
+    fun getSavedUseCase() = SavedOffersUseCase(getSavedRepo())
+
+    fun getUpdateProfileUseCase() = UpdateProfileUseCase(getUserRepo())
+
+    fun getUserUseCase() = GetUserUseCase(getUserRepo())
 
 
 }

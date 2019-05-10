@@ -58,7 +58,11 @@ class SettingsFragment : Fragment() {
             spinner_language.setSelection(0)
         }
 
-        spinner_language?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        languageView.setOnClickListener {
+            spinner_language.performClick()
+        }
+
+        spinner_language.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }

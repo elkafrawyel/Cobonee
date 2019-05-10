@@ -73,7 +73,8 @@ data class Offer(
     @field:Json(name = "coubons")
     val coubones: List<Coubone?>?,
     @field:Json(name = "photos")
-    val photos: List<OfferPhoto?>?
+    val photos: List<OfferPhoto?>?,
+    var isSaved: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -91,7 +92,8 @@ data class Offer(
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.createTypedArrayList(Coubone),
-        parcel.createTypedArrayList(OfferPhoto)
+        parcel.createTypedArrayList(OfferPhoto),
+        parcel.readByte() != 0.toByte()
     ) {
     }
 
@@ -112,6 +114,7 @@ data class Offer(
         parcel.writeValue(priceAfterDiscount)
         parcel.writeTypedList(coubones)
         parcel.writeTypedList(photos)
+        parcel.writeByte(if (isSaved) 1 else 0)
     }
 
     override fun describeContents(): Int {

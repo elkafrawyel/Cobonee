@@ -34,8 +34,8 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
                 target: Target<Drawable?>?,
                 isFirstResource: Boolean
             ): Boolean {
-                helper.setGone(R.id.offerImageLoading,false)
-                helper.setImageResource(R.id.offerImgv,R.drawable.logo)
+                helper.setGone(R.id.offerImageLoading, false)
+                helper.setImageResource(R.id.offerImgv, R.drawable.logo)
                 return false
             }
 
@@ -46,9 +46,15 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
                 dataSource: DataSource?,
                 isFirstResource: Boolean
             ): Boolean {
-                helper.setGone(R.id.offerImageLoading,false)
+                helper.setGone(R.id.offerImageLoading, false)
                 return false
             }
         }).into(helper.getView(R.id.offerImgv))
+
+        if (offer.isSaved) {
+            helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_white)
+        } else {
+            helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_stock)
+        }
     }
 }

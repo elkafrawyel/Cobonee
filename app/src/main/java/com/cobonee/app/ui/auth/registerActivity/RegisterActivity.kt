@@ -8,13 +8,10 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.cobonee.app.R
-import com.cobonee.app.entity.Data
-import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
-import com.cobonee.app.utily.Constants
-import com.cobonee.app.utily.Injector
-import com.cobonee.app.utily.changeLanguage
-import com.cobonee.app.utily.snackBar
+import com.cobonee.app.ui.auth.loginActivity.LoginViewModel
+import com.cobonee.app.ui.main.HomeActivity
+import com.cobonee.app.utily.*
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -37,22 +34,39 @@ class RegisterActivity : AppCompatActivity() {
             Injector.getApplicationContext().changeLanguage(Constants.Language.ENGLISH)
         }
 
+        viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        viewModel.registerUiState.observe(this, Observer { onRegisterResponse(it) })
+        viewModel.saveUserUI.observe(this, Observer { onUserSaved(it) })
+
         login_btn.setOnClickListener {
             LoginActivity.start(this)
         }
 
-        viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
-        viewModel.registerUiState.observe(this, Observer { onRegisterResponse(it) })
-
-
         register_btn.setOnClickListener {
-            if(!edit_pass.text.toString().equals(edit_pass_confirm.text.toString())){
+            if (edit_pass.text.toString() != edit_pass_confirm.text.toString()) {
                 snackBar(resources.getString(R.string.no_password_match), registerRootView)
-            }else{
-                viewModel.getRegister(edit_name.text.toString(),edit_email.text.toString(),edit_pass.text.toString())
+            } else {
+                viewModel.register(edit_name.text.toString(), edit_email.text.toString(), edit_pass.text.toString())
             }
         }
 
+    }
+
+    private fun onUserSaved(state: LoginViewModel.SaveUserState?) {
+        when (state) {
+            LoginViewModel.SaveUserState.Saved -> {
+                toast(resources.getString(R.string.register_success))
+                registerLoading.visibility = View.GONE
+                edit_email.visibility = View.VISIBLE
+                edit_pass.visibility = View.VISIBLE
+                HomeActivity.start(this)
+            }
+            is LoginViewModel.SaveUserState.Error -> {
+                snackBar(state.message, registerRootView)
+            }
+            null -> {
+            }
+        }
     }
 
     private fun onRegisterResponse(state: RegisterViewModel.RegisterUiState?) {
@@ -62,14 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                 editsLayout.visibility = View.INVISIBLE
             }
             RegisterViewModel.RegisterUiState.Success -> {
-                var registerResponse: LoginResponse? = viewModel.registerResponse
-                if(registerResponse?.message!=null){
-                    //register success
-                    var userData :Data = registerResponse.data
-                    snackBar("Login success", registerRootView)
-                }
-                registerLoading.visibility = View.GONE
-                editsLayout.visibility = View.VISIBLE
+                viewModel.saveUser()
             }
             is RegisterViewModel.RegisterUiState.Error -> {
                 snackBar(state.message, registerRootView)
@@ -85,5 +92,4 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
-
 }

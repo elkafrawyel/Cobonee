@@ -8,12 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.cobonee.app.R
-import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
-import com.cobonee.app.utily.Constants
-import com.cobonee.app.utily.Injector
-import com.cobonee.app.utily.changeLanguage
-import com.cobonee.app.utily.snackBar
+import com.cobonee.app.ui.main.HomeActivity
+import com.cobonee.app.utily.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -35,18 +32,36 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Injector.getApplicationContext().changeLanguage(Constants.Language.ENGLISH)
         }
+        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        viewModel.loginUiState.observe(this, Observer { onLoginResponse(it) })
+        viewModel.saveUserUI.observe(this, Observer { onUserSaved(it) })
+
         register_btn.setOnClickListener {
             RegisterActivity.start(this)
         }
 
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-        viewModel.loginUiState.observe(this, Observer { onLoginResponse(it) })
-
-
         login_btn.setOnClickListener {
-            viewModel.getLogin(edit_email.text.toString(),edit_pass.text.toString())
+            viewModel.login(edit_email.text.toString(), edit_pass.text.toString())
         }
 
+    }
+
+    private fun onUserSaved(state: LoginViewModel.SaveUserState?) {
+        when (state) {
+            LoginViewModel.SaveUserState.Saved -> {
+                toast(resources.getString(R.string.login_success))
+                loginLoading.visibility = View.GONE
+                edit_email.visibility = View.VISIBLE
+                edit_pass.visibility = View.VISIBLE
+                HomeActivity.start(this)
+
+            }
+            is LoginViewModel.SaveUserState.Error -> {
+                snackBar(state.message, loginRootView)
+            }
+            null -> {
+            }
+        }
     }
 
     private fun onLoginResponse(state: LoginViewModel.LoginUiState?) {
@@ -57,11 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 edit_pass.visibility = View.INVISIBLE
             }
             LoginViewModel.LoginUiState.Success -> {
-                var loginResponse: LoginResponse? = viewModel.loginResponse
-                snackBar("Login success", loginRootView)
-                loginLoading.visibility = View.GONE
-                edit_email.visibility = View.VISIBLE
-                edit_pass.visibility = View.VISIBLE
+                viewModel.saveUser()
             }
             is LoginViewModel.LoginUiState.Error -> {
                 snackBar(state.message, loginRootView)
@@ -79,5 +90,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }

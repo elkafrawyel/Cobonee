@@ -6,8 +6,12 @@ import com.cobonee.app.utily.DataResource
 
 class RegisterUseCase(private val registerRepo: RegisterRepo) {
 
-    suspend fun getRegister(name:String,username: String, password: String): DataResource<LoginResponse> {
+    suspend fun register(
+        name: String,
+        username: String,
+        password: String
+    ): DataResource<LoginResponse> {
 
-        return registerRepo.getRegister(name,username,password)
+        return registerRepo.register(name,username,password)
     }
 }

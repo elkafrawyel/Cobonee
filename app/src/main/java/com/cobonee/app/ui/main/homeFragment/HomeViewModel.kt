@@ -41,7 +41,7 @@ class HomeViewModel : CoboneeViewModel() {
     var offersList: ArrayList<Offer> = arrayListOf()
 
     fun setDepartment(deptId: String = this.deptId) {
-        if (lastSelectedTab != null){
+        if (lastSelectedTab != null) {
             lastSelectedTab = null
             return
         }
@@ -219,4 +219,33 @@ class HomeViewModel : CoboneeViewModel() {
 
     //================================================================================================================
 
+    //=========================================== Save Offer =========================================================
+
+    private val getSavedUseCase = Injector.getSavedUseCase()
+
+    private val _save = MutableLiveData<SaveStates>()
+    val save: LiveData<SaveStates>
+        get() = _save
+
+    fun saveOffer(offer: Offer, index: Int) {
+        scope.launch(dispatcherProvider.computation) {
+            val result = getSavedUseCase.save(offer)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        _save.value = SaveStates.Saved(index)
+                    }
+                    is DataResource.Error -> {
+                        _save.value = SaveStates.Error(Injector.getApplicationContext().getString(R.string.error_save_offer))
+                    }
+                }
+            }
+        }
+    }
+
+    sealed class SaveStates {
+        data class Saved(val index: Int) : SaveStates()
+        data class Error(val message: String) : SaveStates()
+    }
+    //===============================================================================================================
 }
