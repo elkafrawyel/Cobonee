@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
-import com.cobonee.app.entity.LoginResponse
-import com.cobonee.app.entity.Setting
-import com.cobonee.app.entity.User
+import com.cobonee.app.entity.*
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
@@ -18,6 +16,7 @@ class AboutUsViewModel : CoboneeViewModel() {
 
     private var settingsJob: Job? = null
     var settings: Setting? = null
+    var questions: ArrayList<Quetion> = arrayListOf()
 
     private val settingsUseCase = Injector.getSettingsUseCase()
 
@@ -59,6 +58,10 @@ class AboutUsViewModel : CoboneeViewModel() {
 
     private fun showSuccess(data: Setting) {
         settings = data
+        questions.add(data.common_quetion_1.toQuetion(data.common_quetion_1))
+        questions.add(data.common_quetion_2.toQuetion(data.common_quetion_2))
+        questions.add(data.common_quetion_3.toQuetion(data.common_quetion_3))
+        questions.add(data.common_quetion_4.toQuetion(data.common_quetion_4))
         _settingsUiState.value = LoginUiState.Success
     }
 
@@ -77,8 +80,4 @@ class AboutUsViewModel : CoboneeViewModel() {
         object NoConnection : LoginUiState()
     }
 
-    sealed class SaveUserState {
-        object Saved : SaveUserState()
-        data class Error(val message: String) : SaveUserState()
-    }
 }

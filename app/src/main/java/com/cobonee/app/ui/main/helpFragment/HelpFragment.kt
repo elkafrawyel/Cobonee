@@ -25,7 +25,7 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private lateinit var viewModel: AboutUsViewModel
-    private val questionsAdapter= AdapterQuestions()
+    private val questionsAdapter = AdapterQuestions()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,42 +36,30 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AboutUsViewModel::class.java)
-        viewModel.settingsUiState.observe(this, Observer { onSettigsResponse(it) })
+        viewModel.settingsUiState.observe(this, Observer { onSettingsResponse(it) })
         viewModel.getSettings()
-        // TODO: Use the ViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         questionsAdapter.onItemChildClickListener = this
+        questionsRv.adapter = questionsAdapter
 
     }
+
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+
     }
 
-    private fun onSettigsResponse(state: AboutUsViewModel.LoginUiState?) {
+    private fun onSettingsResponse(state: AboutUsViewModel.LoginUiState?) {
         when (state) {
             AboutUsViewModel.LoginUiState.Loading -> {
                 helpLoading.visibility = View.VISIBLE
-                helpContentLayout.visibility = View.INVISIBLE
             }
             AboutUsViewModel.LoginUiState.Success -> {
-                var settings: Setting?  = viewModel.settings
-                if(settings!=null){
-                    var quetionsList: ArrayList<Quetion> = arrayListOf()
-                    quetionsList.add(settings.common_quetion_1.toQuetion(settings.common_quetion_1))
-                    quetionsList.add(settings.common_quetion_2.toQuetion(settings.common_quetion_2))
-                    quetionsList.add(settings.common_quetion_3.toQuetion(settings.common_quetion_3))
-                    quetionsList.add(settings.common_quetion_4.toQuetion(settings.common_quetion_4))
-                    questionsAdapter.replaceData(quetionsList)
-                    questionsRv.adapter = questionsAdapter
-
-                }
+                questionsAdapter.replaceData(viewModel.questions)
                 helpLoading.visibility = View.GONE
-                helpContentLayout.visibility = View.VISIBLE
             }
             is AboutUsViewModel.LoginUiState.Error -> {
                 activity?.snackBar(state.message, rootView)

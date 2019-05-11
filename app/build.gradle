@@ -77,9 +77,9 @@ dependencies {
 
     implementation "com.airbnb.android:lottie:3.0.0-beta1"
 
-
-    //extension to call boxStore instance without call ObjectBox
-    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
+//
+//    //extension to call boxStore instance without call ObjectBox
+//    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
 
 }
-apply plugin: 'io.objectbox'
+//apply plugin: 'io.objectbox'

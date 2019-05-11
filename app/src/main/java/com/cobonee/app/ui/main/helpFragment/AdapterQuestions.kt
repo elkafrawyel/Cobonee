@@ -9,10 +9,7 @@ class AdapterQuestions : BaseQuickAdapter<Quetion, BaseViewHolder>(R.layout.item
 
     override fun convert(helper: BaseViewHolder, quetion: Quetion) {
         helper.setText(R.id.questionsHeaderTv, quetion.title)
-            .setText(R.id.questionsBody, quetion.content)
-//        helper.addOnClickListener(R.id.offerCv, R.id.offerSaveImgv)
-
-
+              .setText(R.id.questionsBody, quetion.content)
     }
 
 }

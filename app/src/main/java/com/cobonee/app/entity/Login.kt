@@ -1,17 +1,18 @@
 package com.cobonee.app.entity
 
-
 import com.squareup.moshi.Json
 
 data class LoginBody(
-    var email:String,
-    var password:String
+    var email: String,
+    var password: String
 )
+
 data class RegisterBody(
-    var name:String,
-    var email:String,
-    var password:String
+    var name: String,
+    var email: String,
+    var password: String
 )
+
 data class LoginResponse(
     @field:Json(name = "data")
     val data: Data,
@@ -30,8 +31,8 @@ data class Data(
     val name: String?,
     @field:Json(name = "email")
     val email: String?,
-    @field:Json(name = "city")
-    val city: String?,
+    @field:Json(name = "cityName")
+    val city: City? = City(),
     @field:Json(name = "mobile")
     val mobile: String?,
     @field:Json(name = "gender")

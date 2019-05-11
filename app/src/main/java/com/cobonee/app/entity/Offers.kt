@@ -58,7 +58,7 @@ data class Offer(
     val ownerPhone: String?,
     @field:Json(name = "address")
     val address: String?,
-    @field:Json(name = "city")
+    @field:Json(name = "cityName")
     val city: OfferCity?,
     @field:Json(name = "facebook")
     val facebook: String?,
@@ -234,3 +234,9 @@ data class OfferCity(
         }
     }
 }
+
+
+data class MakeFavouritesResponse(
+    @field:Json(name = "massage")
+    val message: String
+)

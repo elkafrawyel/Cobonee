@@ -2,6 +2,9 @@ package com.cobonee.app.storage.remote
 
 import com.cobonee.app.entity.*
 import kotlinx.coroutines.Deferred
+import okhttp3.RequestBody
+import okhttp3.Response
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface RetrofitApiService {
@@ -33,9 +36,25 @@ interface RetrofitApiService {
     fun updateProfileAsync(
         @Header("Authorization") token: String,
         @Body updateProfileBody: UpdateProfileBody
-    ):Deferred<LoginResponse>
+    ): Deferred<LoginResponse>
 
     @GET("settings")
     fun getSettings(): Deferred<Setting>
 
+    @GET("favourites")
+    fun favouritesAsync(
+        @Header("Authorization") token: String
+    ): Deferred<OffersResponse>
+
+    @POST("favourite/add")
+    fun makeFavouritesAsync(
+        @Header("Authorization") token: String,
+        @Body offerId: Int
+    ): Deferred<MakeFavouritesResponse>
+
+    @POST("favourite/remove")
+    fun removeFavouritesAsync(
+        @Header("Authorization") token: String,
+        @Body offerId: Int
+    ): Deferred<MakeFavouritesResponse>
 }

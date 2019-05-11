@@ -122,4 +122,8 @@
     <string name="error_update_profile">حدث خطأ اثناء تعديل ملفك الشخصي</string>
     <string name="text_save">حفظ</string>
     <string name="text_cancel">الغاء</string>
+    <string name="no_favourites">لا توجد عروض مفضلة لديك</string>
+    <string name="add_to_favourites">تمت اضافة العرض الي المفضلة</string>
+    <string name="remove_from_favourites">تم حذف العرض من المفضلة</string>
+    <string name="error_you_must_login">يجب تسجيل الدخول اولا</string>
 </resources>

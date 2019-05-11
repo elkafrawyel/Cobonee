@@ -1,7 +1,6 @@
 package com.cobonee.app.storage.local
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.cobonee.app.utily.Constants
 
@@ -12,7 +11,8 @@ class PreferencesHelper(private val context: Context) {
         private const val ID = "id"
         private const val NAME = "name"
         private const val EMAIL = "email"
-        private const val CITY = "city"
+        private const val CITY_NAME = "cityName"
+        private const val CITY_ID = "cityId"
         private const val MOBILE = "mobile"
         private const val GENDER = "gender"
         private const val LANGUAGE = "language"
@@ -35,8 +35,11 @@ class PreferencesHelper(private val context: Context) {
     var email = preference.getString(EMAIL, null)
         set(value) = preference.edit().putString(EMAIL, value).apply()
 
-    var city = preference.getString(CITY, null)
-        set(value) = preference.edit().putString(CITY, value).apply()
+    var cityId = preference.getInt(CITY_ID, -1)
+        set(value) = preference.edit().putInt(CITY_ID, value).apply()
+
+    var cityName = preference.getString(CITY_NAME, null)
+        set(value) = preference.edit().putString(CITY_NAME, value).apply()
 
     var mobile = preference.getString(MOBILE, null)
         set(value) = preference.edit().putString(MOBILE, value).apply()
@@ -44,11 +47,10 @@ class PreferencesHelper(private val context: Context) {
     var gender = preference.getString(GENDER, null)
         set(value) = preference.edit().putString(GENDER, value).apply()
 
-
     var language = preference.getString(LANGUAGE, Constants.Language.ARABIC.value)
         set(value) = preference.edit().putString(LANGUAGE, value).apply()
 
-    fun clear(){
+    fun clear() {
         var lang = language
         preference.edit().clear().apply()
         language = lang

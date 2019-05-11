@@ -2,13 +2,15 @@ package com.cobonee.app.entity
 
 import com.squareup.moshi.Json
 
-data class User(var id:Int,
-                var token:String,
-                var name:String,
-                var email:String?,
-                var city:String?,
-                var mobile:String?,
-                var gender:String?)
+data class User(
+    var id: Int,
+    var token: String,
+    var name: String,
+    var email: String?,
+    var city: City?,
+    var mobile: String?,
+    var gender: String?
+)
 
 
 data class UpdateProfileBody(

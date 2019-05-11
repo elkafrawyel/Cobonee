@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
+import com.cobonee.app.entity.City
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.User
 import com.cobonee.app.ui.CoboneeViewModel
@@ -63,15 +64,17 @@ class LoginViewModel : CoboneeViewModel() {
     }
 
     private fun showSuccess(data: LoginResponse) {
+
         user = User(
             data.data.id!!,
             data.token!!,
             data.data.name!!,
             data.data.email!!,
-            data.data.city!!,
-            data.data.mobile!!,
-            data.data.gender!!
+            data.data.city ?: City(),
+            data.data.mobile ?: "",
+            data.data.gender ?: ""
         )
+
         _loginUiState.value = LoginUiState.Success
     }
 

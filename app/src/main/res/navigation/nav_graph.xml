@@ -40,7 +40,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_savedFragment"
-            app:destination="@id/savedFragment"
+            app:destination="@id/favouritesFragment"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
         <action
@@ -129,10 +129,14 @@
         android:label="@string/label_questions"
         tools:layout="@layout/questions_fragment" />
     <fragment
-        android:id="@+id/savedFragment"
-        android:name="com.cobonee.app.ui.main.savedFragment.SavedFragment"
+        android:id="@+id/favouritesFragment"
+        android:name="com.cobonee.app.ui.main.favouritesFragment.FavouritesFragment"
         android:label="@string/label_saved"
-        tools:layout="@layout/saved_fragment" />
+        tools:layout="@layout/favourites_fragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.cobonee.app.ui.main.settingsFragment.SettingsFragment"

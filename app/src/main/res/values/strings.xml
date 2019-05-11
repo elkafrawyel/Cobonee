@@ -145,5 +145,9 @@
     <string name="error_update_profile">Error Updating Your Profile</string>
     <string name="text_save">Save</string>
     <string name="text_cancel">Cancel</string>
+    <string name="no_favourites">No Favourite Offers</string>
+    <string name="add_to_favourites">Offer Added To Your Favourites</string>
+    <string name="remove_from_favourites">Offer Removed From Favourites</string>
+    <string name="error_you_must_login">You Must Login First.</string>
 
 </resources>

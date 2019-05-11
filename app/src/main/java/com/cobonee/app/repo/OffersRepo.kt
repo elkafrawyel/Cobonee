@@ -20,6 +20,8 @@ class OffersRepo(private val apiService: RetrofitApiService) {
 
     private suspend fun loginCall(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
         val response = apiService.getOffersAsync(department_id, city_id, page.toString()).await()
+
+
         return DataResource.Success(response)
     }
     //=======================================================================================================

@@ -1,6 +1,7 @@
 package com.cobonee.app.repo
 
 import com.cobonee.app.R
+import com.cobonee.app.entity.City
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.UpdateProfileBody
 import com.cobonee.app.entity.User
@@ -19,7 +20,8 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
         preferenceHelper.id = user.id
         preferenceHelper.name = user.name
         preferenceHelper.email = user.email
-        preferenceHelper.city = user.city
+        preferenceHelper.cityName = user.city?.name
+        preferenceHelper.cityId = user.city?.id!!
         preferenceHelper.mobile = user.mobile
         preferenceHelper.gender = user.gender
         if (user.token != null)
@@ -58,7 +60,7 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
             preferenceHelper.token,
             preferenceHelper.name,
             preferenceHelper.email,
-            preferenceHelper.city,
+            City(preferenceHelper.cityId, preferenceHelper.cityName),
             preferenceHelper.mobile,
             preferenceHelper.gender
         )

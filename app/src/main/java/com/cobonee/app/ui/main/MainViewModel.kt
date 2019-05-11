@@ -99,4 +99,96 @@ class MainViewModel : CoboneeViewModel() {
     //======================================================================================
 
 
+    //====================================== Add to Favourites =============================
+    private var addJob: Job? = null
+
+    private fun getAddOfferToFavouritesUseCase() = Injector.getAddOfferToFavouritesUseCase()
+
+    private var _addUiState = MutableLiveData<AddOfferUiState>()
+    val addAddOfferUiState: LiveData<AddOfferUiState>
+        get() = _addUiState
+
+    fun addOffer(offerId: Int) {
+        if (NetworkUtils.isWifiConnected()) {
+            if (addJob?.isActive == true)
+                return
+            addJob = launchAddJob(offerId)
+        } else {
+            _addUiState.value = AddOfferUiState.NoConnection
+        }
+    }
+
+
+    private fun launchAddJob(offerId: Int): Job {
+        return scope.launch(dispatcherProvider.io) {
+            withContext(dispatcherProvider.main) { _addUiState.value = AddOfferUiState.Loading }
+            val result = getAddOfferToFavouritesUseCase().addOffer(offerId = offerId)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        _addUiState.value = AddOfferUiState.Success
+                    }
+                    is DataResource.Error -> {
+                        _addUiState.value = AddOfferUiState.Error(result.exception.message!!)
+                    }
+                }
+            }
+        }
+    }
+
+    sealed class AddOfferUiState {
+        object Loading : AddOfferUiState()
+        data class Error(val message: String) : AddOfferUiState()
+        object Success : AddOfferUiState()
+        object NoConnection : AddOfferUiState()
+    }
+
+    //======================================================================================
+
+    //====================================== Remove to Favourites =============================
+    private var removeJob: Job? = null
+
+    private fun getRemoveOfferToFavouritesUseCase() = Injector.getRemoveOfferToFavouritesUseCase()
+
+    private var _removeUiState = MutableLiveData<RemoveOfferUiState >()
+    val removeAddOfferUiState: LiveData<RemoveOfferUiState >
+        get() = _removeUiState
+
+    fun removeOffer(offerId: Int) {
+        if (NetworkUtils.isWifiConnected()) {
+            if (removeJob?.isActive == true)
+                return
+            removeJob = launchRemoveJob(offerId)
+        } else {
+            _removeUiState.value = RemoveOfferUiState .NoConnection
+        }
+    }
+
+
+    private fun launchRemoveJob(offerId: Int): Job {
+        return scope.launch(dispatcherProvider.io) {
+            withContext(dispatcherProvider.main) { _removeUiState.value = RemoveOfferUiState .Loading }
+            val result = getRemoveOfferToFavouritesUseCase().removeOffer(offerId = offerId)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        _removeUiState.value = RemoveOfferUiState .Success
+                    }
+                    is DataResource.Error -> {
+                        _removeUiState.value = RemoveOfferUiState .Error(result.exception.message!!)
+                    }
+                }
+            }
+        }
+    }
+
+    sealed class RemoveOfferUiState {
+        object Loading : RemoveOfferUiState()
+        data class Error(val message: String) : RemoveOfferUiState()
+        object Success : RemoveOfferUiState()
+        object NoConnection : RemoveOfferUiState()
+    }
+
+    //======================================================================================
+
 }

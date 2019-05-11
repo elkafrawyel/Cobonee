@@ -160,7 +160,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 findNavController(R.id.fragment).navigate(R.id.cartFragment)
             }
             R.id.nav_saved -> {
-                findNavController(R.id.fragment).navigate(R.id.savedFragment)
+                findNavController(R.id.fragment).navigate(R.id.favouritesFragment)
             }
             R.id.nav_orders -> {
                 findNavController(R.id.fragment).navigate(R.id.ordersFragment)
@@ -210,7 +210,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     navigationView.menu.getItem(CART_INDEX).isChecked = true
                     navigationView.menu.getItem(CART_INDEX).isCheckable = true
                 }
-                R.id.savedFragment -> {
+                R.id.favouritesFragment -> {
                     setHomeTitle(resources.getString(R.string.label_saved))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE

@@ -27,6 +27,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private lateinit var viewModel: HomeViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var offersAdapter: AdapterOffers
+    private var position: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +52,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
         viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-        viewModel.save.observe(this, Observer { onOfferSaved(it) })
+        mainViewModel.addAddOfferUiState.observe(this, Observer { onAddOfferResponse(it) })
+        mainViewModel.removeAddOfferUiState.observe(this, Observer { onRemoveOfferResponse(it) })
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -100,24 +102,55 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
-    private fun onOfferSaved(state: HomeViewModel.SaveStates?) {
+    private fun onRemoveOfferResponse(state: MainViewModel.RemoveOfferUiState?) {
         when (state) {
-            is HomeViewModel.SaveStates.Saved -> {
-                viewModel.offersList[state.index].isSaved = true
-                offersAdapter.notifyItemChanged(state.index)
+            MainViewModel.RemoveOfferUiState.Loading -> {
+                homePb.visibility = View.VISIBLE
             }
-            is HomeViewModel.SaveStates.Error -> {
+            is MainViewModel.RemoveOfferUiState.Error -> {
+                homePb.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
-            null -> {
+            MainViewModel.RemoveOfferUiState.Success -> {
+                homePb.visibility = View.GONE
+                viewModel.offersList[position].isSaved = false
+                offersAdapter.notifyItemChanged(position)
+                activity?.snackBar(getString(R.string.remove_from_favourites), homeRootView)
             }
+            MainViewModel.RemoveOfferUiState.NoConnection -> {
+                homePb.visibility = View.GONE
+                activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
+            }
+            null -> { }
+        }
+    }
+
+    private fun onAddOfferResponse(state: MainViewModel.AddOfferUiState?) {
+        when (state) {
+            MainViewModel.AddOfferUiState.Loading -> {
+                homePb.visibility = View.VISIBLE
+            }
+            is MainViewModel.AddOfferUiState.Error -> {
+                homePb.visibility = View.GONE
+                activity?.snackBar(state.message, homeRootView)
+            }
+            MainViewModel.AddOfferUiState.Success -> {
+                homePb.visibility = View.GONE
+                viewModel.offersList[position].isSaved = true
+                offersAdapter.notifyItemChanged(position)
+                activity?.snackBar(getString(R.string.add_to_favourites), homeRootView)
+            }
+            MainViewModel.AddOfferUiState.NoConnection -> {
+                homePb.visibility = View.GONE
+                activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
+            }
+            null -> { }
         }
     }
 
     private fun setUpAdapter() {
         offersAdapter = AdapterOffers().apply {
             setEnableLoadMore(true)
-//            openLoadAnimation(SLIDEIN_LEFT)
         }
 
         offersAdapter.onItemChildClickListener = this
@@ -250,7 +283,14 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 saveCurrentTab()
             }
             R.id.offerSaveImgv -> {
-                viewModel.saveOffer(adapter!!.data[position] as Offer, position)
+                val offer =(adapter!!.data[position] as Offer)
+                if(offer.isSaved){
+                    mainViewModel.removeOffer(offer.id!!)
+
+                }else{
+                    mainViewModel.addOffer(offer.id!!)
+                }
+                this.position = position
             }
         }
     }

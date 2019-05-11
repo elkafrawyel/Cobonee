@@ -49,17 +49,11 @@ class AboutUsFragment : Fragment() {
                 aboutContentLayout.visibility = View.INVISIBLE
             }
             AboutUsViewModel.LoginUiState.Success -> {
-                var settings: Setting?  = viewModel.settings
+                val settings: Setting?  = viewModel.settings
                 if(settings?.about_us!=null){
                         text_about_cobonee.text= settings.about_us.content
                     cobonee_phone.text = settings.mobile
                     cobonee_email.text = settings.email
-
-                    var quetionsList: ArrayList<Quetion> = arrayListOf()
-                    quetionsList.add(settings.common_quetion_1.toQuetion(settings.common_quetion_1))
-                    quetionsList.add(settings.common_quetion_2.toQuetion(settings.common_quetion_2))
-                    quetionsList.add(settings.common_quetion_3.toQuetion(settings.common_quetion_3))
-                    quetionsList.add(settings.common_quetion_4.toQuetion(settings.common_quetion_4))
                 }
                 aboutLoading.visibility = View.GONE
                 aboutContentLayout.visibility = View.VISIBLE

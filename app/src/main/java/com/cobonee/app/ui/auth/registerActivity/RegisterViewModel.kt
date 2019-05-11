@@ -31,7 +31,6 @@ class RegisterViewModel : CoboneeViewModel() {
     val saveUserUI: LiveData<LoginViewModel.SaveUserState>
         get() = _saveUserUI
 
-
     fun register(name: String, username: String, password: String) {
         if (NetworkUtils.isWifiConnected()) {
             if (registerJob?.isActive == true) {
@@ -73,7 +72,7 @@ class RegisterViewModel : CoboneeViewModel() {
             data.token!!,
             data.data.name!!,
             data.data.email,
-            data.data.city,
+            data.data.city!!,
             data.data.mobile,
             data.data.gender
         )

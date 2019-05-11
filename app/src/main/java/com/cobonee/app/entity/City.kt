@@ -9,9 +9,9 @@ data class CityResponse(
 
 data class City(
     @field:Json(name = "id")
-    val id: Int,
+    val id: Int = -1,
     @field:Json(name = "name")
-    val name: String
+    val name: String = ""
 ){
     override fun toString(): String {
         return name
