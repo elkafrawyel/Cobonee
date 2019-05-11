@@ -1,5 +1,6 @@
 package com.cobonee.app.utily
 
+import android.provider.Settings
 import com.cobonee.app.MyApp
 import com.cobonee.app.repo.*
 import com.cobonee.app.repo.DepartmentsRepo
@@ -101,6 +102,8 @@ object Injector {
 
     private fun getUserRepo() = UserRepo(getPreferenceHelper(), getApiService())
 
+    private fun getSettingsRepo() = SettingsRepo(getApiService())
+
     //=================================== UseCases ====================================
 
     fun getCitiesUseCase() = CitiesUseCase(getCitiesRepo())
@@ -120,6 +123,8 @@ object Injector {
     fun getUpdateProfileUseCase() = UpdateProfileUseCase(getUserRepo())
 
     fun getUserUseCase() = GetUserUseCase(getUserRepo())
+
+    fun getSettingsUseCase() = SettingsUseCase(getSettingsRepo())
 
 
 }

@@ -35,4 +35,7 @@ interface RetrofitApiService {
         @Body updateProfileBody: UpdateProfileBody
     ):Deferred<LoginResponse>
 
+    @GET("settings")
+    fun getSettings(): Deferred<Setting>
+
 }
