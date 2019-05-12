@@ -46,17 +46,16 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun onUserSaved(state: LoginViewModel.SaveUserState?) {
+    private fun onUserSaved(state: MyUiStates?) {
         when (state) {
-            LoginViewModel.SaveUserState.Saved -> {
+            MyUiStates.Success -> {
                 toast(resources.getString(R.string.login_success))
                 loginLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
                 HomeActivity.start(this)
-
             }
-            is LoginViewModel.SaveUserState.Error -> {
+            is MyUiStates.Error -> {
                 snackBar(state.message, loginRootView)
             }
             null -> {
@@ -64,23 +63,23 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun onLoginResponse(state: LoginViewModel.LoginUiState?) {
+    private fun onLoginResponse(state: MyUiStates?) {
         when (state) {
-            LoginViewModel.LoginUiState.Loading -> {
+            MyUiStates.Loading -> {
                 loginLoading.visibility = View.VISIBLE
                 edit_email.visibility = View.INVISIBLE
                 edit_pass.visibility = View.INVISIBLE
             }
-            LoginViewModel.LoginUiState.Success -> {
+            MyUiStates.Success -> {
                 viewModel.saveUser()
             }
-            is LoginViewModel.LoginUiState.Error -> {
+            is MyUiStates.Error -> {
                 snackBar(state.message, loginRootView)
                 loginLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
             }
-            LoginViewModel.LoginUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 snackBar(resources.getString(R.string.no_connection_error), loginRootView)
                 loginLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE

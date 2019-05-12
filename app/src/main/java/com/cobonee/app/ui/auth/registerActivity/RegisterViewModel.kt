@@ -11,6 +11,7 @@ import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.ui.auth.loginActivity.LoginViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,12 +24,12 @@ class RegisterViewModel : CoboneeViewModel() {
     private val registerUseCase = Injector.getRegisterUseCase()
     private val saveUserUseCase = Injector.getSaveUserUseCase()
 
-    private val _registerUiState = MutableLiveData<RegisterUiState>()
-    val registerUiState: LiveData<RegisterUiState>
+    private val _registerUiState = MutableLiveData<MyUiStates>()
+    val registerUiState: LiveData<MyUiStates>
         get() = _registerUiState
 
-    private val _saveUserUI = MutableLiveData<LoginViewModel.SaveUserState>()
-    val saveUserUI: LiveData<LoginViewModel.SaveUserState>
+    private val _saveUserUI = MutableLiveData<MyUiStates>()
+    val saveUserUI: LiveData<MyUiStates>
         get() = _saveUserUI
 
     fun register(name: String, username: String, password: String) {
@@ -38,7 +39,7 @@ class RegisterViewModel : CoboneeViewModel() {
             }
             registerJob = launchRegisterJob(name, username, password)
         } else {
-            _registerUiState.value = RegisterUiState.NoConnection
+            _registerUiState.value = MyUiStates.NoConnection
         }
     }
 
@@ -63,7 +64,7 @@ class RegisterViewModel : CoboneeViewModel() {
     }
 
     private fun showLoading() {
-        _registerUiState.value = RegisterUiState.Loading
+        _registerUiState.value = MyUiStates.Loading
     }
 
     private fun showSuccess(data: LoginResponse) {
@@ -76,7 +77,7 @@ class RegisterViewModel : CoboneeViewModel() {
             data.data.mobile,
             data.data.gender
         )
-        _registerUiState.value = RegisterUiState.Success
+        _registerUiState.value = MyUiStates.Success
     }
 
     fun saveUser() {
@@ -84,9 +85,9 @@ class RegisterViewModel : CoboneeViewModel() {
             val result = saveUserUseCase.save(user!!)
             withContext(dispatcherProvider.main) {
                 when (result) {
-                    is DataResource.Success -> _saveUserUI.value = LoginViewModel.SaveUserState.Saved
+                    is DataResource.Success -> _saveUserUI.value = MyUiStates.Success
                     is DataResource.Error -> _saveUserUI.value =
-                        LoginViewModel.SaveUserState.Error(Injector.getApplicationContext().getString(R.string.error_general))
+                        MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
                 }
             }
         }
@@ -94,17 +95,10 @@ class RegisterViewModel : CoboneeViewModel() {
 
     private fun showError(message: String?) {
         if (message != null)
-            _registerUiState.value = RegisterUiState.Error(message)
+            _registerUiState.value = MyUiStates.Error(message)
         else
             _registerUiState.value =
-                RegisterUiState.Error(Injector.getApplicationContext().getString(R.string.error_general))
-    }
-
-    sealed class RegisterUiState {
-        object Loading : RegisterUiState()
-        object Success : RegisterUiState()
-        data class Error(val message: String) : RegisterUiState()
-        object NoConnection : RegisterUiState()
+                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
     }
 
 }

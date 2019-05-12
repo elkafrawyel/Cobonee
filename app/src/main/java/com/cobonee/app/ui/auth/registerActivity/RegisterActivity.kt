@@ -52,16 +52,16 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun onUserSaved(state: LoginViewModel.SaveUserState?) {
+    private fun onUserSaved(state: MyUiStates?) {
         when (state) {
-            LoginViewModel.SaveUserState.Saved -> {
+            MyUiStates.Success -> {
                 toast(resources.getString(R.string.register_success))
                 registerLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
                 HomeActivity.start(this)
             }
-            is LoginViewModel.SaveUserState.Error -> {
+            is MyUiStates.Error -> {
                 snackBar(state.message, registerRootView)
             }
             null -> {
@@ -69,21 +69,21 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun onRegisterResponse(state: RegisterViewModel.RegisterUiState?) {
+    private fun onRegisterResponse(state: MyUiStates?) {
         when (state) {
-            RegisterViewModel.RegisterUiState.Loading -> {
+            MyUiStates.Loading -> {
                 registerLoading.visibility = View.VISIBLE
                 editsLayout.visibility = View.INVISIBLE
             }
-            RegisterViewModel.RegisterUiState.Success -> {
+            MyUiStates.Success -> {
                 viewModel.saveUser()
             }
-            is RegisterViewModel.RegisterUiState.Error -> {
+            is MyUiStates.Error -> {
                 snackBar(state.message, registerRootView)
                 registerLoading.visibility = View.GONE
                 editsLayout.visibility = View.VISIBLE
             }
-            RegisterViewModel.RegisterUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 snackBar(resources.getString(R.string.no_connection_error), registerRootView)
                 registerLoading.visibility = View.GONE
                 editsLayout.visibility = View.VISIBLE
