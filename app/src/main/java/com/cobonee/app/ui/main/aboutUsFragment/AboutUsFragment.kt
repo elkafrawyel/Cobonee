@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-
 import com.cobonee.app.R
-import com.cobonee.app.entity.City
-import com.cobonee.app.entity.Quetion
 import com.cobonee.app.entity.Setting
-import com.cobonee.app.entity.toQuetion
 import com.cobonee.app.ui.main.HomeActivity
+import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.about_us_fragment.*
 import kotlinx.android.synthetic.main.activity_home.*
@@ -25,7 +22,7 @@ class AboutUsFragment : Fragment() {
         fun newInstance() = AboutUsFragment()
     }
 
-    private lateinit var viewModel: AboutUsViewModel
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,19 +33,18 @@ class AboutUsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AboutUsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
         viewModel.settingsUiState.observe(this, Observer { onSettigsResponse(it) })
         viewModel.getSettings()
-        // TODO: Use the ViewModel
     }
 
-    private fun onSettigsResponse(state: AboutUsViewModel.LoginUiState?) {
+    private fun onSettigsResponse(state: MyUiStates?) {
         when (state) {
-            AboutUsViewModel.LoginUiState.Loading -> {
+            MyUiStates.Loading -> {
                 aboutLoading.visibility = View.VISIBLE
                 aboutContentLayout.visibility = View.INVISIBLE
             }
-            AboutUsViewModel.LoginUiState.Success -> {
+            MyUiStates.Success -> {
                 val settings: Setting?  = viewModel.settings
                 if(settings?.about_us!=null){
                         text_about_cobonee.text= settings.about_us.content
@@ -58,11 +54,11 @@ class AboutUsFragment : Fragment() {
                 aboutLoading.visibility = View.GONE
                 aboutContentLayout.visibility = View.VISIBLE
             }
-            is AboutUsViewModel.LoginUiState.Error -> {
+            is MyUiStates.Error -> {
                 activity?.snackBar(state.message, rootView)
                 aboutLoading.visibility = View.GONE
             }
-            AboutUsViewModel.LoginUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 activity?.snackBar(resources.getString(R.string.no_connection_error), rootView)
                 aboutLoading.visibility = View.GONE
             }

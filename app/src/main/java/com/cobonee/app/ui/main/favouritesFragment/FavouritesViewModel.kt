@@ -7,6 +7,7 @@ import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,8 +17,8 @@ class FavouritesViewModel : CoboneeViewModel() {
     private fun getFavouritesUseCase() = Injector.getFavouritesUseCase()
 
 
-    private var _uiState = MutableLiveData<UiState>()
-    val uiState: LiveData<UiState>
+    private var _uiState = MutableLiveData<MyUiStates>()
+    val uiState: LiveData<MyUiStates>
         get() = _uiState
 
     var favouriteList: ArrayList<Offer> = arrayListOf()
@@ -29,34 +30,28 @@ class FavouritesViewModel : CoboneeViewModel() {
                 return
             job = launchJob()
         } else {
-            _uiState.value = UiState.NoConnection
+            _uiState.value = MyUiStates.NoConnection
         }
     }
 
 
     private fun launchJob(): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _uiState.value = UiState.Loading }
+            withContext(dispatcherProvider.main) { _uiState.value = MyUiStates.Loading }
             val result = getFavouritesUseCase().getFavourites()
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
                         favouriteList.clear()
                         favouriteList.addAll(result.data)
-                        _uiState.value = UiState.Success
+                        _uiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {
-                        _uiState.value = UiState.Error(result.exception.message!!)
+                        _uiState.value = MyUiStates.Error(result.exception.message!!)
                     }
                 }
             }
         }
     }
 
-    sealed class UiState {
-        object Loading : UiState()
-        data class Error(val message: String) : UiState()
-        object Success : UiState()
-        object NoConnection : UiState()
-    }
 }

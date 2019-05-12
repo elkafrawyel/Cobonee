@@ -16,6 +16,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
+import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.tabs.TabItem
@@ -102,22 +103,22 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
-    private fun onRemoveOfferResponse(state: MainViewModel.RemoveOfferUiState?) {
+    private fun onRemoveOfferResponse(state: MyUiStates?) {
         when (state) {
-            MainViewModel.RemoveOfferUiState.Loading -> {
+            MyUiStates.Loading -> {
                 homePb.visibility = View.VISIBLE
             }
-            is MainViewModel.RemoveOfferUiState.Error -> {
+            is MyUiStates.Error -> {
                 homePb.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
-            MainViewModel.RemoveOfferUiState.Success -> {
+            MyUiStates.Success -> {
                 homePb.visibility = View.GONE
                 viewModel.offersList[position].isSaved = false
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.remove_from_favourites), homeRootView)
             }
-            MainViewModel.RemoveOfferUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 homePb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
@@ -125,22 +126,22 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
-    private fun onAddOfferResponse(state: MainViewModel.AddOfferUiState?) {
+    private fun onAddOfferResponse(state: MyUiStates?) {
         when (state) {
-            MainViewModel.AddOfferUiState.Loading -> {
+            MyUiStates.Loading -> {
                 homePb.visibility = View.VISIBLE
             }
-            is MainViewModel.AddOfferUiState.Error -> {
+            is MyUiStates.Error -> {
                 homePb.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
-            MainViewModel.AddOfferUiState.Success -> {
+            MyUiStates.Success -> {
                 homePb.visibility = View.GONE
                 viewModel.offersList[position].isSaved = true
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.add_to_favourites), homeRootView)
             }
-            MainViewModel.AddOfferUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 homePb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
@@ -162,18 +163,18 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersRv.adapter = offersAdapter
     }
 
-    private fun onDepartmentResponse(state: HomeViewModel.DepartmentsUiState?) {
+    private fun onDepartmentResponse(state: MyUiStates?) {
         when (state) {
-            HomeViewModel.DepartmentsUiState.Loading -> {
+            MyUiStates.Loading -> {
                 onDepartmentLoading()
             }
-            HomeViewModel.DepartmentsUiState.Success -> {
+            MyUiStates.Success -> {
                 onDepartmentSuccess()
             }
-            is HomeViewModel.DepartmentsUiState.Error -> {
+            is MyUiStates.Error -> {
                 onDepartmentError(state.message)
             }
-            HomeViewModel.DepartmentsUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 onDepartmentNoConnection()
             }
             null -> {
@@ -206,11 +207,9 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
         }
 
-
         if (lastTab != null) {
             lastTab?.select()
         }
-
 
     }
 
@@ -220,18 +219,16 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersSwipe.isRefreshing = false
     }
 
-
-    private fun onOffersResponse(state: HomeViewModel.OffersUiState) {
+    private fun onOffersResponse(state: MyUiStates) {
         when (state) {
-            HomeViewModel.OffersUiState.Loading -> onOffersLoading()
-            is HomeViewModel.OffersUiState.Success -> onOffersSuccess()
-            is HomeViewModel.OffersUiState.Error -> onOffersError(state.message)
-            HomeViewModel.OffersUiState.NoConnection -> onOffersNoConnection()
-            HomeViewModel.OffersUiState.LastPage -> onOffersLastPage()
+            MyUiStates.Loading -> onOffersLoading()
+            is MyUiStates.Success -> onOffersSuccess()
+            is MyUiStates.Error -> onOffersError(state.message)
+            MyUiStates.NoConnection -> onOffersNoConnection()
+            MyUiStates.LastPage -> onOffersLastPage()
 //            is HomeViewModel.OffersUiState.NextPage -> onOffersNextPage()
         }
     }
-
 
     private fun onOffersNoConnection() {
         offersSwipe.isRefreshing = false

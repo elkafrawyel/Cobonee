@@ -4,10 +4,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
-import com.cobonee.app.utily.Constants
-import com.cobonee.app.utily.DataResource
-import com.cobonee.app.utily.Injector
-import com.cobonee.app.utily.safeApiCall
+import com.cobonee.app.utily.*
 import java.io.IOException
 
 class FavouritesRepo(private var apiService: RetrofitApiService, private var preferenceHelper: PreferencesHelper) {
@@ -42,19 +39,18 @@ class FavouritesRepo(private var apiService: RetrofitApiService, private var pre
     private suspend fun getAdd(offerId: Int): DataResource<Boolean> {
 
         if (preferenceHelper.isLoggedIn) {
-//        val response = apiService.makeFavouritesAsync(
-//            "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
-//        ).await()
-//        return if (response.message == "Success") {
-            return DataResource.Success(true)
-//        } else {
-//            DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_general)))
-//        }
+            val response = apiService.makeFavouritesAsync(
+                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
+            ).await()
+            return if (response.message == Constants.SUCCESS) {
+                return DataResource.Success(true)
+            } else {
+                DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_general)))
+            }
         } else {
             return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_you_must_login)))
         }
     }
-
 
     suspend fun remove(offerId: Int): DataResource<Boolean> {
         return safeApiCall(
@@ -66,14 +62,14 @@ class FavouritesRepo(private var apiService: RetrofitApiService, private var pre
     private suspend fun getRemove(offerId: Int): DataResource<Boolean> {
         if (preferenceHelper.isLoggedIn) {
 
-//        val response = apiService.removeFavouritesAsync(
-//            "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
-//        ).await()
-//        return if (response.message == "Success") {
-            return DataResource.Success(true)
-//        } else {
-//            DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_general)))
-//        }
+            val response = apiService.removeFavouritesAsync(
+                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
+            ).await()
+            return if (response.message == Constants.SUCCESS) {
+                return DataResource.Success(true)
+            } else {
+                DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_general)))
+            }
         } else {
             return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_you_must_login)))
         }

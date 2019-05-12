@@ -9,6 +9,7 @@ import com.cobonee.app.entity.City
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,8 +34,8 @@ class MainViewModel : CoboneeViewModel() {
 
     private val citiesUseCase = Injector.getCitiesUseCase()
 
-    private val _citiesUiState = MutableLiveData<CitiesUiState>()
-    val citiesUiState: LiveData<CitiesUiState>
+    private val _citiesUiState = MutableLiveData<MyUiStates>()
+    val citiesUiState: LiveData<MyUiStates>
         get() = _citiesUiState
 
     var citiesList: ArrayList<City> = arrayListOf()
@@ -53,7 +54,7 @@ class MainViewModel : CoboneeViewModel() {
             }
             citiesJob = launchCitiesJob()
         } else {
-            _citiesUiState.value = CitiesUiState.NoConnection
+            _citiesUiState.value = MyUiStates.NoConnection
         }
     }
 
@@ -72,28 +73,21 @@ class MainViewModel : CoboneeViewModel() {
     }
 
     private fun showLoading() {
-        _citiesUiState.value = CitiesUiState.Loading
+        _citiesUiState.value = MyUiStates.Loading
     }
 
     private fun showSuccess(data: CityResponse) {
         citiesList.clear()
         citiesList.addAll(data.cities)
-        _citiesUiState.value = CitiesUiState.Success
+        _citiesUiState.value = MyUiStates.Success
     }
 
     private fun showError(message: String?) {
         if (message != null)
-            _citiesUiState.value = CitiesUiState.Error(message)
+            _citiesUiState.value = MyUiStates.Error(message)
         else
             _citiesUiState.value =
-                CitiesUiState.Error(Injector.getApplicationContext().getString(R.string.error_general))
-    }
-
-    sealed class CitiesUiState {
-        object Loading : CitiesUiState()
-        object Success : CitiesUiState()
-        data class Error(val message: String) : CitiesUiState()
-        object NoConnection : CitiesUiState()
+                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
     }
 
     //======================================================================================
@@ -104,8 +98,8 @@ class MainViewModel : CoboneeViewModel() {
 
     private fun getAddOfferToFavouritesUseCase() = Injector.getAddOfferToFavouritesUseCase()
 
-    private var _addUiState = MutableLiveData<AddOfferUiState>()
-    val addAddOfferUiState: LiveData<AddOfferUiState>
+    private var _addUiState = MutableLiveData<MyUiStates>()
+    val addAddOfferUiState: LiveData<MyUiStates>
         get() = _addUiState
 
     fun addOffer(offerId: Int) {
@@ -114,33 +108,26 @@ class MainViewModel : CoboneeViewModel() {
                 return
             addJob = launchAddJob(offerId)
         } else {
-            _addUiState.value = AddOfferUiState.NoConnection
+            _addUiState.value = MyUiStates.NoConnection
         }
     }
 
 
     private fun launchAddJob(offerId: Int): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _addUiState.value = AddOfferUiState.Loading }
+            withContext(dispatcherProvider.main) { _addUiState.value = MyUiStates.Loading }
             val result = getAddOfferToFavouritesUseCase().addOffer(offerId = offerId)
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
-                        _addUiState.value = AddOfferUiState.Success
+                        _addUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {
-                        _addUiState.value = AddOfferUiState.Error(result.exception.message!!)
+                        _addUiState.value = MyUiStates.Error(result.exception.message!!)
                     }
                 }
             }
         }
-    }
-
-    sealed class AddOfferUiState {
-        object Loading : AddOfferUiState()
-        data class Error(val message: String) : AddOfferUiState()
-        object Success : AddOfferUiState()
-        object NoConnection : AddOfferUiState()
     }
 
     //======================================================================================
@@ -150,8 +137,8 @@ class MainViewModel : CoboneeViewModel() {
 
     private fun getRemoveOfferToFavouritesUseCase() = Injector.getRemoveOfferToFavouritesUseCase()
 
-    private var _removeUiState = MutableLiveData<RemoveOfferUiState >()
-    val removeAddOfferUiState: LiveData<RemoveOfferUiState >
+    private var _removeUiState = MutableLiveData<MyUiStates >()
+    val removeAddOfferUiState: LiveData<MyUiStates >
         get() = _removeUiState
 
     fun removeOffer(offerId: Int) {
@@ -160,33 +147,26 @@ class MainViewModel : CoboneeViewModel() {
                 return
             removeJob = launchRemoveJob(offerId)
         } else {
-            _removeUiState.value = RemoveOfferUiState .NoConnection
+            _removeUiState.value = MyUiStates .NoConnection
         }
     }
 
 
     private fun launchRemoveJob(offerId: Int): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _removeUiState.value = RemoveOfferUiState .Loading }
+            withContext(dispatcherProvider.main) { _removeUiState.value = MyUiStates .Loading }
             val result = getRemoveOfferToFavouritesUseCase().removeOffer(offerId = offerId)
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
-                        _removeUiState.value = RemoveOfferUiState .Success
+                        _removeUiState.value = MyUiStates .Success
                     }
                     is DataResource.Error -> {
-                        _removeUiState.value = RemoveOfferUiState .Error(result.exception.message!!)
+                        _removeUiState.value = MyUiStates .Error(result.exception.message!!)
                     }
                 }
             }
         }
-    }
-
-    sealed class RemoveOfferUiState {
-        object Loading : RemoveOfferUiState()
-        data class Error(val message: String) : RemoveOfferUiState()
-        object Success : RemoveOfferUiState()
-        object NoConnection : RemoveOfferUiState()
     }
 
     //======================================================================================

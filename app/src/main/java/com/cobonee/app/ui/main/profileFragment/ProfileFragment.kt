@@ -15,6 +15,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.profile_fragment.*
 
@@ -118,12 +119,12 @@ class ProfileFragment : Fragment() {
         profilePhone.setText(user.mobile)
     }
 
-    private fun onCitiesResponse(state: MainViewModel.CitiesUiState?) {
+    private fun onCitiesResponse(state: MyUiStates?) {
         when (state) {
-            MainViewModel.CitiesUiState.Loading -> {
+            MyUiStates.Loading -> {
                 profilePb.visibility = View.VISIBLE
             }
-            MainViewModel.CitiesUiState.Success -> {
+            MyUiStates.Success -> {
                 profilePb.visibility = View.GONE
 
                 val citiesAdapter =
@@ -131,11 +132,11 @@ class ProfileFragment : Fragment() {
                 citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 profileCitySpinner.adapter = citiesAdapter
             }
-            is MainViewModel.CitiesUiState.Error -> {
+            is MyUiStates.Error -> {
                 profilePb.visibility = View.GONE
                 activity?.snackBar(resources.getString(R.string.error_general), profileRootView)
             }
-            MainViewModel.CitiesUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 profilePb.visibility = View.GONE
                 activity?.snackBar(resources.getString(R.string.no_connection_error), profileRootView)
             }

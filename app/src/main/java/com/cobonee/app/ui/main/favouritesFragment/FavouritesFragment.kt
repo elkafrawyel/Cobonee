@@ -15,6 +15,7 @@ import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.ui.main.homeFragment.AdapterOffers
 import com.cobonee.app.ui.main.homeFragment.HomeFragmentDirections
+import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.favourites_fragment.*
 
@@ -46,23 +47,23 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         viewModel.getFavouriteList()
     }
 
-    private fun onRemoveOfferResponse(state: MainViewModel.RemoveOfferUiState?) {
+    private fun onRemoveOfferResponse(state: MyUiStates?) {
         when (state) {
-            MainViewModel.RemoveOfferUiState.Loading -> {
+            MyUiStates.Loading -> {
                 favouritesPb.visibility = View.VISIBLE
             }
-            is MainViewModel.RemoveOfferUiState.Error -> {
+            is MyUiStates.Error -> {
                 favouritesPb.visibility = View.GONE
                 activity?.snackBar(state.message, favouritesRootView)
             }
-            MainViewModel.RemoveOfferUiState.Success -> {
+            MyUiStates.Success -> {
                 if (this.position != -1) {
                     favouritesPb.visibility = View.GONE
                     viewModel.favouriteList.removeAt(position)
                     favouritesAdapter.notifyItemRemoved(position)
                 }
             }
-            MainViewModel.RemoveOfferUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 favouritesPb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, favouritesRootView)
             }
@@ -72,20 +73,20 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
     }
 
 
-    private fun onFavouritesResponse(state: FavouritesViewModel.UiState?) {
+    private fun onFavouritesResponse(state: MyUiStates?) {
         when (state) {
-            FavouritesViewModel.UiState.Loading -> {
+            MyUiStates.Loading -> {
                 favouritesPb.visibility = View.VISIBLE
             }
-            is FavouritesViewModel.UiState.Error -> {
+            is MyUiStates.Error -> {
                 favouritesPb.visibility = View.GONE
                 activity?.snackBar(state.message, favouritesRootView)
             }
-            FavouritesViewModel.UiState.Success -> {
+            MyUiStates.Success -> {
                 favouritesPb.visibility = View.GONE
                 favouritesAdapter.replaceData(viewModel.favouriteList)
             }
-            FavouritesViewModel.UiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 favouritesPb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, favouritesRootView)
             }

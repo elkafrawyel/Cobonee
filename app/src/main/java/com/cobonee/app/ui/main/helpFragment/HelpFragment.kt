@@ -10,10 +10,8 @@ import androidx.lifecycle.Observer
 import com.chad.library.adapter.base.BaseQuickAdapter
 
 import com.cobonee.app.R
-import com.cobonee.app.entity.Quetion
-import com.cobonee.app.entity.Setting
-import com.cobonee.app.entity.toQuetion
-import com.cobonee.app.ui.main.aboutUsFragment.AboutUsViewModel
+import com.cobonee.app.ui.main.aboutUsFragment.SettingsViewModel
+import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.help_fragment.*
@@ -24,7 +22,7 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         fun newInstance() = HelpFragment()
     }
 
-    private lateinit var viewModel: AboutUsViewModel
+    private lateinit var viewModel: SettingsViewModel
     private val questionsAdapter = AdapterQuestions()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +33,7 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AboutUsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
         viewModel.settingsUiState.observe(this, Observer { onSettingsResponse(it) })
         viewModel.getSettings()
     }
@@ -52,20 +50,20 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     }
 
-    private fun onSettingsResponse(state: AboutUsViewModel.LoginUiState?) {
+    private fun onSettingsResponse(state: MyUiStates?) {
         when (state) {
-            AboutUsViewModel.LoginUiState.Loading -> {
+            MyUiStates.Loading -> {
                 helpLoading.visibility = View.VISIBLE
             }
-            AboutUsViewModel.LoginUiState.Success -> {
+            MyUiStates.Success -> {
                 questionsAdapter.replaceData(viewModel.questions)
                 helpLoading.visibility = View.GONE
             }
-            is AboutUsViewModel.LoginUiState.Error -> {
+            is MyUiStates.Error -> {
                 activity?.snackBar(state.message, rootView)
                 helpLoading.visibility = View.GONE
             }
-            AboutUsViewModel.LoginUiState.NoConnection -> {
+            MyUiStates.NoConnection -> {
                 activity?.snackBar(resources.getString(R.string.no_connection_error), rootView)
                 helpLoading.visibility = View.GONE
             }

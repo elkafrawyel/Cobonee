@@ -11,6 +11,7 @@ import com.cobonee.app.entity.OffersResponse
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
+import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,8 +35,8 @@ class HomeViewModel : CoboneeViewModel() {
 
     private val offersUseCase = Injector.getOffersUseCase()
 
-    private val _offerUiState = MutableLiveData<OffersUiState>()
-    val offersUiState: LiveData<OffersUiState>
+    private val _offerUiState = MutableLiveData<MyUiStates>()
+    val offersUiState: LiveData<MyUiStates>
         get() = _offerUiState
 
     var offersList: ArrayList<Offer> = arrayListOf()
@@ -86,10 +87,10 @@ class HomeViewModel : CoboneeViewModel() {
 //                    showDepartmentsError(Injector.getApplicationContext().getString(R.string.error_city_or_dept))
                 }
             } else {
-                _offerUiState.value = OffersUiState.LastPage
+                _offerUiState.value = MyUiStates.LastPage
             }
         } else {
-            _offerUiState.value = OffersUiState.NoConnection
+            _offerUiState.value = MyUiStates.NoConnection
         }
 
     }
@@ -119,12 +120,12 @@ class HomeViewModel : CoboneeViewModel() {
     }
 
     private fun showOffersLoading() {
-        _offerUiState.value = OffersUiState.Loading
+        _offerUiState.value = MyUiStates.Loading
     }
 
     private fun showOffersSuccess(data: OffersResponse) {
         offersList.addAll(data.offers)
-        _offerUiState.value = OffersUiState.Success(offersList)
+        _offerUiState.value = MyUiStates.Success
     }
 
 //    private fun showOffersNextPage(data: OffersResponse) {
@@ -133,21 +134,10 @@ class HomeViewModel : CoboneeViewModel() {
 //    }
 
     private fun showOffersError(message: String?) {
-        if (message != null) _offerUiState.value = OffersUiState.Error(message)
+        if (message != null) _offerUiState.value = MyUiStates.Error(message)
         else _offerUiState.value =
-            OffersUiState.Error(Injector.getApplicationContext().getString(R.string.error_offers))
+            MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
     }
-
-    sealed class OffersUiState {
-        object Loading : OffersUiState()
-        data class Success(val offers: List<Offer>) : OffersUiState()
-        //        data class NextPage(val offers: List<Offer>) : OffersUiState()
-        data class Error(val message: String) : OffersUiState()
-
-        object NoConnection : OffersUiState()
-        object LastPage : OffersUiState()
-    }
-
 
     //================================================================================================================
 
@@ -158,8 +148,8 @@ class HomeViewModel : CoboneeViewModel() {
 
     private val departmentsUseCase = Injector.getDepartmentsUseCase()
 
-    private val _departmentsUiState = MutableLiveData<DepartmentsUiState>()
-    val departmentsUiState: LiveData<DepartmentsUiState>
+    private val _departmentsUiState = MutableLiveData<MyUiStates>()
+    val departmentsUiState: LiveData<MyUiStates>
         get() = _departmentsUiState
 
     var departmentList: ArrayList<Department> = arrayListOf()
@@ -171,7 +161,7 @@ class HomeViewModel : CoboneeViewModel() {
             }
             departmentJob = launchDepartmentsJob()
         } else {
-            _departmentsUiState.value = DepartmentsUiState.NoConnection
+            _departmentsUiState.value = MyUiStates.NoConnection
         }
     }
 
@@ -192,29 +182,22 @@ class HomeViewModel : CoboneeViewModel() {
     }
 
     private fun showDepartmentsLoading() {
-        _departmentsUiState.value = DepartmentsUiState.Loading
+        _departmentsUiState.value = MyUiStates.Loading
     }
 
     private fun showDepartmentsSuccess(data: DepartmentResponse) {
         departmentList.clear()
         departmentList.addAll(data.departments)
 
-        _departmentsUiState.value = DepartmentsUiState.Success
+        _departmentsUiState.value = MyUiStates.Success
     }
 
     private fun showDepartmentsError(message: String?) {
         if (message != null)
-            _departmentsUiState.value = DepartmentsUiState.Error(message)
+            _departmentsUiState.value = MyUiStates.Error(message)
         else
             _departmentsUiState.value =
-                DepartmentsUiState.Error(Injector.getApplicationContext().getString(R.string.error_offers))
-    }
-
-    sealed class DepartmentsUiState {
-        object Loading : DepartmentsUiState()
-        object Success : DepartmentsUiState()
-        data class Error(val message: String) : DepartmentsUiState()
-        object NoConnection : DepartmentsUiState()
+                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
     }
 
     //================================================================================================================
