@@ -48,11 +48,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        if (Injector.getPreferenceHelper().language == Constants.Language.ARABIC.value) {
-            Injector.getApplicationContext().changeLanguage(Constants.Language.ARABIC)
-        } else {
-            Injector.getApplicationContext().changeLanguage(Constants.Language.ENGLISH)
-        }
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 

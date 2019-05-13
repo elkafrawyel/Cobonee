@@ -16,9 +16,6 @@ import kotlinx.coroutines.withContext
 class QuestionsViewModel : CoboneeViewModel() {
 
     private var contactUsJob: Job? = null
-    var contactUsResponse: String? = null
-
-
 
     private val contactUsUseCase = Injector.getContactUsUserUseCase()
 
@@ -37,7 +34,6 @@ class QuestionsViewModel : CoboneeViewModel() {
         }
     }
 
-
     private fun launchSettingsJob(updateProfileBody: ContactUseBody): Job? {
         return scope.launch(dispatcherProvider.computation) {
             withContext(dispatcherProvider.main) { showLoading() }
@@ -46,7 +42,7 @@ class QuestionsViewModel : CoboneeViewModel() {
                 when (result) {
 
                     is DataResource.Success -> {
-                        showSuccess(result.data)
+                        showSuccess()
                     }
                     is DataResource.Error -> showError(result.exception.message)
                 }
@@ -58,8 +54,7 @@ class QuestionsViewModel : CoboneeViewModel() {
         _contactUsUiState.value = MyUiStates.Loading
     }
 
-    private fun showSuccess(data: String) {
-        contactUsResponse = data
+    private fun showSuccess() {
         _contactUsUiState.value = MyUiStates.Success
     }
 

@@ -34,7 +34,6 @@ class QuestionsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
         viewModel.contactUsUiState.observe(this, Observer { onContactUsResponse(it) })
-        // TODO: Use the ViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,25 +47,18 @@ class QuestionsFragment : Fragment() {
             }
 
         sendMessage.setOnClickListener {
-            if (validation()) {
-                viewModel.sentMessage(
-                    ContactUseBody(
-                        edit_name.text.toString(),
-                        edit_email.text.toString(),
-                        spinner_reason.selectedItem.toString(),
-                        edit_subject.text.toString(),
-                        edit_message.text.toString(),
-                        edit_phone.text.toString()
-                    )
+            viewModel.sentMessage(
+                ContactUseBody(
+                    edit_name.text.toString(),
+                    edit_email.text.toString(),
+                    spinner_reason.selectedItem.toString(),
+                    edit_subject.text.toString(),
+                    edit_message.text.toString(),
+                    edit_phone.text.toString()
                 )
-            }
+            )
         }
     }
-
-    private fun validation(): Boolean {
-        return true
-    }
-
 
     private fun onContactUsResponse(state: MyUiStates?) {
         when (state) {
@@ -75,6 +67,7 @@ class QuestionsFragment : Fragment() {
                 sendMessage.visibility = View.INVISIBLE
             }
             MyUiStates.Success -> {
+                findNavController().popBackStack()
                 findNavController().navigate(R.id.homeFragment)
                 activity?.snackBar(resources.getString(R.string.message_send), questionsRootView)
                 contactLoading.visibility = View.GONE

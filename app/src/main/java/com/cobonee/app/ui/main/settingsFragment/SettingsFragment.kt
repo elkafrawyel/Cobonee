@@ -13,6 +13,7 @@ import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.Constants
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.changeLanguage
+import com.cobonee.app.utily.restartApplication
 import kotlinx.android.synthetic.main.settings_fragment.*
 import org.intellij.lang.annotations.Language
 
@@ -71,13 +72,11 @@ class SettingsFragment : Fragment() {
                 if (position == 1 && currentLocale != "ar") {
                     Injector.getPreferenceHelper().language = Constants.Language.ARABIC.value
                     activity?.changeLanguage(Constants.Language.ARABIC)
-                    activity?.finish()
-                    HomeActivity.start(requireContext());
+                    activity?.restartApplication()
                 } else if (position == 0 && currentLocale != "en") {
                     Injector.getPreferenceHelper().language = Constants.Language.ENGLISH.value
                     activity?.changeLanguage(Constants.Language.ENGLISH)
-                    activity?.finish()
-                    HomeActivity.start(requireContext());
+                    activity?.restartApplication()
                 }
             }
 

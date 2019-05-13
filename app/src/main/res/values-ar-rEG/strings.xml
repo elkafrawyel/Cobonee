@@ -127,4 +127,9 @@
     <string name="remove_from_favourites">تم حذف العرض من المفضلة</string>
     <string name="error_you_must_login">يجب تسجيل الدخول اولا</string>
     <string name="message_send">تم ارسال الرساله بنجاح</string>
+    <string name="empty_email">البريد الالكتروني فارغ</string>
+    <string name="empty_message">الرسالة فارغة</string>
+    <string name="empty_mobile">رقم الهاتف فارغ</string>
+    <string name="empty_name">الاسم فارغ</string>
+    <string name="empty_title">عنوان الرسالة فارغ</string>
 </resources>

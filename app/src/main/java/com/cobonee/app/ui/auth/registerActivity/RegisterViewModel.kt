@@ -1,6 +1,5 @@
 package com.cobonee.app.ui.auth.registerActivity
 
-import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
@@ -8,7 +7,6 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.User
 import com.cobonee.app.ui.CoboneeViewModel
-import com.cobonee.app.ui.auth.loginActivity.LoginViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates

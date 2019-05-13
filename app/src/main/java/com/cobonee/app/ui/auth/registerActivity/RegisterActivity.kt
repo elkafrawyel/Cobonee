@@ -40,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
 
         login_btn.setOnClickListener {
             LoginActivity.start(this)
+            finish()
         }
 
         register_btn.setOnClickListener {
@@ -50,6 +51,20 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
+        val currentLocale = resources.configuration.locale.language
+
+        change_language.setOnClickListener {
+            if (currentLocale == "ar") {
+                //change to english
+                changeLanguage(Constants.Language.ENGLISH)
+                saveLanguage(Constants.Language.ENGLISH)
+            } else {
+                //change to arabic
+                changeLanguage(Constants.Language.ARABIC)
+                saveLanguage(Constants.Language.ARABIC)
+            }
+            restartApplication()
+        }
     }
 
     private fun onUserSaved(state: MyUiStates?) {

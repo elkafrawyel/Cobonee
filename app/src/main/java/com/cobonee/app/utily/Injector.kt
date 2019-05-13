@@ -92,6 +92,7 @@ object Injector {
     private fun getUserRepo() = UserRepo(getPreferenceHelper(), getApiService())
 
     private fun getFavouritesRepo() = FavouritesRepo(getApiService(), getPreferenceHelper())
+
     private fun getSettingsRepo() = SettingsRepo(getApiService())
 
     //=================================== UseCases ====================================
@@ -117,6 +118,7 @@ object Injector {
     fun getAddOfferToFavouritesUseCase() = MakeOfferFavouritesUseCase(getFavouritesRepo())
 
     fun getRemoveOfferToFavouritesUseCase() = RemoveFavouritesUseCase(getFavouritesRepo())
+
     fun getSettingsUseCase() = SettingsUseCase(getSettingsRepo())
 
     fun getContactUsUserUseCase() = ContactUsUseCase(getUserRepo())

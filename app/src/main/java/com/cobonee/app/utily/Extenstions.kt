@@ -1,6 +1,7 @@
 package com.cobonee.app.utily
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import com.cobonee.app.R
@@ -16,6 +17,14 @@ fun Context.changeLanguage(lang: Constants.Language) {
     this.resources.updateConfiguration(config, this.resources.displayMetrics)
 }
 
+fun saveLanguage(language: Constants.Language) {
+    if (language == Constants.Language.ARABIC)
+        Injector.getPreferenceHelper().language = "ar"
+    else
+        Injector.getPreferenceHelper().language = "en"
+
+}
+
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
@@ -26,4 +35,12 @@ fun Context.snackBar(message: String, rootView: View) {
     val textView = view.findViewById<View>(R.id.snackbar_text)
     textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
     snackBar.show()
+}
+
+fun Context.restartApplication() {
+    val intent = Injector.getApplicationContext().packageManager.getLaunchIntentForPackage(
+        Injector.getApplicationContext().packageName
+    )
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    startActivity(intent)
 }

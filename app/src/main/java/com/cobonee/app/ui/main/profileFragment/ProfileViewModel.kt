@@ -1,10 +1,7 @@
 package com.cobonee.app.ui.main.profileFragment
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.cobonee.app.entity.User
 import com.cobonee.app.ui.CoboneeViewModel
-import com.cobonee.app.ui.auth.loginActivity.LoginViewModel
 import com.cobonee.app.utily.Injector
 import kotlinx.coroutines.Job
 

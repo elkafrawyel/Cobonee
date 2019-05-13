@@ -150,5 +150,10 @@
     <string name="remove_from_favourites">Offer Removed From Favourites</string>
     <string name="error_you_must_login">You Must Login First.</string>
     <string name="message_send">Message sent successfully</string>
+    <string name="empty_email">Email Empty!</string>
+    <string name="empty_name">Name Empty!</string>
+    <string name="empty_title">Title Empty!</string>
+    <string name="empty_mobile">Mobile Empty!</string>
+    <string name="empty_message">Message Empty!</string>
 
 </resources>

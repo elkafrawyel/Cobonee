@@ -69,17 +69,16 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
 
     //=====================================contact us Profile====================================================
 
-    suspend fun contactUs(updateProfileBody: ContactUseBody): DataResource<String> {
+    suspend fun contactUs(updateProfileBody: ContactUseBody): DataResource<Boolean> {
         return safeApiCall(
             call = { contactUsCall(updateProfileBody) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_general)
         )
     }
 
-    private suspend fun contactUsCall(contactUseBody: ContactUseBody): DataResource<String> {
+    private suspend fun contactUsCall(contactUseBody: ContactUseBody): DataResource<Boolean> {
         val result = apiService.contactUsAsync(contactUseBody).await()
-
-        return DataResource.Success(result)
+        return DataResource.Success(true)
     }
 
     //========================================================================================================
