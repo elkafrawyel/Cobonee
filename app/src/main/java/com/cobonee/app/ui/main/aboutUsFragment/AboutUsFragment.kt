@@ -1,12 +1,12 @@
 package com.cobonee.app.ui.main.aboutUsFragment
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.cobonee.app.R
 import com.cobonee.app.entity.Setting
@@ -14,7 +14,6 @@ import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.about_us_fragment.*
-import kotlinx.android.synthetic.main.activity_home.*
 
 class AboutUsFragment : Fragment() {
 
@@ -55,11 +54,11 @@ class AboutUsFragment : Fragment() {
                 aboutContentLayout.visibility = View.VISIBLE
             }
             is MyUiStates.Error -> {
-                activity?.snackBar(state.message, rootView)
+                activity?.snackBar(state.message, aboutUsRootView)
                 aboutLoading.visibility = View.GONE
             }
             MyUiStates.NoConnection -> {
-                activity?.snackBar(resources.getString(R.string.no_connection_error), rootView)
+                activity?.snackBar(resources.getString(R.string.no_connection_error), aboutUsRootView)
                 aboutLoading.visibility = View.GONE
             }
             null -> {

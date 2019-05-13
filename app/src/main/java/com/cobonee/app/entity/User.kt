@@ -19,3 +19,12 @@ data class UpdateProfileBody(
     @field:Json(name = "mobile") val mobile: String,
     @field:Json(name = "gender") val gender: String
 )
+
+data class ContactUseBody(
+    @field:Json(name = "name") val name: String,
+    @field:Json(name = "email") val email: String,
+    @field:Json(name = "reason") val reason: String,
+    @field:Json(name = "title") val title: String,
+    @field:Json(name = "message") val message: String,
+    @field:Json(name = "mobile") val mobile: String
+)

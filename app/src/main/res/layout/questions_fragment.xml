@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.aboutUsFragment.questionsFragment.QuestionsFragment">
+    tools:context=".ui.main.aboutUsFragment.questionsFragment.QuestionsFragment"
+    android:id="@+id/questionsRootView">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -97,8 +98,8 @@
                 android:lines="7"
                 android:overScrollMode="always"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"
                 android:paddingTop="15dp"
+                android:paddingEnd="12dp"
                 android:paddingBottom="15dp"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
@@ -106,34 +107,55 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="60dp"-->
-                <!--android:layout_marginEnd="30dp"-->
-                <!--android:layout_marginTop="15dp"-->
-                <!--android:layout_marginEnd="30dp"-->
-                <!--android:layout_marginBottom="40dp"-->
-                <!--android:padding="15dp"-->
-                <!--android:text="@string/text_send"-->
-                <!--android:textAllCaps="false"-->
-                <!--android:background="@drawable/btn_default_background"-->
-                <!--android:textColor="@android:color/white" />-->
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/login_btn"
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:layout_marginBottom="40dp"-->
+            <!--android:padding="15dp"-->
+            <!--android:text="@string/text_send"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:background="@drawable/btn_default_background"-->
+            <!--android:textColor="@android:color/white" />-->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginBottom="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 android:layout_marginTop="15dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:backgroundTint="@color/colorPrimary"
-                app:rippleColor="@color/gray"
-                android:padding="15dp"
-                android:text="@string/text_send"
-                android:textAllCaps="false"
-                app:cornerRadius="4dp"
-                android:textColor="@android:color/white" />
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="40dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sendMessage"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:padding="15dp"
+                    android:text="@string/text_send"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:rippleColor="@color/gray" />
+
+
+                <ProgressBar
+                    android:id="@+id/contactLoading"
+                    style="@style/CheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

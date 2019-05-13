@@ -57,4 +57,9 @@ interface RetrofitApiService {
         @Header("Authorization") token: String,
         @Body offerId: Int
     ): Deferred<MakeFavouritesResponse>
+
+    @POST("request")
+    fun contactUsAsync(
+        @Body contactUseBody: ContactUseBody
+    ): Deferred<String>
 }

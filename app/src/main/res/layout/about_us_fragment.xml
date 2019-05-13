@@ -8,7 +8,8 @@
     android:layout_marginStart="20dp"
     android:layout_marginTop="20dp"
     android:layout_marginEnd="20dp"
-    tools:context=".ui.main.aboutUsFragment.AboutUsFragment">
+    tools:context=".ui.main.aboutUsFragment.AboutUsFragment"
+    android:id="@+id/aboutUsRootView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/aboutContentLayout"

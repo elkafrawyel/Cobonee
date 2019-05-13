@@ -1,19 +1,17 @@
 package com.cobonee.app.ui.main.helpFragment
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.chad.library.adapter.base.BaseQuickAdapter
-
 import com.cobonee.app.R
 import com.cobonee.app.ui.main.aboutUsFragment.SettingsViewModel
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.help_fragment.*
 
 class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -60,11 +58,11 @@ class HelpFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 helpLoading.visibility = View.GONE
             }
             is MyUiStates.Error -> {
-                activity?.snackBar(state.message, rootView)
+                activity?.snackBar(state.message, helpRootView)
                 helpLoading.visibility = View.GONE
             }
             MyUiStates.NoConnection -> {
-                activity?.snackBar(resources.getString(R.string.no_connection_error), rootView)
+                activity?.snackBar(resources.getString(R.string.no_connection_error), helpRootView)
                 helpLoading.visibility = View.GONE
             }
             null -> {

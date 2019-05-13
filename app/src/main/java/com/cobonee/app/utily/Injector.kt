@@ -119,5 +119,7 @@ object Injector {
     fun getRemoveOfferToFavouritesUseCase() = RemoveFavouritesUseCase(getFavouritesRepo())
     fun getSettingsUseCase() = SettingsUseCase(getSettingsRepo())
 
+    fun getContactUsUserUseCase() = ContactUsUseCase(getUserRepo())
+
 
 }

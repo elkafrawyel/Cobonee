@@ -1,10 +1,7 @@
 package com.cobonee.app.repo
 
 import com.cobonee.app.R
-import com.cobonee.app.entity.City
-import com.cobonee.app.entity.LoginResponse
-import com.cobonee.app.entity.UpdateProfileBody
-import com.cobonee.app.entity.User
+import com.cobonee.app.entity.*
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
 import com.cobonee.app.utily.Constants
@@ -66,6 +63,23 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
         )
 
         return user
+    }
+
+    //========================================================================================================
+
+    //=====================================contact us Profile====================================================
+
+    suspend fun contactUs(updateProfileBody: ContactUseBody): DataResource<String> {
+        return safeApiCall(
+            call = { contactUsCall(updateProfileBody) },
+            errorMessage = Injector.getApplicationContext().getString(R.string.error_general)
+        )
+    }
+
+    private suspend fun contactUsCall(contactUseBody: ContactUseBody): DataResource<String> {
+        val result = apiService.contactUsAsync(contactUseBody).await()
+
+        return DataResource.Success(result)
     }
 
     //========================================================================================================

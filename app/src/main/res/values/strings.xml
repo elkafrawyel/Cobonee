@@ -149,5 +149,6 @@
     <string name="add_to_favourites">Offer Added To Your Favourites</string>
     <string name="remove_from_favourites">Offer Removed From Favourites</string>
     <string name="error_you_must_login">You Must Login First.</string>
+    <string name="message_send">Message sent successfully</string>
 
 </resources>
