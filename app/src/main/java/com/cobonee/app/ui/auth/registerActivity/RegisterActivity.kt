@@ -5,9 +5,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.cobonee.app.R
+import com.cobonee.app.entity.City
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
 import com.cobonee.app.ui.auth.loginActivity.LoginViewModel
 import com.cobonee.app.ui.main.HomeActivity
@@ -37,6 +40,18 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
         viewModel.registerUiState.observe(this, Observer { onRegisterResponse(it) })
         viewModel.saveUserUI.observe(this, Observer { onUserSaved(it) })
+        viewModel.citiesUiState.observe(this, Observer { onCityResponse(it) })
+
+        viewModel.getCities()
+        registerCitySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                viewModel.selectedCity.value = viewModel.citiesList[position]
+            }
+        }
 
         login_btn.setOnClickListener {
             LoginActivity.start(this)
@@ -47,6 +62,7 @@ class RegisterActivity : AppCompatActivity() {
             if (edit_pass.text.toString() != edit_pass_confirm.text.toString()) {
                 snackBar(resources.getString(R.string.no_password_match), registerRootView)
             } else {
+                var id = (registerCitySpinner.selectedItem as City).id
                 viewModel.register(edit_name.text.toString(), edit_email.text.toString(), edit_pass.text.toString())
             }
         }
@@ -64,6 +80,34 @@ class RegisterActivity : AppCompatActivity() {
                 saveLanguage(Constants.Language.ARABIC)
             }
             restartApplication()
+        }
+    }
+
+    private fun onCityResponse(states: MyUiStates?) {
+        when (states) {
+            MyUiStates.Loading -> {
+                registerLoading.visibility = View.VISIBLE
+            }
+            MyUiStates.Success -> {
+                registerLoading.visibility = View.GONE
+                val citiesAdapter =
+                    ArrayAdapter<City>(this@RegisterActivity, R.layout.simple_spinner_item, viewModel.citiesList)
+                citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                registerCitySpinner.adapter = citiesAdapter
+            }
+            is MyUiStates.Error -> {
+                snackBar(states.message, registerRootView)
+                registerLoading.visibility = View.GONE
+                editsLayout.visibility = View.VISIBLE
+            }
+            MyUiStates.NoConnection -> {
+                snackBar(resources.getString(R.string.no_connection_error), registerRootView)
+                registerLoading.visibility = View.GONE
+                editsLayout.visibility = View.VISIBLE
+            }
+            null -> {
+
+            }
         }
     }
 

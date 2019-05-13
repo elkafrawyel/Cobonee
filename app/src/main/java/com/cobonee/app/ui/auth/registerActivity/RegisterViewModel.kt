@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
+import com.cobonee.app.entity.City
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.User
 import com.cobonee.app.ui.CoboneeViewModel
@@ -17,10 +18,15 @@ import kotlinx.coroutines.withContext
 class RegisterViewModel : CoboneeViewModel() {
 
     private var registerJob: Job? = null
+    private var citiesJob: Job? = null
+
     private var user: User? = null
+    var citiesList: ArrayList<City> = arrayListOf()
+
 
     private val registerUseCase = Injector.getRegisterUseCase()
     private val saveUserUseCase = Injector.getSaveUserUseCase()
+    private val citiesUseCase = Injector.getCitiesUseCase()
 
     private val _registerUiState = MutableLiveData<MyUiStates>()
     val registerUiState: LiveData<MyUiStates>
@@ -29,6 +35,10 @@ class RegisterViewModel : CoboneeViewModel() {
     private val _saveUserUI = MutableLiveData<MyUiStates>()
     val saveUserUI: LiveData<MyUiStates>
         get() = _saveUserUI
+
+    private val _citiesUiState = MutableLiveData<MyUiStates>()
+    val citiesUiState: LiveData<MyUiStates>
+        get() = _citiesUiState
 
     fun register(name: String, username: String, password: String) {
         if (NetworkUtils.isWifiConnected()) {
@@ -47,7 +57,7 @@ class RegisterViewModel : CoboneeViewModel() {
         password: String
     ): Job? {
         return scope.launch(dispatcherProvider.computation) {
-            withContext(dispatcherProvider.main) { showLoading() }
+            withContext(dispatcherProvider.main) { _registerUiState.value = MyUiStates.Loading }
             val result = registerUseCase.register(name, username, password)
             withContext(dispatcherProvider.main) {
                 when (result) {
@@ -55,14 +65,16 @@ class RegisterViewModel : CoboneeViewModel() {
                     is DataResource.Success -> {
                         showSuccess(result.data)
                     }
-                    is DataResource.Error -> showError(result.exception.message)
+                    is DataResource.Error -> {
+                        if (result.exception.message != null)
+                            _registerUiState.value = MyUiStates.Error(result.exception.message!!)
+                        else
+                            _registerUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+                    }
                 }
             }
         }
-    }
-
-    private fun showLoading() {
-        _registerUiState.value = MyUiStates.Loading
     }
 
     private fun showSuccess(data: LoginResponse) {
@@ -91,12 +103,39 @@ class RegisterViewModel : CoboneeViewModel() {
         }
     }
 
-    private fun showError(message: String?) {
-        if (message != null)
-            _registerUiState.value = MyUiStates.Error(message)
-        else
-            _registerUiState.value =
-                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+    fun getCities() {
+        if (NetworkUtils.isWifiConnected()) {
+            if (citiesJob?.isActive == true) {
+                return
+            }
+            citiesJob = launchCitiesJob()
+        } else {
+            _citiesUiState.value = MyUiStates.NoConnection
+        }
+    }
+
+    private fun launchCitiesJob(): Job? {
+        return scope.launch(dispatcherProvider.computation) {
+            withContext(dispatcherProvider.main) { _citiesUiState.value = MyUiStates.Loading }
+            val result = citiesUseCase.getCities()
+            withContext(dispatcherProvider.main) {
+                when (result) {
+
+                    is DataResource.Success -> {
+                        citiesList.clear()
+                        citiesList.addAll(result.data.cities)
+                        _citiesUiState.value = MyUiStates.Success
+                    }
+                    is DataResource.Error -> {
+                        if (result.exception.message != null)
+                            _citiesUiState.value = MyUiStates.Error(result.exception.message!!)
+                        else
+                            _citiesUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+                    }
+                }
+            }
+        }
     }
 
 }
