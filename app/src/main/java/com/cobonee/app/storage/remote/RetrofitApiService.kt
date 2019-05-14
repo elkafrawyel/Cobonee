@@ -70,4 +70,7 @@ interface RetrofitApiService {
     fun contactUsAsync(
         @Body contactUseBody: ContactUseBody
     ): Deferred<String>
+
+    @GET("resones")
+    fun getReasonsAsync(): Deferred<ReasonsResponse>
 }

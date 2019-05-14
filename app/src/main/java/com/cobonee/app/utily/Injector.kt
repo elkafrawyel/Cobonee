@@ -123,5 +123,7 @@ object Injector {
 
     fun getContactUsUserUseCase() = ContactUsUseCase(getUserRepo())
 
+    fun getReasonsUseCase() = ReasonsUseCase(getSettingsRepo())
+
 
 }

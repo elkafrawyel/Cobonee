@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.cobonee.app.R
 import com.cobonee.app.entity.ContactUseBody
+import com.cobonee.app.entity.Reason
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.questions_fragment.*
@@ -34,19 +35,22 @@ class QuestionsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(QuestionsViewModel::class.java)
         viewModel.contactUsUiState.observe(this, Observer { onContactUsResponse(it) })
+        viewModel.reasonsUiState.observe(this, Observer { onReasonsUsResponse(it) })
+        viewModel.getReasons()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //test spinner array
-        ArrayAdapter.createFromResource(requireContext(), R.array.test_array, android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinner_reason.adapter = adapter
-            }
+//        ArrayAdapter.createFromResource(requireContext(), R.array.test_array, android.R.layout.simple_spinner_item)
+//            .also { adapter ->
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                spinner_reason.adapter = adapter
+//            }
 
         sendMessage.setOnClickListener {
+            val ahmed:String = spinner_reason.selectedItem.toString()
             viewModel.sentMessage(
                 ContactUseBody(
                     edit_name.text.toString(),
@@ -58,6 +62,8 @@ class QuestionsFragment : Fragment() {
                 )
             )
         }
+
+
     }
 
     private fun onContactUsResponse(state: MyUiStates?) {
@@ -87,6 +93,32 @@ class QuestionsFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun onReasonsUsResponse(state: MyUiStates?) {
+        when (state) {
+            MyUiStates.Loading -> {
+                contactLoading.visibility = View.VISIBLE
+            }
+            MyUiStates.Success -> {
+                contactLoading.visibility = View.GONE
+
+                val reasonsAdapter =
+                    ArrayAdapter<Reason>(requireContext(), android.R.layout.simple_spinner_item, viewModel.reasonsList)
+                reasonsAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                spinner_reason.adapter = reasonsAdapter
+            }
+            is MyUiStates.Error -> {
+                contactLoading.visibility = View.GONE
+                activity?.snackBar(state.message, questionsRootView)
+            }
+            MyUiStates.NoConnection -> {
+                contactLoading.visibility = View.GONE
+                activity?.snackBar(resources.getString(R.string.no_connection_error), questionsRootView)
+            }
+            null -> {
+            }
+        }
     }
 
 }
