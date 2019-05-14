@@ -17,6 +17,7 @@ import com.cobonee.app.entity.City
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.MyUiStates
+import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
 import com.cobonee.app.utily.toast
 import com.google.android.material.tabs.TabItem
@@ -53,8 +54,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
         viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
         viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-        mainViewModel.addAddOfferUiState.observe(this, Observer { onAddOfferResponse(it) })
-        mainViewModel.removeAddOfferUiState.observe(this, Observer { onRemoveOfferResponse(it) })
+        mainViewModel.addAddOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
+        mainViewModel.removeAddOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -66,8 +67,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         )
 
         setUpAdapter()
-
-
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -114,7 +113,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
             MyUiStates.Success -> {
                 homePb.visibility = View.GONE
-                viewModel.offersList[position].isSaved = false
+                viewModel.offersList[position].isFav = false
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.remove_from_favourites), homeRootView)
             }
@@ -122,7 +121,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 homePb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
-            null -> { }
+            null -> {
+            }
         }
     }
 
@@ -137,7 +137,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
             MyUiStates.Success -> {
                 homePb.visibility = View.GONE
-                viewModel.offersList[position].isSaved = true
+                viewModel.offersList[position].isFav = true
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.add_to_favourites), homeRootView)
             }
@@ -145,7 +145,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 homePb.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
-            null -> { }
+            null -> {
+            }
         }
     }
 
@@ -280,11 +281,11 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 saveCurrentTab()
             }
             R.id.offerSaveImgv -> {
-                val offer =(adapter!!.data[position] as Offer)
-                if(offer.isSaved){
+                val offer = (adapter!!.data[position] as Offer)
+                if (offer.isFav) {
                     mainViewModel.removeOffer(offer.id!!)
 
-                }else{
+                } else {
                     mainViewModel.addOffer(offer.id!!)
                 }
                 this.position = position

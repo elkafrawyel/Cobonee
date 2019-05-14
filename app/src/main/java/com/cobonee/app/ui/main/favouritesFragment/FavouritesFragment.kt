@@ -16,6 +16,7 @@ import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.ui.main.homeFragment.AdapterOffers
 import com.cobonee.app.ui.main.homeFragment.HomeFragmentDirections
 import com.cobonee.app.utily.MyUiStates
+import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.favourites_fragment.*
 
@@ -39,7 +40,7 @@ class FavouritesFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener
         viewModel = ViewModelProviders.of(this).get(FavouritesViewModel::class.java)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.uiState.observe(this, Observer { onFavouritesResponse(it) })
-        mainViewModel.removeAddOfferUiState.observe(this, Observer { onRemoveOfferResponse(it) })
+        mainViewModel.removeAddOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
         favouritesAdapter = AdapterOffers()
         favouritesAdapter.onItemChildClickListener = this
         favouritesRv.adapter = favouritesAdapter

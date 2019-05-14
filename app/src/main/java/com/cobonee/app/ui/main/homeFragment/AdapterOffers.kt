@@ -51,7 +51,7 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
             }
         }).into(helper.getView(R.id.offerImgv))
 
-        if (offer.isSaved) {
+        if (offer.isFav) {
             helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_white)
         } else {
             helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_stock)

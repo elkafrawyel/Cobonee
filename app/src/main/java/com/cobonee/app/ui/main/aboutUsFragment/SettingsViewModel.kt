@@ -59,10 +59,7 @@ class SettingsViewModel : CoboneeViewModel() {
 
     private fun showSuccess(data: Setting) {
         settings = data
-        questions.add(data.common_quetion_1.toQuetion(data.common_quetion_1))
-        questions.add(data.common_quetion_2.toQuetion(data.common_quetion_2))
-        questions.add(data.common_quetion_3.toQuetion(data.common_quetion_3))
-        questions.add(data.common_quetion_4.toQuetion(data.common_quetion_4))
+        questions.addAll(data.quetions)
         _settingsUiState.value = MyUiStates.Success
     }
 

@@ -8,6 +8,7 @@ import com.cobonee.app.entity.CityResponse
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
+import com.cobonee.app.utily.Event
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
@@ -98,8 +99,8 @@ class MainViewModel : CoboneeViewModel() {
 
     private fun getAddOfferToFavouritesUseCase() = Injector.getAddOfferToFavouritesUseCase()
 
-    private var _addUiState = MutableLiveData<MyUiStates>()
-    val addAddOfferUiState: LiveData<MyUiStates>
+    private var _addUiState = MutableLiveData<Event<MyUiStates>>()
+    val addAddOfferUiState: LiveData<Event<MyUiStates>>
         get() = _addUiState
 
     fun addOffer(offerId: Int) {
@@ -108,22 +109,22 @@ class MainViewModel : CoboneeViewModel() {
                 return
             addJob = launchAddJob(offerId)
         } else {
-            _addUiState.value = MyUiStates.NoConnection
+            _addUiState.value = Event(MyUiStates.NoConnection)
         }
     }
 
 
     private fun launchAddJob(offerId: Int): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _addUiState.value = MyUiStates.Loading }
+            withContext(dispatcherProvider.main) { _addUiState.value = Event(MyUiStates.Loading) }
             val result = getAddOfferToFavouritesUseCase().addOffer(offerId = offerId)
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
-                        _addUiState.value = MyUiStates.Success
+                        _addUiState.value = Event(MyUiStates.Success)
                     }
                     is DataResource.Error -> {
-                        _addUiState.value = MyUiStates.Error(result.exception.message!!)
+                        _addUiState.value = Event(MyUiStates.Error(result.exception.message!!))
                     }
                 }
             }
@@ -137,8 +138,8 @@ class MainViewModel : CoboneeViewModel() {
 
     private fun getRemoveOfferToFavouritesUseCase() = Injector.getRemoveOfferToFavouritesUseCase()
 
-    private var _removeUiState = MutableLiveData<MyUiStates >()
-    val removeAddOfferUiState: LiveData<MyUiStates >
+    private var _removeUiState = MutableLiveData<Event<MyUiStates>>()
+    val removeAddOfferUiState: LiveData<Event<MyUiStates>>
         get() = _removeUiState
 
     fun removeOffer(offerId: Int) {
@@ -147,22 +148,22 @@ class MainViewModel : CoboneeViewModel() {
                 return
             removeJob = launchRemoveJob(offerId)
         } else {
-            _removeUiState.value = MyUiStates .NoConnection
+            _removeUiState.value = Event(MyUiStates.NoConnection)
         }
     }
 
 
     private fun launchRemoveJob(offerId: Int): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _removeUiState.value = MyUiStates .Loading }
+            withContext(dispatcherProvider.main) { _removeUiState.value = Event(MyUiStates .Loading) }
             val result = getRemoveOfferToFavouritesUseCase().removeOffer(offerId = offerId)
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
-                        _removeUiState.value = MyUiStates .Success
+                        _removeUiState.value = Event(MyUiStates.Success)
                     }
                     is DataResource.Error -> {
-                        _removeUiState.value = MyUiStates .Error(result.exception.message!!)
+                        _removeUiState.value = Event(MyUiStates .Error(result.exception.message!!))
                     }
                 }
             }

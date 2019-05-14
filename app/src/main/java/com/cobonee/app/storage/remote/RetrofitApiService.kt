@@ -22,6 +22,14 @@ interface RetrofitApiService {
         @Query("page") page: String
     ): Deferred<OffersResponse>
 
+    @GET("offers")
+    fun getAuthOffersAsync(
+        @Header("Authorization") token: String,
+        @Query("department_id") department_id: String,
+        @Query("city_id") city_id: String,
+        @Query("page") page: String
+    ): Deferred<OffersResponse>
+
     @POST("auth/login")
     fun getLoginAsync(
         @Body loginBody: LoginBody

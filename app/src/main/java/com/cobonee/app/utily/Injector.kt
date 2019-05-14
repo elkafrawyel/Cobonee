@@ -80,7 +80,7 @@ object Injector {
 
     private fun getCitiesRepo() = CitiesRepo(getApiService())
 
-    private fun getOffersRepo() = OffersRepo(getApiService())
+    private fun getOffersRepo() = OffersRepo(getApiService(), getPreferenceHelper())
 
     private fun getDepartmentRepo() = DepartmentsRepo(getApiService())
 
