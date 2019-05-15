@@ -124,6 +124,7 @@ class HomeViewModel : CoboneeViewModel() {
     }
 
     private fun showOffersSuccess(data: OffersResponse) {
+        offersList.clear()
         offersList.addAll(data.offers)
         _offerUiState.value = MyUiStates.Success
     }

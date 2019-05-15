@@ -251,12 +251,12 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     }
 
     private fun onOffersSuccess() {
-        setUpAdapter()
+//        setUpAdapter()
 
         homePb.visibility = View.GONE
         offersRv.visibility = View.VISIBLE
         offersSwipe.isRefreshing = false
-        offersAdapter.replaceData(viewModel.offersList)
+        offersAdapter.addData(viewModel.offersList)
         offersAdapter.loadMoreComplete()
     }
 

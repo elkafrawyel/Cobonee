@@ -95,7 +95,7 @@
     <string name="questions">أسئلة متكررة</string>
 
     <string name="error_offers">خطأ في عرض العروض</string>
-    <string name="no_connection_error">لا يوجد تصال بالانترنت</string>
+    <string name="no_connection_error">لا يوجد اتصال بالانترنت</string>
 
     <string name="error_general">حدث خطأ ما</string>
     <string name="error_city_or_dept">خطأ في ايجاد المدينة او القسم</string>

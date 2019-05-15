@@ -57,21 +57,27 @@ class SearchFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s?.isBlank() == true) {
 //                searchView.error = getString(R.string.error_required_search_text)
+                    viewModel.resetSearch()
+                    searchAdapter.data.clear()
+                    searchAdapter.notifyDataSetChanged()
                 } else {
                     viewModel.resetSearch()
+                    searchAdapter.data.clear()
+                    searchAdapter.notifyDataSetChanged()
                     viewModel.newQuery(searchView.text.toString())
                 }
             }
         })
 
-        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, _, _ ->
-            if (searchView?.text?.isBlank() == true) {
-//                searchView.error = getString(R.string.error_required_search_text)
-            } else {
-                viewModel.newQuery(searchView.text.toString())
-            }
-            return@OnEditorActionListener true
-        })
+//        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, _, _ ->
+//            if (searchView?.text?.isBlank() == true) {
+////                searchView.error = getString(R.string.error_required_search_text)
+//
+//            } else {
+//                viewModel.newQuery(searchView.text.toString())
+//            }
+//            return@OnEditorActionListener true
+//        })
     }
 
     private fun setUpAdapter() {
