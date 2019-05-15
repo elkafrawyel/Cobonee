@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.cobonee.app.R
 import com.cobonee.app.entity.ContactUseBody
 import com.cobonee.app.entity.Reason
+import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.questions_fragment.*
@@ -50,17 +51,24 @@ class QuestionsFragment : Fragment() {
 //            }
 
         sendMessage.setOnClickListener {
-            val ahmed:String = spinner_reason.selectedItem.toString()
+            val ahmed:String = viewModel.reasonsList[spinner_reason.selectedItemPosition].id.toString()
             viewModel.sentMessage(
                 ContactUseBody(
                     edit_name.text.toString(),
                     edit_email.text.toString(),
-                    spinner_reason.selectedItem.toString(),
+                    viewModel.reasonsList[spinner_reason.selectedItemPosition].id.toString(),
                     edit_subject.text.toString(),
                     edit_message.text.toString(),
                     edit_phone.text.toString()
                 )
             )
+        }
+
+        if(Injector.getPreferenceHelper().isLoggedIn){
+            val user = Injector.getUserUseCase().get()
+            edit_name.setText( user.name)
+            edit_email.setText( user.email)
+            edit_phone.setText( user.mobile)
         }
 
 

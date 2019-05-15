@@ -66,10 +66,10 @@ interface RetrofitApiService {
         @Body offerId: Int
     ): Deferred<MakeFavouritesResponse>
 
-    @POST("request")
+    @POST("join/request")
     fun contactUsAsync(
         @Body contactUseBody: ContactUseBody
-    ): Deferred<String>
+    ): Deferred<ContactUseResponse>
 
     @GET("resones")
     fun getReasonsAsync(): Deferred<ReasonsResponse>
