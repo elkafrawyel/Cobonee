@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.cobonee.app.R
+import com.cobonee.app.ui.auth.forgetPassword.sendEmail.SendEmailActivity
 import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.*
@@ -56,6 +57,10 @@ class LoginActivity : AppCompatActivity() {
                 saveLanguage(Constants.Language.ARABIC)
             }
             restartApplication()
+        }
+
+        forget_pass.setOnClickListener {
+            SendEmailActivity.start(this)
         }
     }
 
