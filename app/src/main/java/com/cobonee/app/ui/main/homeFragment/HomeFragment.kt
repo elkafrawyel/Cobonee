@@ -39,6 +39,9 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     }
 
     private fun onCityChanged(city: City) {
+
+        offersAdapter.data.clear()
+        offersAdapter.notifyDataSetChanged()
         viewModel.setCity(cityId = city.id.toString())
     }
 
@@ -81,10 +84,14 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 if (viewModel.lastSelectedTab != null) {
                     if (tab?.position == viewModel.lastSelectedTab) {
                         val deptId = viewModel.departmentList[tab?.position!!].id
+                        offersAdapter.data.clear()
+                        offersAdapter.notifyDataSetChanged()
                         viewModel.setDepartment(deptId = deptId.toString())
                     }
                 } else {
                     val deptId = viewModel.departmentList[tab?.position!!].id
+                    offersAdapter.data.clear()
+                    offersAdapter.notifyDataSetChanged()
                     viewModel.setDepartment(deptId = deptId.toString())
                 }
             }
@@ -252,7 +259,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     private fun onOffersSuccess() {
 //        setUpAdapter()
-
         homePb.visibility = View.GONE
         offersRv.visibility = View.VISIBLE
         offersSwipe.isRefreshing = false
