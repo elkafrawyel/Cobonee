@@ -155,5 +155,7 @@
     <string name="empty_title">Title Empty!</string>
     <string name="empty_mobile">Mobile Empty!</string>
     <string name="empty_message">Message Empty!</string>
+    <string name="hint_search_words">search words</string>
+    <string name="error_required_search_text">Search words Required</string>
 
 </resources>

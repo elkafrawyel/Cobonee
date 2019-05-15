@@ -15,12 +15,12 @@ class OffersRepo(private val apiService: RetrofitApiService, private val prefere
 
     suspend fun getOffers(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
         return safeApiCall(
-            call = { loginCall(department_id, city_id, page) },
+            call = { offersCall(department_id, city_id, page) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_offers)
         )
     }
 
-    private suspend fun loginCall(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
+    private suspend fun offersCall(department_id: String, city_id: String, page: Int): DataResource<OffersResponse> {
         if (preferencesHelper.isLoggedIn) {
             val response = apiService.getAuthOffersAsync(
                 "${Constants.AUTHORIZATION_START} ${preferencesHelper.token}",
@@ -36,4 +36,18 @@ class OffersRepo(private val apiService: RetrofitApiService, private val prefere
     }
     //=======================================================================================================
 
+    //=====================================Search Offers=========================================================
+
+    suspend fun searchOffers(query: String, page: Int): DataResource<OffersResponse> {
+        return safeApiCall(
+            call = { searchCall(query, page) },
+            errorMessage = Injector.getApplicationContext().getString(R.string.error_offers)
+        )
+    }
+
+    private suspend fun searchCall(query: String, page: Int): DataResource<OffersResponse> {
+        val response = apiService.searchAsync(query = query, page = page.toString()).await()
+        return DataResource.Success(response)
+    }
+    //=======================================================================================================
 }

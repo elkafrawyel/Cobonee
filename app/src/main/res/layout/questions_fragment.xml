@@ -36,6 +36,7 @@
                 android:background="@drawable/edittext_background"
                 android:gravity="center_vertical|start"
                 android:paddingStart="12dp"
+                android:spinnerMode="dialog"
                 android:paddingEnd="12dp" />
 
             <EditText
@@ -68,7 +69,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_background"
-                android:gravity="center_vertical|start"
+                android:gravity="center_vertical|end"
                 android:hint="@string/text_phone"
                 android:inputType="phone"
                 android:paddingStart="12dp"

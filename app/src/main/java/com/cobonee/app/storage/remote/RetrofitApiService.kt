@@ -73,4 +73,10 @@ interface RetrofitApiService {
 
     @GET("resones")
     fun getReasonsAsync(): Deferred<ReasonsResponse>
+
+    @POST("search/offers")
+    fun searchAsync(
+        @Query("description") query: String,
+        @Query("page") page: String
+    ): Deferred<OffersResponse>
 }

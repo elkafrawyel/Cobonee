@@ -125,5 +125,6 @@ object Injector {
 
     fun getReasonsUseCase() = ReasonsUseCase(getSettingsRepo())
 
+    fun getSearchUseCase() = SearchUseCase(offersRepo = getOffersRepo())
 
 }

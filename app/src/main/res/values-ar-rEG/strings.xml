@@ -132,4 +132,7 @@
     <string name="empty_mobile">رقم الهاتف فارغ</string>
     <string name="empty_name">الاسم فارغ</string>
     <string name="empty_title">عنوان الرسالة فارغ</string>
+    <string name="hint_search_words">كلمات البحث</string>
+    <string name="error_required_search_text">كلمات البحث مطلوبة</string>
+
 </resources>

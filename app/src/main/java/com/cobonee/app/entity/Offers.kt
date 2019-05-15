@@ -71,7 +71,7 @@ data class Offer(
     @field:Json(name = "discount")
     val discount: String?,
     @field:Json(name = "price_after_discount")
-    val priceAfterDiscount: Int?,
+    val priceAfterDiscount: Float?,
     @field:Json(name = "coubons")
     val coubones: List<Coubone?>?,
     @field:Json(name = "photos")
@@ -92,7 +92,7 @@ data class Offer(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.createTypedArrayList(Coubone),
         parcel.createTypedArrayList(OfferPhoto)
     ) {
@@ -241,3 +241,4 @@ data class MakeFavouritesResponse(
     @field:Json(name = "message")
     val message: String
 )
+
