@@ -29,7 +29,7 @@ class SearchViewModel : CoboneeViewModel() {
 
     var offersList: ArrayList<Offer> = arrayListOf()
 
-    private fun resetSearch() {
+    fun resetSearch() {
         page = 0
         lastPage = 1
         offersList.clear()
@@ -37,7 +37,6 @@ class SearchViewModel : CoboneeViewModel() {
     }
 
     fun newQuery(query: String) {
-        resetSearch()
         this.query = query
         if (NetworkUtils.isWifiConnected()) {
             if (searchJob?.isActive == true) {
@@ -93,6 +92,7 @@ class SearchViewModel : CoboneeViewModel() {
     }
 
     private fun showOffersSuccess(data: OffersResponse) {
+        offersList.clear()
         offersList.addAll(data.offers)
         _uiState.value = MyUiStates.Success
     }

@@ -43,6 +43,8 @@ class SearchFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setUpAdapter()
         searchView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
@@ -56,6 +58,7 @@ class SearchFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 if (s?.isBlank() == true) {
 //                searchView.error = getString(R.string.error_required_search_text)
                 } else {
+                    viewModel.resetSearch()
                     viewModel.newQuery(searchView.text.toString())
                 }
             }
@@ -101,10 +104,9 @@ class SearchFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 searchBg.visibility = View.VISIBLE
             }
             MyUiStates.Success -> {
-                setUpAdapter()
                 searchBg.visibility = View.GONE
                 searchRv.visibility = View.VISIBLE
-                searchAdapter.replaceData(viewModel.offersList)
+                searchAdapter.addData(viewModel.offersList)
                 searchAdapter.loadMoreComplete()
             }
             MyUiStates.LastPage -> {
