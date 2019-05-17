@@ -95,7 +95,7 @@
     <string name="questions">أسئلة متكررة</string>
 
     <string name="error_offers">خطأ في عرض العروض</string>
-    <string name="no_connection_error">لا يوجد تصال بالانترنت</string>
+    <string name="no_connection_error">لا يوجد اتصال بالانترنت</string>
 
     <string name="error_general">حدث خطأ ما</string>
     <string name="error_city_or_dept">خطأ في ايجاد المدينة او القسم</string>
@@ -134,5 +134,9 @@
     <string name="empty_title">عنوان الرسالة فارغ</string>
     <string name="hint_search_words">كلمات البحث</string>
     <string name="error_required_search_text">كلمات البحث مطلوبة</string>
+    <string name="sendEmailMessage">ادخل بريدك الالكتروني و سيتم ارسال كود اليك لاعادة تعيين كلمة المرور</string>
+    <string name="text_Confirm">تأكيد</string>
+    <string name="codeMessage">لقد تم ارسال الكود من  4 ارقام الي بريدك الالكتروني من فضلك قم بادخالة</string>
+    <string name="changePasswordMessage">من فضلك قم بتعيين كلمة المرور الجديدة</string>
 
 </resources>

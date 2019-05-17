@@ -82,7 +82,6 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     private fun setOffer(offer: Offer) {
 
-
         val discount = context?.resources?.getString(R.string.label_discount) + "  ${offer.discount}%"
         val price = context?.resources?.getString(R.string.label_price, offer.price)
 

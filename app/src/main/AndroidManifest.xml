@@ -4,8 +4,8 @@
     package="com.cobonee.app">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".MyApp"
@@ -17,6 +17,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.auth.forgetPassword.NewPasswordActivity.NewPasswordActivity"></activity>
+        <activity android:name=".ui.auth.forgetPassword.sendCode.SendCodeActivity" />
+        <activity android:name=".ui.auth.forgetPassword.sendEmail.SendEmailActivity" />
         <activity
             android:name=".ui.launcher.LauncherActivity"
             android:screenOrientation="portrait"
