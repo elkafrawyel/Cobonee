@@ -17,7 +17,7 @@ class SettingsViewModel : CoboneeViewModel() {
 
     private var settingsJob: Job? = null
     var settings: Setting? = null
-    var questions: ArrayList<Quetion> = arrayListOf()
+        var questions: ArrayList<Quetion> = arrayListOf()
 
     private val settingsUseCase = Injector.getSettingsUseCase()
 

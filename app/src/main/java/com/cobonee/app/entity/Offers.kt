@@ -133,6 +133,46 @@ data class Offer(
     }
 }
 
+data class Coubone(
+    @field:Json(name = "id")
+    val id: Int?,
+    @field:Json(name = "description")
+    val offerHeader: String?,
+    @field:Json(name = "price_after_discount")
+    val priceAfterDiscount: Float?,
+    var quantity:Int
+): Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readValue(Float::class.java.classLoader) as? Float,
+        parcel.readInt()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(id)
+        parcel.writeString(offerHeader)
+        parcel.writeValue(priceAfterDiscount)
+        parcel.writeInt(quantity)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Coubone> {
+        override fun createFromParcel(parcel: Parcel): Coubone {
+            return Coubone(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Coubone?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+}
+
 data class OfferPhoto(
     @Json(name = "thumb")
     val thumb: String?,
@@ -172,33 +212,6 @@ data class OfferPhoto(
         }
 
         override fun newArray(size: Int): Array<OfferPhoto?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
-
-
-data class Coubone(
-    @Json(name = "name")
-    val name: String?
-) : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readString()) {
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Coubone> {
-        override fun createFromParcel(parcel: Parcel): Coubone {
-            return Coubone(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Coubone?> {
             return arrayOfNulls(size)
         }
     }
