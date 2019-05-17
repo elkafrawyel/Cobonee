@@ -68,16 +68,6 @@ class SearchFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 }
             }
         })
-
-//        searchView.setOnEditorActionListener(TextView.OnEditorActionListener { _, _, _ ->
-//            if (searchView?.text?.isBlank() == true) {
-////                searchView.error = getString(R.string.error_required_search_text)
-//
-//            } else {
-//                viewModel.newQuery(searchView.text.toString())
-//            }
-//            return@OnEditorActionListener true
-//        })
     }
 
     private fun setUpAdapter() {

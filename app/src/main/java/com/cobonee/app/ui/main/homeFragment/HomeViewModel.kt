@@ -1,5 +1,6 @@
 package com.cobonee.app.ui.main.homeFragment
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
@@ -18,18 +19,15 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel : CoboneeViewModel() {
 
-    //===========================================Load Data Configurations ===============================================
+    val fragmentSavedStates = mutableMapOf<String, Fragment.SavedState?>()
 
-    var started: Boolean = false
-    var lastSelectedTab: Int? = null
-
-    //=================================================================================================================
 
     //============================================== Offers ==========================================================
     var page: Int = 0
     private var lastPage: Int = 1
-    var deptId: String = ""
-    private var cityId: String = ""
+    var deptId: String? = null
+    var deptIndex: Int? = null
+    var cityId: String? = null
 
     private var offersJob: Job? = null
 
@@ -41,38 +39,17 @@ class HomeViewModel : CoboneeViewModel() {
 
     var offersList: ArrayList<Offer> = arrayListOf()
 
-    fun setDepartment(deptId: String = this.deptId) {
-        if (lastSelectedTab != null) {
-            lastSelectedTab = null
-            return
-        }
-
-
-        if (deptId != "" && this.deptId != deptId) {
-            this.deptId = deptId
-            if (this.cityId != "") {
-                newOffers()
-            }
-        }
-    }
-
-    fun setCity(cityId: String = this.cityId) {
-        if (cityId != "" && this.cityId != cityId) {
-            this.cityId = cityId
-            if (this.deptId != "") {
-                newOffers()
-            }
-        }
-    }
-
-    fun newOffers() {
+    fun refresh() {
         page = 0
         lastPage = 1
         offersList.clear()
-        getOffers()
     }
 
     fun getOffers() {
+
+        if (deptId == null || cityId == null) {
+            return
+        }
 
         if (NetworkUtils.isWifiConnected()) {
             if (offersJob?.isActive == true) {
@@ -80,12 +57,7 @@ class HomeViewModel : CoboneeViewModel() {
             }
             page++
             if (page <= lastPage) {
-                if (deptId != "" && cityId != "") {
-                    offersJob = launchOffersJob(deptId, cityId, page)
-                } else {
-                    //department id ,cityName id not found
-//                    showDepartmentsError(Injector.getApplicationContext().getString(R.string.error_city_or_dept))
-                }
+                offersJob = launchOffersJob(deptId!!, cityId!!, page)
             } else {
                 _offerUiState.value = MyUiStates.LastPage
             }
@@ -106,14 +78,16 @@ class HomeViewModel : CoboneeViewModel() {
 
                     is DataResource.Success -> {
                         lastPage = result.data.meta.lastPage!!
-//                        lastPage = 3
-//                        if (this@HomeViewModel.page == 1) {
                         showOffersSuccess(result.data)
-//                        } else {
-//                            showOffersNextPage(result.data)
-//                        }
                     }
-                    is DataResource.Error -> showOffersError(result.exception.message)
+                    is DataResource.Error -> {
+                        if (result.exception.message != null) {
+                            _offerUiState.value = MyUiStates.Error(result.exception.message!!)
+                        } else {
+                            _offerUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
+                        }
+                    }
                 }
             }
         }
@@ -129,15 +103,8 @@ class HomeViewModel : CoboneeViewModel() {
         _offerUiState.value = MyUiStates.Success
     }
 
-//    private fun showOffersNextPage(data: OffersResponse) {
-//        offersList.addAll(data.offers)
-//        _offerUiState.value = OffersUiState.NextPage(offersList)
-//    }
-
     private fun showOffersError(message: String?) {
-        if (message != null) _offerUiState.value = MyUiStates.Error(message)
-        else _offerUiState.value =
-            MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
+
     }
 
     //================================================================================================================
@@ -169,36 +136,28 @@ class HomeViewModel : CoboneeViewModel() {
     private fun launchDepartmentsJob(): Job? {
         return scope.launch(dispatcherProvider.computation) {
             withContext(dispatcherProvider.main) {
-                showDepartmentsLoading()
+                _departmentsUiState.value = MyUiStates.Loading
             }
             val result = departmentsUseCase.getDepartments()
             withContext(dispatcherProvider.main) {
                 when (result) {
 
-                    is DataResource.Success -> showDepartmentsSuccess(result.data)
-                    is DataResource.Error -> showDepartmentsError(result.exception.message)
+                    is DataResource.Success -> {
+                        departmentList.clear()
+                        departmentList.addAll(result.data.departments)
+
+                        _departmentsUiState.value = MyUiStates.Success
+                    }
+                    is DataResource.Error -> {
+                        if (result.exception.message != null)
+                            _departmentsUiState.value = MyUiStates.Error(result.exception.message!!)
+                        else
+                            _departmentsUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
+                    }
                 }
             }
         }
-    }
-
-    private fun showDepartmentsLoading() {
-        _departmentsUiState.value = MyUiStates.Loading
-    }
-
-    private fun showDepartmentsSuccess(data: DepartmentResponse) {
-        departmentList.clear()
-        departmentList.addAll(data.departments)
-
-        _departmentsUiState.value = MyUiStates.Success
-    }
-
-    private fun showDepartmentsError(message: String?) {
-        if (message != null)
-            _departmentsUiState.value = MyUiStates.Error(message)
-        else
-            _departmentsUiState.value =
-                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_offers))
     }
 
     //================================================================================================================
