@@ -157,9 +157,10 @@
     <string name="empty_message">Message Empty!</string>
     <string name="hint_search_words">search words</string>
     <string name="error_required_search_text">Search words Required</string>
-    <string name="sendEmailMessage">Please enter your email address.and we will send you a code to that email.</string>
+    <string name="sendEmailMessage">Type your address and we will send you a 4 digits code</string>
     <string name="text_Confirm">Confirm</string>
-    <string name="codeMessage">We have sent a code of 4 digits to your email address,Please Enter it</string>
-    <string name="changePasswordMessage">please type new password</string>
+    <string name="codeMessage">We sent a 4 digits code type it please</string>
+    <string name="changePasswordMessage">please type new password.</string>
+
 
 </resources>
