@@ -161,6 +161,7 @@
     <string name="text_Confirm">Confirm</string>
     <string name="codeMessage">We sent a 4 digits code type it please</string>
     <string name="changePasswordMessage">please type new password.</string>
+    <string name="cart_item_added">Coubone added to cart.</string>
 
 
 </resources>

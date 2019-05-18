@@ -142,7 +142,7 @@ data class Coubone(
     val offerHeader: String?,
     @field:Json(name = "price_after_discount")
     val priceAfterDiscount: Float?,
-    var quantity: Int
+    var quantity: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,

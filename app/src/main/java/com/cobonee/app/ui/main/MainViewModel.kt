@@ -101,7 +101,7 @@ class MainViewModel : CoboneeViewModel() {
     private fun getAddOfferToFavouritesUseCase() = Injector.getAddOfferToFavouritesUseCase()
 
     private var _addUiState = MutableLiveData<Event<MyUiStates>>()
-    val addAddOfferUiState: LiveData<Event<MyUiStates>>
+    val addOfferUiState: LiveData<Event<MyUiStates>>
         get() = _addUiState
 
     fun addOffer(offerId: Int) {
@@ -140,7 +140,7 @@ class MainViewModel : CoboneeViewModel() {
     private fun getRemoveOfferToFavouritesUseCase() = Injector.getRemoveOfferToFavouritesUseCase()
 
     private var _removeUiState = MutableLiveData<Event<MyUiStates>>()
-    val removeAddOfferUiState: LiveData<Event<MyUiStates>>
+    val removeOfferUiState: LiveData<Event<MyUiStates>>
         get() = _removeUiState
 
     fun removeOffer(offerId: Int) {
@@ -208,7 +208,7 @@ class MainViewModel : CoboneeViewModel() {
     private fun getAddCartItemsUseCase() = Injector.getAddCartItemsUseCase()
 
     private var _addCartItemsUiState = MutableLiveData<Event<MyUiStates>>()
-    val addCartItemsAddOfferUiState: LiveData<Event<MyUiStates>>
+    val addCartItemsUiState: LiveData<Event<MyUiStates>>
         get() = _addCartItemsUiState
 
 

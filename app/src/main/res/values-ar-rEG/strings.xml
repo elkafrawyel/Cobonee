@@ -138,5 +138,6 @@
     <string name="text_Confirm">تأكيد</string>
     <string name="codeMessage">لقد تم ارسال الكود من  4 ارقام الي بريدك الالكتروني من فضلك قم بادخالة</string>
     <string name="changePasswordMessage">من فضلك قم بتعيين كلمة المرور الجديدة</string>
+    <string name="cart_item_added">تمت اضافة الكوبون الي السلة بنجاح</string>
 
 </resources>

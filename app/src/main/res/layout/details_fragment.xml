@@ -2,12 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailsRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fillViewport="true"
     android:scrollbars="none"
-    android:id="@+id/detailsRootView"
     tools:context=".ui.main.detailsFragment.DetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,10 +21,10 @@
             android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:src="@drawable/test"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/offerImageLoading"
@@ -34,6 +34,7 @@
             app:layout_constraintEnd_toEndOf="@id/offerImage"
             app:layout_constraintStart_toStartOf="@id/offerImage"
             app:layout_constraintTop_toTopOf="@id/offerImage" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/bannerSliderVp"
             android:layout_width="0dp"
@@ -85,14 +86,25 @@
 
             <ImageView
                 android:id="@+id/offerSaveImgv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/rounded_red"
                 android:src="@drawable/ic_favorite_stock"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/offerShareImgv"
                 app:layout_constraintStart_toEndOf="@+id/offerShareImgv"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/offerShareImgv" />
+
+            <ImageView
+                android:id="@+id/offerAddToCart"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/rounded_red"
+                android:gravity="center"
+                android:src="@drawable/ic_add_to_cart"
+                app:layout_constraintBottom_toBottomOf="@id/offerShareImgv"
+                app:layout_constraintStart_toEndOf="@id/offerSaveImgv" />
 
             <ImageView
                 android:id="@+id/offerShareImgv"
@@ -203,11 +215,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:gravity="start"
                 android:text="@string/text_details_cobone_type"
                 android:textAppearance="?textAppearanceBody1"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="start"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -217,9 +229,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:clipToPadding="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:fastScrollEnabled="false"
                 android:padding="8dp"
+                app:fastScrollEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -245,20 +257,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
+                android:gravity="start"
                 android:text="@string/text_details_advantages_type"
                 android:textAppearance="?textAppearanceBody1"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:gravity="start" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/advantagesValueTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="start"
                 android:padding="8dp"
-                android:text="@string/about_cobonee_text"
-                android:gravity="start" />
+                android:text="@string/about_cobonee_text" />
 
 
             <View
@@ -274,20 +286,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
+                android:gravity="start"
                 android:text="@string/text_details_terms_type"
                 android:textAppearance="?textAppearanceBody1"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:gravity="start" />
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/termsValueTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="start"
                 android:padding="8dp"
-                android:text="@string/about_cobonee_text"
-                android:gravity="start" />
+                android:visibility="gone"
+                android:text="@string/about_cobonee_text" />
 
         </LinearLayout>
 
@@ -310,13 +324,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
+                android:gravity="start"
                 android:text="@string/text_details_owner"
                 android:textAppearance="?textAppearanceBody1"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:gravity="start"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/offerOwnerTv"
@@ -326,11 +340,11 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/rounded"
+                android:gravity="start"
                 android:padding="8dp"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ownerTv"
-                android:gravity="start"/>
+                app:layout_constraintTop_toBottomOf="@id/ownerTv" />
 
             <LinearLayout
                 android:id="@+id/linearOwnerPhone"
@@ -351,9 +365,9 @@
                     android:id="@+id/ownerPhoneTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:padding="8dp"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:gravity="start" />
+                    android:textAppearance="?attr/textAppearanceBody2" />
             </LinearLayout>
 
             <ImageView
@@ -370,10 +384,10 @@
                 android:id="@+id/locationsTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/locationImgv"
-                app:layout_constraintTop_toTopOf="@id/locationImgv"
+                android:gravity="start"
                 android:padding="8dp"
-                android:gravity="start"/>
+                app:layout_constraintStart_toEndOf="@id/locationImgv"
+                app:layout_constraintTop_toTopOf="@id/locationImgv" />
 
 
             <LinearLayout
@@ -395,9 +409,9 @@
                     android:id="@+id/facebookTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:padding="8dp"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:gravity="start" />
+                    android:textAppearance="?attr/textAppearanceBody2" />
             </LinearLayout>
 
             <LinearLayout
@@ -442,32 +456,11 @@
                     android:id="@+id/twitterTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:padding="8dp"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:gravity="start" />
+                    android:textAppearance="?attr/textAppearanceBody2" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/offerAddToCart"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_margin="12dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:text="@string/addToCart"
-            android:textColor="@android:color/white"
-            app:backgroundTint="@color/colorPrimary"
-            app:icon="@drawable/ic_add_to_cart"
-            app:iconGravity="textStart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ownerLayout"
-            app:rippleColor="@color/gray" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

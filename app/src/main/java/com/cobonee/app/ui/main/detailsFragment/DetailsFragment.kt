@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -19,6 +18,9 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.Coubone
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.entity.OfferPhoto
+import com.cobonee.app.ui.main.MainViewModel
+import com.cobonee.app.utily.MyUiStates
+import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.details_fragment.*
 import kotlinx.android.synthetic.main.details_fragment.offerBodyTv
@@ -39,6 +41,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private lateinit var viewModel: DetailsViewModel
+    private lateinit var mainViewModel: MainViewModel
     private var offer: Offer? = null
 
     private val imageSliderAdapter = ImageSliderAdapter()
@@ -55,6 +58,19 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        mainViewModel.addCartItemsUiState.observeEvent(this) { myUiStates: MyUiStates ->
+            when (myUiStates) {
+                MyUiStates.Success -> {
+                    activity?.snackBar(getString(R.string.cart_item_added), detailsRootView)
+                }
+                is MyUiStates.Error -> {
+                    activity?.snackBar(myUiStates.message, detailsRootView)
+                }
+            }
+        }
+        mainViewModel.addOfferUiState.observeEvent(this) { onOfferAddedResponse(it) }
+        mainViewModel.removeOfferUiState.observeEvent(this) { onOfferRemovedResponse(it) }
         arguments?.let {
             offer = DetailsFragmentArgs.fromBundle(it).offer
             offer?.let {
@@ -65,6 +81,32 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
         offerAddToCart.setOnClickListener {
             addOfferToCart()
+        }
+
+        offerSaveImgv.setOnClickListener {
+            mainViewModel.addOffer(offer?.id!!)
+        }
+    }
+
+    private fun onOfferRemovedResponse(states: MyUiStates) {
+        when (states) {
+            MyUiStates.Success -> {
+                Glide.with(context!!).load(R.drawable.ic_favorite_stock).into(offerSaveImgv)
+            }
+            is MyUiStates.Error -> {
+                activity?.snackBar(states.message, detailsRootView)
+            }
+        }
+    }
+
+    private fun onOfferAddedResponse(states: MyUiStates) {
+        when (states) {
+            MyUiStates.Success -> {
+                Glide.with(context!!).load(R.drawable.ic_favorite_white).into(offerSaveImgv)
+            }
+            is MyUiStates.Error -> {
+                activity?.snackBar(states.message, detailsRootView)
+            }
         }
     }
 
@@ -78,7 +120,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private fun addOfferToCart() {
-        findNavController().navigate(R.id.cartFragment)
+        mainViewModel.addCartItems(offer?.id!!, 1)
     }
 
     private fun setOffer(offer: Offer) {
@@ -91,8 +133,15 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         offerHeaderTv.text = offer.offerHeader
         offerBodyTv.text = offer.offerBody
         offerDiscountPriceTv.text = price
-        advantagesValueTv.text = offer.features
-        termsValueTv.text = ""
+
+        if (offer.features==null || offer.features==""){
+            advantagesTv.visibility = View.GONE
+            advantagesValueTv.visibility = View.GONE
+        }else{
+            advantagesTv.visibility = View.VISIBLE
+            advantagesValueTv.visibility = View.VISIBLE
+            advantagesValueTv.text = offer.features
+        }
 
         offerOwnerTv.text = offer.ownerName
         ownerPhoneTv.text = offer.ownerPhone
@@ -102,6 +151,11 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         instagramTv.text = offer.instagram
         twitterTv.text = offer.twitter
 
+        if (offer.isFav) {
+            Glide.with(context!!).load(R.drawable.ic_favorite_white).into(offerSaveImgv)
+        } else {
+            Glide.with(context!!).load(R.drawable.ic_favorite_stock).into(offerSaveImgv)
+        }
 
         Glide.with(requireContext()).load(offer.photos!![0]!!.large).addListener(object : RequestListener<Drawable?> {
             override fun onLoadFailed(
@@ -128,10 +182,13 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         }).into(offerImage)
 
         coubones = offer.coubones as ArrayList<Coubone>
-        coubones.add(Coubone(offer.id, offer.offerHeader, offer.priceAfterDiscount, 1))
-        coubones.add(Coubone(offer.id, offer.offerHeader, offer.priceAfterDiscount, 1))
-        coubones.add(Coubone(offer.id, offer.offerHeader, offer.priceAfterDiscount, 1))
-        adapterCoubons.replaceData(coubones)
+
+        if (coubones.size == 0) {
+            coboneeLayout.visibility = View.GONE
+        } else {
+            coboneeLayout.visibility = View.VISIBLE
+            adapterCoubons.replaceData(coubones)
+        }
 
         val images: List<OfferPhoto> = listOf(
             offer.photos[0] as OfferPhoto,
@@ -139,7 +196,6 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             offer.photos[0] as OfferPhoto,
             offer.photos[0] as OfferPhoto
         )
-
 
         imageSliderAdapter.submitList(images)
     }
@@ -161,6 +217,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 val coubone = adapter?.data?.get(position) as Coubone
                 if (coubone.quantity > 0) {
                     //add to cart
+                    mainViewModel.addCartItems(coubone.id!!, coubone.quantity)
                 }
             }
         }

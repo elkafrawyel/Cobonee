@@ -2,6 +2,7 @@ package com.cobonee.app.ui.main.homeFragment
 
 import android.graphics.drawable.Drawable
 import android.widget.Adapter
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -30,9 +31,9 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
             .setText(R.id.offerDiscountPriceTv, offer.priceAfterDiscount.toString())
             .setText(R.id.offerPriceTv, price)
             .addOnClickListener(R.id.offerCv, R.id.offerSaveImgv)
-            .setAdapter(R.id.bannerSliderVp,imageSliderAdapter as Adapter)
 
 
+        helper.getView<ViewPager>(R.id.bannerSliderVp).adapter = imageSliderAdapter
         helper.getView<PageIndicatorView>(R.id.pageIndicator).setViewPager(helper.getView(R.id.bannerSliderVp))
 
         Glide.with(mContext).load(offer.photos!![0]!!.large).addListener(object : RequestListener<Drawable?> {

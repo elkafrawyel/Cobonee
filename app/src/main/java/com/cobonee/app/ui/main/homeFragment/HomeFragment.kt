@@ -16,7 +16,6 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
-import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
@@ -82,8 +81,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
             viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
             viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-            mainViewModel.addAddOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
-            mainViewModel.removeAddOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
+            mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
+            mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
 
             viewModel.getDepartments()
 

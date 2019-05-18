@@ -211,7 +211,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle("")
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
-                    cartNumberTv.visibility = View.VISIBLE
                     citiesSpinner.visibility = View.VISIBLE
                     navigationView.menu.getItem(HOME_INDEX).isChecked = true
                     navigationView.menu.getItem(HOME_INDEX).isCheckable = true
@@ -220,7 +219,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_cart))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(CART_INDEX).isChecked = true
                     navigationView.menu.getItem(CART_INDEX).isCheckable = true
@@ -229,7 +227,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_saved))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(SAVED_INDEX).isChecked = true
                     navigationView.menu.getItem(SAVED_INDEX).isCheckable = true
@@ -238,7 +235,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_orders))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(ORDERS_INDEX).isChecked = true
                     navigationView.menu.getItem(ORDERS_INDEX).isCheckable = true
@@ -247,7 +243,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_magazine))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(MAGAZINE_INDEX).isChecked = true
                     navigationView.menu.getItem(MAGAZINE_INDEX).isCheckable = true
@@ -256,7 +251,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_profile))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(PROFILE_INDEX).isChecked = true
                     navigationView.menu.getItem(PROFILE_INDEX).isCheckable = true
@@ -265,7 +259,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_info))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(ABOUT_US_INDEX).isChecked = true
                     navigationView.menu.getItem(ABOUT_US_INDEX).isCheckable = true
@@ -274,7 +267,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_settings))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(SETTINGS_INDEX).isChecked = true
                     navigationView.menu.getItem(SETTINGS_INDEX).isCheckable = true
@@ -283,7 +275,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_help))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(HELP_INDEX).isChecked = true
                     navigationView.menu.getItem(HELP_INDEX).isCheckable = true
@@ -294,7 +285,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.VISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.VISIBLE
                 }
 
                 R.id.paymentFragment -> {
@@ -302,7 +292,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.visaFragment -> {
@@ -310,7 +299,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.knetFragment -> {
@@ -318,7 +306,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                 }
 
                 R.id.searchFragment -> {
@@ -326,7 +313,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     searchImgv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.INVISIBLE
                 }
             }
         }

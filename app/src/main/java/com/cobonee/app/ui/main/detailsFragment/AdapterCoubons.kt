@@ -19,5 +19,11 @@ class AdapterCoubons : BaseQuickAdapter<Coubone, BaseViewHolder>(R.layout.item_d
                 R.id.offerDetailsItemAddToCart
             )
 
+        if (coubone.quantity>0){
+            helper.setEnabled(R.id.offerDetailsItemAddToCart,true)
+        }else{
+            helper.setEnabled(R.id.offerDetailsItemAddToCart,false)
+        }
+
     }
 }
