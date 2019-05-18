@@ -62,8 +62,14 @@ class RegisterActivity : AppCompatActivity() {
             if (edit_pass.text.toString() != edit_pass_confirm.text.toString()) {
                 snackBar(resources.getString(R.string.no_password_match), registerRootView)
             } else {
-                var id = (registerCitySpinner.selectedItem as City).id
-                viewModel.register(edit_name.text.toString(), edit_email.text.toString(), edit_pass.text.toString())
+                var cityId = (registerCitySpinner.selectedItem as City).id
+                viewModel.register(
+                    edit_name.text.toString(),
+                    edit_email.text.toString(),
+                    edit_pass.text.toString(),
+                    cityId.toString()
+                )
+
             }
         }
 

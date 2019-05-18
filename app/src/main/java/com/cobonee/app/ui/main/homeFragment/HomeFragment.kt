@@ -16,6 +16,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.MainViewModel
+import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar

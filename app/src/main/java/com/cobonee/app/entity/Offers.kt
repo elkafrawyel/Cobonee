@@ -2,6 +2,8 @@ package com.cobonee.app.entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 data class OffersResponse(
@@ -140,15 +142,14 @@ data class Coubone(
     val offerHeader: String?,
     @field:Json(name = "price_after_discount")
     val priceAfterDiscount: Float?,
-    var quantity:Int
-): Parcelable {
+    var quantity: Int
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readInt()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
@@ -191,8 +192,7 @@ data class OfferPhoto(
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(thumb)
@@ -226,8 +226,7 @@ data class OfferCity(
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
@@ -249,9 +248,14 @@ data class OfferCity(
     }
 }
 
-
 data class MakeFavouritesResponse(
     @field:Json(name = "message")
     val message: String
 )
 
+@Entity(tableName = "cartItem")
+data class CartItem(
+    @PrimaryKey var itemId: Int,
+    var userId: Int,
+    var itemQuentity: Int
+)

@@ -13,7 +13,11 @@ class AdapterCoubons : BaseQuickAdapter<Coubone, BaseViewHolder>(R.layout.item_d
             .setText(R.id.coboneeTypeDesc, coubone.offerHeader)
             .setText(R.id.offerDiscountPriceTv, total.toString())
             .setText(R.id.coboneeQuantityValueTv, coubone.quantity.toString())
-            .addOnClickListener(R.id.increaseCoboneeQuantity, R.id.decreaseCoboneeQuantity)
+            .addOnClickListener(
+                R.id.increaseCoboneeQuantity,
+                R.id.decreaseCoboneeQuantity,
+                R.id.offerDetailsItemAddToCart
+            )
 
     }
 }

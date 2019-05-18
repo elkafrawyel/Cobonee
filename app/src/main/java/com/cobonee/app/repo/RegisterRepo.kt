@@ -18,17 +18,18 @@ class RegisterRepo(private val apiService: RetrofitApiService) {
     suspend fun register(
         name: String,
         username: String,
-        password: String
+        password: String,
+        cityId:String
     ): DataResource<LoginResponse> {
         return safeApiCall(
-            call = { registerCall(name,username,password) },
+            call = { registerCall(name,username,password,cityId) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_general)
         )
     }
 
-    private suspend fun registerCall(name: String,username: String, password: String): DataResource<LoginResponse> {
+    private suspend fun registerCall(name: String,username: String, password: String,cityId:String): DataResource<LoginResponse> {
         return if (name.isNotBlank() &&username.isNotBlank() && password.isNotBlank()) {
-            val response = apiService.getRegisterAsync(RegisterBody(name,username, password)).await()
+            val response = apiService.getRegisterAsync(RegisterBody(name,username, password,cityId)).await()
             if (response.errors != null) {
                 DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
             } else {

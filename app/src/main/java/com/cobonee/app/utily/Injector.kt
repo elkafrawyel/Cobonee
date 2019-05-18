@@ -5,6 +5,7 @@ import com.cobonee.app.repo.*
 import com.cobonee.app.repo.DepartmentsRepo
 import com.cobonee.app.repo.CitiesRepo
 import com.cobonee.app.repo.OffersRepo
+import com.cobonee.app.storage.local.AppDatabase
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
 import com.cobonee.app.useCases.*
@@ -76,6 +77,8 @@ object Injector {
 
     fun getPreferenceHelper() = PreferencesHelper(getApplicationContext())
 
+    fun getAppDatabase() = AppDatabase.invoke(Injector.getApplicationContext())
+
     //===================================Repo=========================================
 
     private fun getCitiesRepo() = CitiesRepo(getApiService())
@@ -126,5 +129,11 @@ object Injector {
     fun getReasonsUseCase() = ReasonsUseCase(getSettingsRepo())
 
     fun getSearchUseCase() = SearchUseCase(offersRepo = getOffersRepo())
+
+    fun getAllCartItemsUseCase() = AllCartItemsUseCase(getAppDatabase())
+
+    fun getAddCartItemsUseCase() = AddCartItemsUseCase(getAppDatabase())
+
+    fun getRemoveCartItemsUseCase() = RemoveCartItemsUseCase(getAppDatabase())
 
 }

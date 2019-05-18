@@ -9,9 +9,10 @@ class RegisterUseCase(private val registerRepo: RegisterRepo) {
     suspend fun register(
         name: String,
         username: String,
-        password: String
+        password: String,
+        cityId:String
     ): DataResource<LoginResponse> {
 
-        return registerRepo.register(name,username,password)
+        return registerRepo.register(name,username,password,cityId)
     }
 }

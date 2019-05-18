@@ -21,6 +21,7 @@ import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.utily.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.home_fragment.*
 
 
 const val HOME_INDEX = 0
@@ -52,8 +53,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.citiesUiState.observe(this, Observer { onCitiesResponse(it) })
+        viewModel.allCartItemsAddOfferUiState.observe(this, Observer { onCartItemsResponse(it) })
 
         viewModel.getCities()
+        viewModel.getCartItems()
 
         citiesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -80,8 +83,25 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         onNavigationDestinationChanged()
 
-//        findNavController(R.id.fragment).navigate(R.id.knetFragment)
-//        RegisterActivity.start(this)
+    }
+
+    private fun onCartItemsResponse(states: MyUiStates?) {
+        when (states) {
+            MyUiStates.Success -> {
+                val size = viewModel.cartItems.size
+                if (size == 0) {
+                    cartNumberTv.visibility = View.GONE
+                } else {
+                    cartNumberTv.visibility = View.VISIBLE
+                    cartNumberTv.text = size.toString()
+                }
+            }
+            is MyUiStates.Error -> {
+//                snackBar(states.message, homeRootView)
+                cartNumberTv.visibility = View.GONE
+
+            }
+        }
     }
 
     override fun onResume() {

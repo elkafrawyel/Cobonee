@@ -10,7 +10,8 @@ data class LoginBody(
 data class RegisterBody(
     var name: String,
     var email: String,
-    var password: String
+    var password: String,
+    val city_id: String
 )
 
 data class LoginResponse(

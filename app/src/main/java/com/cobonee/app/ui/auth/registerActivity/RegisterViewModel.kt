@@ -40,12 +40,12 @@ class RegisterViewModel : CoboneeViewModel() {
     val citiesUiState: LiveData<MyUiStates>
         get() = _citiesUiState
 
-    fun register(name: String, username: String, password: String) {
+    fun register(name: String, username: String, password: String,cityId:String) {
         if (NetworkUtils.isWifiConnected()) {
             if (registerJob?.isActive == true) {
                 return
             }
-            registerJob = launchRegisterJob(name, username, password)
+            registerJob = launchRegisterJob(name, username, password,cityId)
         } else {
             _registerUiState.value = MyUiStates.NoConnection
         }
@@ -54,11 +54,12 @@ class RegisterViewModel : CoboneeViewModel() {
     private fun launchRegisterJob(
         name: String,
         username: String,
-        password: String
+        password: String,
+        cityId:String
     ): Job? {
         return scope.launch(dispatcherProvider.computation) {
             withContext(dispatcherProvider.main) { _registerUiState.value = MyUiStates.Loading }
-            val result = registerUseCase.register(name, username, password)
+            val result = registerUseCase.register(name, username, password,cityId)
             withContext(dispatcherProvider.main) {
                 when (result) {
 

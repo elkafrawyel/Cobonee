@@ -19,6 +19,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.Coubone
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.entity.OfferPhoto
+import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.details_fragment.*
 import kotlinx.android.synthetic.main.details_fragment.offerBodyTv
 import kotlinx.android.synthetic.main.details_fragment.offerDiscountPercentTv
@@ -132,7 +133,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         coubones.add(Coubone(offer.id, offer.offerHeader, offer.priceAfterDiscount, 1))
         adapterCoubons.replaceData(coubones)
 
-        var images: List<OfferPhoto> = listOf(
+        val images: List<OfferPhoto> = listOf(
             offer.photos[0] as OfferPhoto,
             offer.photos[0] as OfferPhoto,
             offer.photos[0] as OfferPhoto,
@@ -153,6 +154,13 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 if (coubones[position].quantity > 0) {
                     coubones[position].quantity = coubones[position].quantity.minus(1)
                     adapterCoubons.notifyDataSetChanged()
+                }
+            }
+
+            R.id.offerDetailsItemAddToCart -> {
+                val coubone = adapter?.data?.get(position) as Coubone
+                if (coubone.quantity > 0) {
+                    //add to cart
                 }
             }
         }

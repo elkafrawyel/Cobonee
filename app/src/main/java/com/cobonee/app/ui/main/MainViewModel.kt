@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
+import com.cobonee.app.entity.CartItem
 import com.cobonee.app.entity.CityResponse
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.CoboneeViewModel
@@ -155,7 +156,7 @@ class MainViewModel : CoboneeViewModel() {
 
     private fun launchRemoveJob(offerId: Int): Job {
         return scope.launch(dispatcherProvider.io) {
-            withContext(dispatcherProvider.main) { _removeUiState.value = Event(MyUiStates .Loading) }
+            withContext(dispatcherProvider.main) { _removeUiState.value = Event(MyUiStates.Loading) }
             val result = getRemoveOfferToFavouritesUseCase().removeOffer(offerId = offerId)
             withContext(dispatcherProvider.main) {
                 when (result) {
@@ -163,7 +164,7 @@ class MainViewModel : CoboneeViewModel() {
                         _removeUiState.value = Event(MyUiStates.Success)
                     }
                     is DataResource.Error -> {
-                        _removeUiState.value = Event(MyUiStates .Error(result.exception.message!!))
+                        _removeUiState.value = Event(MyUiStates.Error(result.exception.message!!))
                     }
                 }
             }
@@ -172,4 +173,85 @@ class MainViewModel : CoboneeViewModel() {
 
     //======================================================================================
 
+
+    //====================================== Cart ==========================================
+
+
+    private fun getAllCartItemsUseCase() = Injector.getAllCartItemsUseCase()
+
+    var cartItems: List<CartItem> = arrayListOf()
+
+    private var _allCartItemsUiState = MutableLiveData<MyUiStates>()
+    val allCartItemsAddOfferUiState: LiveData<MyUiStates>
+        get() = _allCartItemsUiState
+
+
+    fun getCartItems() {
+
+        scope.launch(dispatcherProvider.io) {
+
+            val result = getAllCartItemsUseCase().getAllCartItems()
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        cartItems = result.data
+                        _allCartItemsUiState.value = MyUiStates.Success
+                    }
+                    is DataResource.Error -> {
+                        _allCartItemsUiState.value = MyUiStates.Error(result.exception.message!!)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAddCartItemsUseCase() = Injector.getAddCartItemsUseCase()
+
+    private var _addCartItemsUiState = MutableLiveData<Event<MyUiStates>>()
+    val addCartItemsAddOfferUiState: LiveData<Event<MyUiStates>>
+        get() = _addCartItemsUiState
+
+
+    fun addCartItems(itemId: Int, itemQuantity: Int) {
+        scope.launch(dispatcherProvider.io) {
+            val result = getAddCartItemsUseCase().addCartItems(itemId, itemQuantity)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        _addCartItemsUiState.value = Event(MyUiStates.Success)
+                    }
+                    is DataResource.Error -> {
+                        _addCartItemsUiState.value = Event(MyUiStates.Error(result.exception.message!!))
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun getRemoveCartItemsUseCase() = Injector.getRemoveCartItemsUseCase()
+
+    private var _removeCartItemsUiState = MutableLiveData<Event<MyUiStates>>()
+    val removeCartItemsAddOfferUiState: LiveData<Event<MyUiStates>>
+        get() = _removeCartItemsUiState
+
+
+    fun removeCartItems(itemId: Int) {
+        scope.launch(dispatcherProvider.io) {
+            val result = getRemoveCartItemsUseCase().deleteCartItems(itemId)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> {
+                        _removeCartItemsUiState.value = Event(MyUiStates.Success)
+                    }
+                    is DataResource.Error -> {
+                        _removeCartItemsUiState.value = Event(MyUiStates.Error(result.exception.message!!))
+                    }
+                }
+            }
+        }
+    }
+
+
+    //======================================================================================
 }
