@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cobonee.app.R
 import com.cobonee.app.entity.Offer
+import com.cobonee.app.entity.OfferPhoto
 import com.cobonee.app.ui.main.detailsFragment.ImageSliderAdapter
 import com.rd.PageIndicatorView
 
@@ -19,9 +20,7 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
 
     override fun convert(helper: BaseViewHolder, offer: Offer) {
 
-        val imageSliderAdapter = ImageSliderAdapter().also {
-            it.submitList(offer.photos!!.filterNotNull())
-        }
+
         val discount = mContext.resources.getString(R.string.label_discount) + "  ${offer.discount}%"
         val price = mContext.resources.getString(R.string.label_price, offer.price)
         helper.setText(R.id.offerOwnerTv, offer.ownerName)
@@ -33,7 +32,15 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
             .addOnClickListener(R.id.offerCv, R.id.offerSaveImgv)
 
 
-        helper.getView<ViewPager>(R.id.bannerSliderVp).adapter = imageSliderAdapter
+        helper.getView<ViewPager>(R.id.bannerSliderVp).adapter = ImageSliderAdapter().also {
+            val images: List<OfferPhoto> = listOf(
+                offer.photos?.get(0) as OfferPhoto,
+                offer.photos?.get(0) as OfferPhoto,
+                offer.photos?.get(0) as OfferPhoto,
+                offer.photos?.get(0) as OfferPhoto
+            )
+            it.submitList(images)
+        }
         helper.getView<PageIndicatorView>(R.id.pageIndicator).setViewPager(helper.getView(R.id.bannerSliderVp))
 
         Glide.with(mContext).load(offer.photos!![0]!!.large).addListener(object : RequestListener<Drawable?> {
@@ -61,9 +68,9 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
         }).into(helper.getView(R.id.offerImgv))
 
         if (offer.isFav) {
-            helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_white)
+            helper.setImageResource(R.id.offerSaveImgv, R.drawable.ic_favorite_white)
         } else {
-            helper.setImageResource(R.id.offerSaveImgv,R.drawable.ic_favorite_stock)
+            helper.setImageResource(R.id.offerSaveImgv, R.drawable.ic_favorite_stock)
         }
 
     }
