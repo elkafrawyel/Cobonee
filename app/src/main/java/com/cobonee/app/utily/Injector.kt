@@ -91,12 +91,13 @@ object Injector {
 
     private fun getRegisterRepo() = RegisterRepo(getApiService())
 
-
     private fun getUserRepo() = UserRepo(getPreferenceHelper(), getApiService())
 
     private fun getFavouritesRepo() = FavouritesRepo(getApiService(), getPreferenceHelper())
 
     private fun getSettingsRepo() = SettingsRepo(getApiService())
+
+    private fun getOrdersRepo() = OrdersRepo(getApiService(), getPreferenceHelper())
 
     //=================================== UseCases ====================================
 
@@ -135,5 +136,7 @@ object Injector {
     fun getAddCartItemsUseCase() = AddCartItemsUseCase(getAppDatabase())
 
     fun getRemoveCartItemsUseCase() = RemoveCartItemsUseCase(getAppDatabase())
+
+    fun getOrdersUseCase() = OrdersUseCase(getOrdersRepo())
 
 }

@@ -44,7 +44,7 @@ interface RetrofitApiService {
     fun updateProfileAsync(
         @Header("Authorization") token: String,
         @Body updateProfileBody: UpdateProfileBody
-    ): Deferred<LoginResponse>
+    ): Deferred<UpdateProfileResponse>
 
     @GET("settings")
     fun getSettings(): Deferred<Setting>
@@ -78,5 +78,10 @@ interface RetrofitApiService {
     fun searchAsync(
         @Query("description") query: String,
         @Query("page") page: String
+    ): Deferred<OffersResponse>
+
+    @GET("me/orders")
+    fun getAuthOrdersAsync(
+        @Header("Authorization") token: String
     ): Deferred<OffersResponse>
 }

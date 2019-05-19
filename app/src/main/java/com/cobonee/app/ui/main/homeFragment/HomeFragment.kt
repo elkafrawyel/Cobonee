@@ -293,6 +293,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     }
 
     override fun onRefresh() {
+        offersAdapter.data.clear()
         if (viewModel.departmentList.size == 0) {
             viewModel.getDepartments()
         }

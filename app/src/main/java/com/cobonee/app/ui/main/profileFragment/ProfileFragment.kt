@@ -8,12 +8,16 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.cobonee.app.R
 import com.cobonee.app.entity.City
 import com.cobonee.app.entity.UpdateProfileBody
+import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
+import com.cobonee.app.utily.toast
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.profile_fragment.*
 
 
@@ -63,6 +67,7 @@ class ProfileFragment : Fragment() {
         extraInfoChanges()
 
         profileEditMainInfoTv.setOnClickListener {
+            if(mainViewModel.citiesList.size==0)return@setOnClickListener
             if (viewModel.canEditMain) {
                 viewModel.canEditMain = false
                 profileEditMainInfoTv.text = Injector.getApplicationContext().resources.getString(com.cobonee.app.R.string.text_edit)
@@ -78,6 +83,7 @@ class ProfileFragment : Fragment() {
         }
 
         profileEditExtraInfoTv.setOnClickListener {
+            if(mainViewModel.citiesList.size==0)return@setOnClickListener
             if (viewModel.canEditExtra) {
                 viewModel.canEditExtra = false
                 profileEditExtraInfoTv.text = Injector.getApplicationContext().resources.getString(com.cobonee.app.R.string.text_edit)
@@ -141,15 +147,16 @@ class ProfileFragment : Fragment() {
                     ArrayAdapter<City>(context!!, com.cobonee.app.R.layout.simple_spinner_dropdown_item, mainViewModel.citiesList)
                 citiesAdapter.setDropDownViewResource(com.cobonee.app.R.layout.simple_spinner_dropdown_item)
                 profileCitySpinner.adapter = citiesAdapter
-                setUserData()
             }
             is MyUiStates.Error -> {
                 profilePb.visibility = View.GONE
                 activity?.snackBar(state.message, profileRootView)
+                setUserData()
             }
             MyUiStates.NoConnection -> {
                 profilePb.visibility = View.GONE
                 activity?.snackBar(resources.getString(com.cobonee.app.R.string.no_connection_error), profileRootView)
+                setUserData()
             }
             null -> {
             }

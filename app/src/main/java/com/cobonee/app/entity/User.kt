@@ -31,3 +31,8 @@ data class ContactUseBody(
 data class ContactUseResponse(
     @field:Json(name = "message") val message: String
 )
+
+data class UpdateProfileResponse(
+    @field:Json(name = "data")
+    val data: Data
+)

@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
-import com.cobonee.app.entity.City
-import com.cobonee.app.entity.LoginResponse
-import com.cobonee.app.entity.UpdateProfileBody
-import com.cobonee.app.entity.User
+import com.cobonee.app.entity.*
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
@@ -23,7 +20,7 @@ class ProfileViewModel : CoboneeViewModel() {
 
 
     private var updateProfileJob: Job? = null
-    private var user: User? = null
+    public var user: User? = null
 
     private val saveUserUseCase = Injector.getSaveUserUseCase()
     private val updateUserUseCase = Injector.getUpdateProfileUseCase()
@@ -74,19 +71,31 @@ class ProfileViewModel : CoboneeViewModel() {
         _updateProfileUiState.value = MyUiStates.Loading
     }
 
-    private fun showSuccess(data: LoginResponse) {
+    private fun showSuccess(data: UpdateProfileResponse) {
 
         user = User(
             data.data.id!!,
-            data.token!!,
+            Injector.getUserUseCase().get().token!!,
             data.data.name!!,
             data.data.email!!,
             data.data.city ?: City(),
             data.data.mobile ?: "",
             data.data.gender ?: ""
         )
-
+        saveUser()
         _updateProfileUiState.value = MyUiStates.Success
+    }
+    fun saveUser() {
+        scope.launch(dispatcherProvider.computation) {
+            val result = saveUserUseCase.save(user!!)
+            withContext(dispatcherProvider.main) {
+                when (result) {
+                    is DataResource.Success -> _saveUserUI.value = MyUiStates.Success
+                    is DataResource.Error -> _saveUserUI.value =
+                        MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+                }
+            }
+        }
     }
 
     private fun showError(message: String?) {

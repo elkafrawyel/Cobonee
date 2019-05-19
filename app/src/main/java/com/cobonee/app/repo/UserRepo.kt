@@ -32,19 +32,19 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
 
     //=====================================Update Profile====================================================
 
-    suspend fun updateProfile(updateProfileBody: UpdateProfileBody): DataResource<LoginResponse> {
+    suspend fun updateProfile(updateProfileBody: UpdateProfileBody): DataResource<UpdateProfileResponse> {
         return safeApiCall(
             call = { updateProfileCall(updateProfileBody) },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_general)
         )
     }
 
-    private suspend fun updateProfileCall(updateProfileBody: UpdateProfileBody): DataResource<LoginResponse> {
+    private suspend fun updateProfileCall(updateProfileBody: UpdateProfileBody): DataResource<UpdateProfileResponse> {
         val result = apiService.updateProfileAsync(
             "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", updateProfileBody
         ).await()
 
-        return DataResource.Success(result.copy(token = preferenceHelper.token))
+        return DataResource.Success(result)
     }
 
     //========================================================================================================

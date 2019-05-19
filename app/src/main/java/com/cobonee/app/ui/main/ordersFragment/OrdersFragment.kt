@@ -1,15 +1,15 @@
 package com.cobonee.app.ui.main.ordersFragment
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.chad.library.adapter.base.BaseQuickAdapter
-
 import com.cobonee.app.R
-import kotlinx.android.synthetic.main.home_fragment.*
+import com.cobonee.app.utily.MyUiStates
 import kotlinx.android.synthetic.main.orders_fragment.*
 
 class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
@@ -31,7 +31,28 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(OrdersViewModel::class.java)
+        viewModel.ordersUiState.observe(this, Observer { onOrdersResponseSuccess(it) })
+        viewModel.getOrders()
         // TODO: Use the ViewModel
+    }
+
+    private fun onOrdersResponseSuccess(state: MyUiStates?) {
+        when (state) {
+            MyUiStates.Loading -> {
+
+            }
+            MyUiStates.Success -> {
+
+            }
+            is MyUiStates.Error -> {
+
+            }
+            MyUiStates.NoConnection -> {
+
+            }
+            null -> {
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +67,7 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         ordersAdapter.onItemChildClickListener = this
 
         ordersRv.adapter = ordersAdapter
+
 
     }
 
