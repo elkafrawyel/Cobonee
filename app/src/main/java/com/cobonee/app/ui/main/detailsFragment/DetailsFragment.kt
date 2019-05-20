@@ -55,8 +55,34 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         return inflater.inflate(R.layout.details_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun onOfferRemovedResponse(states: MyUiStates) {
+        when (states) {
+            MyUiStates.Success -> {
+                Glide.with(context!!).load(R.drawable.ic_favorite_stock).into(offerSaveImgv)
+            }
+            is MyUiStates.Error -> {
+                activity?.snackBar(states.message, detailsRootView)
+            }
+        }
+    }
+
+    private fun onOfferAddedResponse(states: MyUiStates) {
+        when (states) {
+            MyUiStates.Success -> {
+                Glide.with(context!!).load(R.drawable.ic_favorite_white).into(offerSaveImgv)
+            }
+            is MyUiStates.Error -> {
+                activity?.snackBar(states.message, detailsRootView)
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapterCoubons.onItemChildClickListener = this
+        offerCoboneeRv.adapter = adapterCoubons
+        bannerSliderVp.adapter = imageSliderAdapter
+        pageIndicator.setViewPager(bannerSliderVp)
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         mainViewModel.addCartItemsUiState.observeEvent(this) { myUiStates: MyUiStates ->
@@ -86,37 +112,6 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         offerSaveImgv.setOnClickListener {
             mainViewModel.addOffer(offer?.id!!)
         }
-    }
-
-    private fun onOfferRemovedResponse(states: MyUiStates) {
-        when (states) {
-            MyUiStates.Success -> {
-                Glide.with(context!!).load(R.drawable.ic_favorite_stock).into(offerSaveImgv)
-            }
-            is MyUiStates.Error -> {
-                activity?.snackBar(states.message, detailsRootView)
-            }
-        }
-    }
-
-    private fun onOfferAddedResponse(states: MyUiStates) {
-        when (states) {
-            MyUiStates.Success -> {
-                Glide.with(context!!).load(R.drawable.ic_favorite_white).into(offerSaveImgv)
-            }
-            is MyUiStates.Error -> {
-                activity?.snackBar(states.message, detailsRootView)
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        adapterCoubons.onItemChildClickListener = this
-        offerCoboneeRv.adapter = adapterCoubons
-        bannerSliderVp.adapter = imageSliderAdapter
-        pageIndicator.setViewPager(bannerSliderVp)
-
     }
 
     private fun addOfferToCart() {

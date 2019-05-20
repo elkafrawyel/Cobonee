@@ -30,28 +30,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private var position: Int = -1
 
 
-//    fun restoreState(fragment: Fragment, key: String) {
-//        viewModel.fragmentSavedStates[key]?.let { savedState ->
-//            // We can't set the initial saved state if the Fragment is already added
-//            // to a FragmentManager, since it would then already be created.
-//            if (!fragment.isAdded) {
-//                fragment.setInitialSavedState(savedState)
-//            }
-//        }
-//    }
-//
-//    fun saveState(fragment: Fragment, key: String) {
-//        // We can't save the state of a Fragment that isn't added to a FragmentManager.
-//        if (fragment.isAdded ?: false) {
-//            viewModel.fragmentSavedStates[key] = fragmentManager!!.saveFragmentInstanceState(fragment)
-//        }
-//    }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        saveState(this, "home")
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,53 +48,48 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (savedInstanceState != null){
-//            restoreState(this,"home")
-//        }else{
-            viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-            //activity lifecycle owner not fragment
-            mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
 
-            mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
-            viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
-            viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
-            mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
-            mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
+        mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
+        viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
+        viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
+        mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
+        mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
 
-            viewModel.getDepartments()
+        viewModel.getDepartments()
 
-            offersSwipe.setOnRefreshListener(this)
+        offersSwipe.setOnRefreshListener(this)
 
-            offersSwipe.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light
-            )
+        offersSwipe.setColorSchemeResources(
+            android.R.color.holo_blue_bright,
+            android.R.color.holo_green_light,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_red_light
+        )
 
-            setUpAdapter()
+        setUpAdapter()
 
-            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabReselected(tab: TabLayout.Tab?) {
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
 
-                }
+            }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
 
-                }
+            }
 
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    val deptId = viewModel.departmentList[tab?.position!!].id
-                    offersAdapter.data.clear()
-                    offersAdapter.notifyDataSetChanged()
-                    viewModel.deptId = deptId.toString()
-                    viewModel.deptIndex = tab.position
-                    viewModel.refresh()
-                    viewModel.getOffers()
-                }
-            })
-//        }
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val deptId = viewModel.departmentList[tab?.position!!].id
+                offersAdapter.data.clear()
+                offersAdapter.notifyDataSetChanged()
+                viewModel.deptId = deptId.toString()
+                viewModel.deptIndex = tab.position
+                viewModel.refresh()
+                viewModel.getOffers()
+            }
+        })
 
     }
 
@@ -301,6 +274,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         if (mainViewModel.citiesList.size == 0) {
             mainViewModel.getCities()
         }
+        offersAdapter.data.clear()
         viewModel.refresh()
         viewModel.getOffers()
         offersAdapter.setEnableLoadMore(true)
