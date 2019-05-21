@@ -41,39 +41,49 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private var position: Int = -1
     private var cityId: String? = null
     private var deptId: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.home_fragment, container, false)
-
-
-        return view
-    }
-
-    private fun onCityChanged(city: City) {
-        offersAdapter.data.clear()
-        offersAdapter.notifyDataSetChanged()
-        cityId = city.id.toString()
-        if (deptId != null)
-            viewModel.getOffers(cityId = cityId, deptId = deptId)
+        return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
+        if (savedInstanceState == null) {
+            offersRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerState)
+        }
+
         mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
-        viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
-        viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
         mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
         mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
+        viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
+        viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
 
-        if (viewModel.departmentList.size == 0)
-            viewModel.getDepartments()
+        departmentsAdapter = AdapterDepartment()
+
+        departmentsAdapter.onItemChildClickListener = this
+        departmentRv.adapter = departmentsAdapter
+
+        offersAdapter = AdapterOffers().apply {
+            setEnableLoadMore(true)
+        }
+
+        offersAdapter.onItemChildClickListener = this
+
+        offersAdapter.setOnLoadMoreListener(
+            { viewModel.getOffers(cityId = cityId, deptId = deptId, loadMore = true) },
+            offersRv
+        )
+
+        offersAdapter.setEnableLoadMore(true)
+
+        view.offersRv.adapter = offersAdapter
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -84,11 +94,65 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             android.R.color.holo_red_light
         )
 
-        setUpAdapter()
-
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // Handle the back button event
             (activity as HomeActivity).homeBackClicked()
+        }
+    }
+
+    override fun onDestroyView() {
+        viewModel.layoutManagerState = offersRv.layoutManager?.onSaveInstanceState()
+        super.onDestroyView()
+    }
+
+    private fun onCityChanged(city: City) {
+        offersAdapter.data.clear()
+        offersAdapter.notifyDataSetChanged()
+        cityId = city.id.toString()
+        Log.i("MyApp", "Found City")
+
+        if (viewModel.departmentList.size == 0) {
+            viewModel.getDepartments()
+            Log.i("MyApp", "Department From City")
+        } else {
+            viewModel.getOffers(cityId, deptId)
+            Log.i("MyApp", "Offers From City")
+
+        }
+    }
+
+    private fun onOffersResponse(state: MyUiStates) {
+        when (state) {
+            MyUiStates.Loading -> {
+                homePb.visibility = View.VISIBLE
+                offersRv.visibility = View.VISIBLE
+                offersSwipe.isRefreshing = false
+            }
+            is MyUiStates.Success -> {
+                Log.i("MyApp", "Offers Success")
+                homePb.visibility = View.GONE
+                offersRv.visibility = View.VISIBLE
+                offersSwipe.isRefreshing = false
+                offersAdapter.addData(viewModel.offersList)
+                offersAdapter.loadMoreComplete()
+            }
+            is MyUiStates.Error -> {
+                offersAdapter.loadMoreFail()
+                homePb.visibility = View.GONE
+                offersSwipe.isRefreshing = false
+                activity?.snackBar(state.message, homeRootView)
+            }
+            MyUiStates.NoConnection -> {
+                offersSwipe.isRefreshing = false
+                homePb.visibility = View.GONE
+                activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
+            }
+            MyUiStates.LastPage -> {
+                Log.i("MyApp", "Offers Last Page")
+                homePb.visibility = View.GONE
+                offersAdapter.loadMoreEnd(true)
+                offersSwipe.isRefreshing = false
+            }
         }
     }
 
@@ -140,83 +204,37 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
-    private fun setUpAdapter() {
-
-        departmentsAdapter = AdapterDepartment()
-
-        departmentsAdapter.onItemChildClickListener = OnItemChildClickListener { adapter, view, position ->
-            val deptId = viewModel.departmentList[position].id
-
-            for (i in 0 until viewModel.departmentList.size) {
-                departmentsAdapter.data[i].isSelected = i == position
-                viewModel.departmentList[i].isSelected = i == position
-            }
-            departmentsAdapter.notifyDataSetChanged()
-
-            offersAdapter.data.clear()
-            offersAdapter.notifyDataSetChanged()
-            this@HomeFragment.deptId = deptId.toString()
-            if (cityId != null)
-                viewModel.getOffers(cityId = cityId, deptId = deptId.toString())
-        }
-
-        departmentRv.adapter = departmentsAdapter
-
-        offersAdapter = AdapterOffers().apply {
-            setEnableLoadMore(true)
-        }
-
-        offersAdapter.onItemChildClickListener = this
-
-        offersAdapter.setOnLoadMoreListener({
-            viewModel.getOffers(cityId = cityId, deptId = deptId, loadMore = true)
-        }, offersRv)
-
-        offersAdapter.setEnableLoadMore(true)
-
-        offersRv.adapter = offersAdapter
-    }
-
-
     private fun onDepartmentResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                onDepartmentLoading()
+                homePb.visibility = View.VISIBLE
+                departmentRv.visibility = View.GONE
+                offersSwipe.isRefreshing = false
             }
             MyUiStates.Success -> {
-                onDepartmentSuccess()
+                offersSwipe.isRefreshing = false
+                homePb.visibility = View.GONE
+                departmentRv.visibility = View.VISIBLE
+                departmentsAdapter.addData(viewModel.departmentList)
+
+                //click on first department
+                clickOnRecyclerItem(0, departmentRv)
+                Log.i("MyApp", "Department Success")
+
             }
             is MyUiStates.Error -> {
-                onDepartmentError(state.message)
+                offersSwipe.isRefreshing = false
+                homePb.visibility = View.GONE
+                activity?.snackBar(state.message, homeRootView)
             }
             MyUiStates.NoConnection -> {
-                onDepartmentNoConnection()
+                offersSwipe.isRefreshing = false
+                homePb.visibility = View.GONE
+                activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
             }
             null -> {
             }
         }
-    }
-
-    private fun onDepartmentNoConnection() {
-        offersSwipe.isRefreshing = false
-        homePb.visibility = View.GONE
-        activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
-    }
-
-    private fun onDepartmentError(message: String) {
-        offersSwipe.isRefreshing = false
-        homePb.visibility = View.GONE
-        activity?.snackBar(message, homeRootView)
-    }
-
-    private fun onDepartmentSuccess() {
-        offersSwipe.isRefreshing = false
-        homePb.visibility = View.GONE
-        departmentRv.visibility = View.VISIBLE
-        departmentsAdapter.addData(viewModel.departmentList)
-
-        //click on first department
-        clickOnRecyclerItem(0, departmentRv)
     }
 
     private fun clickOnRecyclerItem(position: Int, recyclerView: RecyclerView) {
@@ -227,56 +245,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 holder?.itemView?.performClick()
             }
         }, 200)
-    }
-
-    private fun onDepartmentLoading() {
-        homePb.visibility = View.VISIBLE
-        departmentRv.visibility = View.GONE
-        offersSwipe.isRefreshing = false
-    }
-
-    private fun onOffersResponse(state: MyUiStates) {
-        when (state) {
-            MyUiStates.Loading -> onOffersLoading()
-            is MyUiStates.Success -> onOffersSuccess()
-            is MyUiStates.Error -> onOffersError(state.message)
-            MyUiStates.NoConnection -> onOffersNoConnection()
-            MyUiStates.LastPage -> onOffersLastPage()
-        }
-    }
-
-    private fun onOffersNoConnection() {
-        offersSwipe.isRefreshing = false
-        homePb.visibility = View.GONE
-        activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
-    }
-
-    private fun onOffersError(message: String) {
-        offersAdapter.loadMoreFail()
-        homePb.visibility = View.GONE
-        offersSwipe.isRefreshing = false
-        activity?.snackBar(message, homeRootView)
-    }
-
-    private fun onOffersLastPage() {
-        homePb.visibility = View.GONE
-        offersAdapter.loadMoreEnd(true)
-        offersSwipe.isRefreshing = false
-    }
-
-    private fun onOffersSuccess() {
-        homePb.visibility = View.GONE
-        offersRv.visibility = View.VISIBLE
-        offersSwipe.isRefreshing = false
-        offersAdapter.addData(viewModel.offersList)
-        offersAdapter.loadMoreComplete()
-    }
-
-    private fun onOffersLoading() {
-        homePb.visibility = View.VISIBLE
-        offersRv.visibility = View.VISIBLE
-        offersSwipe.isRefreshing = false
-
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
@@ -290,11 +258,27 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 val offer = (adapter!!.data[position] as Offer)
                 if (offer.isFav) {
                     mainViewModel.removeOffer(offer.id!!)
-
                 } else {
                     mainViewModel.addOffer(offer.id!!)
                 }
                 this.position = position
+            }
+
+            R.id.departmentItem -> {
+                val deptId = viewModel.departmentList[position].id
+
+                for (i in 0 until viewModel.departmentList.size) {
+                    departmentsAdapter.data[i].isSelected = i == position
+                    viewModel.departmentList[i].isSelected = i == position
+                }
+                departmentsAdapter.notifyDataSetChanged()
+
+                offersAdapter.data.clear()
+                offersAdapter.notifyDataSetChanged()
+                this@HomeFragment.deptId = deptId.toString()
+                viewModel.getOffers(cityId = cityId, deptId = deptId.toString())
+                Log.i("MyApp", "Department Clicked")
+
             }
         }
     }
@@ -307,6 +291,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         if (mainViewModel.citiesList.size == 0) {
             mainViewModel.getCities()
         }
+
         offersAdapter.data.clear()
         viewModel.getOffers(cityId = cityId, deptId = deptId)
         offersAdapter.setEnableLoadMore(true)

@@ -315,6 +315,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
+                    drawerLayout.openDrawer(GravityCompat.START)
+                    return true
+                }
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -335,13 +343,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         LoginActivity.start(this)
     }
 
-    fun homeBackClicked(){
+    fun homeBackClicked() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-         finish()
+            finish()
         }
     }
+
     fun setHomeTitle(title: String) {
         homeTitleTv.text = title
     }
