@@ -1,6 +1,5 @@
 package com.cobonee.app.ui.main.homeFragment
 
-import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +17,7 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel : CoboneeViewModel() {
 
-    //    var bundle: Bundle? = null
-    var layoutManagerState: Parcelable? = null
+    var opened: Boolean = false
     //============================================== Offers ==========================================================
     var page: Int = 0
     private var lastPage: Int = 1
@@ -44,13 +42,11 @@ class HomeViewModel : CoboneeViewModel() {
 
         if (!loadMore) {
             refresh()
-            Log.i("MyApp","Data Refreshed")
-
+            Log.i("MyApp", "Data Refreshed")
         }
 
         if (deptId == null || cityId == null) {
-            Log.i("MyApp","City or dept null")
-
+            Log.i("MyApp", "City or dept null")
             return
         }
 
@@ -67,7 +63,6 @@ class HomeViewModel : CoboneeViewModel() {
         } else {
             _offerUiState.value = MyUiStates.NoConnection
         }
-
     }
 
     private fun launchOffersJob(deptId: String, cityId: String, page: Int): Job? {
@@ -83,6 +78,14 @@ class HomeViewModel : CoboneeViewModel() {
                         lastPage = result.data.meta.lastPage!!
                         offersList.clear()
                         offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
+//                        offersList.addAll(result.data.offers)
                         _offerUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {
@@ -99,7 +102,6 @@ class HomeViewModel : CoboneeViewModel() {
     }
 
     //================================================================================================================
-
 
     //===============================================Departments======================================================
 
@@ -136,9 +138,12 @@ class HomeViewModel : CoboneeViewModel() {
                     is DataResource.Success -> {
                         departmentList.clear()
                         departmentList.addAll(result.data.departments)
-//                        departmentList.add(Department(1,"One", arrayListOf(),false))
-//                        departmentList.add(Department(2,"Two", arrayListOf(),false))
-//                        departmentList.add(Department(3,"Three", arrayListOf(),false))
+//                        departmentList.add(Department(1, "One", arrayListOf(), false))
+//                        departmentList.add(Department(1, "Two", arrayListOf(), false))
+//                        departmentList.add(Department(1, "Three", arrayListOf(), false))
+//                        departmentList.add(Department(1, "Four", arrayListOf(), false))
+//                        departmentList.add(Department(1, "Five", arrayListOf(), false))
+//                        departmentList.add(Department(1, "Six", arrayListOf(), false))
                         _departmentsUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {

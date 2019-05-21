@@ -43,9 +43,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private var deptId: String? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
@@ -55,16 +53,35 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        if (savedInstanceState == null) {
-            offersRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerState)
+        if (!viewModel.opened) {
+            viewModel.opened = true
+
+            mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
+            mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
+            mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
+            viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
+            viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
+
+            setUpAdapters()
+
+        } else {
+            viewModel.opened = true
+
+            setUpAdapters()
+
+            onDepartmentSuccess()
+
+            onOfferSuccess()
+
         }
 
-        mainViewModel.getSelectedCityLiveData().observe(this, Observer<City> { onCityChanged(it) })
-        mainViewModel.addOfferUiState.observeEvent(this) { myUiStates -> onAddOfferResponse(myUiStates) }
-        mainViewModel.removeOfferUiState.observeEvent(this) { myUiStates -> onRemoveOfferResponse(myUiStates) }
-        viewModel.offersUiState.observe(this, Observer { onOffersResponse(it) })
-        viewModel.departmentsUiState.observe(this, Observer { onDepartmentResponse(it) })
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // Handle the back button event
+            (activity as HomeActivity).homeBackClicked()
+        }
+    }
 
+    private fun setUpAdapters() {
         departmentsAdapter = AdapterDepartment()
 
         departmentsAdapter.onItemChildClickListener = this
@@ -83,7 +100,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
         offersAdapter.setEnableLoadMore(true)
 
-        view.offersRv.adapter = offersAdapter
+        offersRv.adapter = offersAdapter
 
         offersSwipe.setOnRefreshListener(this)
 
@@ -94,15 +111,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             android.R.color.holo_red_light
         )
 
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            // Handle the back button event
-            (activity as HomeActivity).homeBackClicked()
-        }
-    }
-
-    override fun onDestroyView() {
-        viewModel.layoutManagerState = offersRv.layoutManager?.onSaveInstanceState()
-        super.onDestroyView()
     }
 
     private fun onCityChanged(city: City) {
@@ -121,6 +129,16 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         }
     }
 
+
+    private fun onOfferSuccess() {
+        Log.i("MyApp", "Offers Success")
+        homePb.visibility = View.GONE
+        offersRv.visibility = View.VISIBLE
+        offersSwipe.isRefreshing = false
+        offersAdapter.addData(viewModel.offersList)
+        offersAdapter.loadMoreComplete()
+    }
+
     private fun onOffersResponse(state: MyUiStates) {
         when (state) {
             MyUiStates.Loading -> {
@@ -129,12 +147,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 offersSwipe.isRefreshing = false
             }
             is MyUiStates.Success -> {
-                Log.i("MyApp", "Offers Success")
-                homePb.visibility = View.GONE
-                offersRv.visibility = View.VISIBLE
-                offersSwipe.isRefreshing = false
-                offersAdapter.addData(viewModel.offersList)
-                offersAdapter.loadMoreComplete()
+                onOfferSuccess()
             }
             is MyUiStates.Error -> {
                 offersAdapter.loadMoreFail()
@@ -212,11 +225,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 offersSwipe.isRefreshing = false
             }
             MyUiStates.Success -> {
-                offersSwipe.isRefreshing = false
-                homePb.visibility = View.GONE
-                departmentRv.visibility = View.VISIBLE
-                departmentsAdapter.addData(viewModel.departmentList)
 
+                onDepartmentSuccess()
                 //click on first department
                 clickOnRecyclerItem(0, departmentRv)
                 Log.i("MyApp", "Department Success")
@@ -235,6 +245,13 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             null -> {
             }
         }
+    }
+
+    private fun onDepartmentSuccess() {
+        offersSwipe.isRefreshing = false
+        homePb.visibility = View.GONE
+        departmentRv.visibility = View.VISIBLE
+        departmentsAdapter.addData(viewModel.departmentList)
     }
 
     private fun clickOnRecyclerItem(position: Int, recyclerView: RecyclerView) {
