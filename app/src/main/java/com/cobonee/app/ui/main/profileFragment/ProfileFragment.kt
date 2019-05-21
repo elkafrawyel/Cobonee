@@ -34,14 +34,8 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.cobonee.app.R.layout.profile_fragment, container, false)
+        return inflater.inflate(R.layout.profile_fragment, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,8 +47,8 @@ class ProfileFragment : Fragment() {
 
         ArrayAdapter.createFromResource(
             requireContext(),
-            com.cobonee.app.R.array.gender_array,
-            com.cobonee.app.R.layout.simple_spinner_dropdown_item
+            R.array.gender_array,
+            R.layout.simple_spinner_dropdown_item
         ).also { adapter ->
             adapter.setDropDownViewResource(com.cobonee.app.R.layout.simple_spinner_dropdown_item)
             profileGender.adapter = adapter
@@ -116,17 +110,17 @@ class ProfileFragment : Fragment() {
 
 
     private fun setUserData() {
-        val user = viewModel.getUserData()
-        profileUserName.setText(user.name)
-        profileEmail.setText(user.email)
+        val user = viewModel.user
+        profileUserName.setText(user?.name)
+        profileEmail.setText(user?.email)
         profileCitySpinner.setSelection(0)
         profileGender.setSelection(0)
         profileCountry.setText("")
-        profilePhone.setText(user.mobile)
+        profilePhone.setText(user?.mobile)
     }
 
     private fun updateUserData(){
-        val genderArray = resources.getStringArray(com.cobonee.app.R.array.gender_array)
+        val genderArray = resources.getStringArray(R.array.gender_array)
         viewModel.updateProfile(
             UpdateProfileBody(profileUserName.text.toString(),
                 mainViewModel.citiesList[profileCitySpinner.selectedItemPosition].id,
@@ -144,9 +138,11 @@ class ProfileFragment : Fragment() {
                 profilePb.visibility = View.GONE
 
                 val citiesAdapter =
-                    ArrayAdapter<City>(context!!, com.cobonee.app.R.layout.simple_spinner_dropdown_item, mainViewModel.citiesList)
-                citiesAdapter.setDropDownViewResource(com.cobonee.app.R.layout.simple_spinner_dropdown_item)
+                    ArrayAdapter<City>(context!!, R.layout.simple_spinner_dropdown_item, mainViewModel.citiesList)
+                citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 profileCitySpinner.adapter = citiesAdapter
+
+                setUserData()
             }
             is MyUiStates.Error -> {
                 profilePb.visibility = View.GONE

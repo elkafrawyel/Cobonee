@@ -15,29 +15,27 @@ import kotlinx.coroutines.withContext
 
 class ProfileViewModel : CoboneeViewModel() {
 
+
+    init {
+        getUserData()
+    }
     var canEditMain: Boolean = false
     var canEditExtra: Boolean = false
-
+    var user: User? = null
 
     private var updateProfileJob: Job? = null
-    public var user: User? = null
+
 
     private val saveUserUseCase = Injector.getSaveUserUseCase()
     private val updateUserUseCase = Injector.getUpdateProfileUseCase()
-    private val getUserUseCase = Injector.getUserUseCase()
 
-    fun getUserData(): User {
-        return getUserUseCase.get()
+    private fun getUserData() {
+        user = Injector.getUserUseCase().get()
     }
 
     private val _updateProfileUiState = MutableLiveData<MyUiStates>()
     val updateProfileUiState: LiveData<MyUiStates>
         get() = _updateProfileUiState
-
-
-    private val _saveUserUI = MutableLiveData<MyUiStates>()
-    val saveUserUI: LiveData<MyUiStates>
-        get() = _saveUserUI
 
     fun updateProfile(updateProfileBody: UpdateProfileBody) {
         if (NetworkUtils.isWifiConnected()) {
@@ -75,7 +73,7 @@ class ProfileViewModel : CoboneeViewModel() {
 
         user = User(
             data.data.id!!,
-            Injector.getUserUseCase().get().token!!,
+            Injector.getUserUseCase().get().token,
             data.data.name!!,
             data.data.email!!,
             data.data.city ?: City(),
@@ -85,16 +83,10 @@ class ProfileViewModel : CoboneeViewModel() {
         saveUser()
         _updateProfileUiState.value = MyUiStates.Success
     }
-    fun saveUser() {
+
+    private fun saveUser() {
         scope.launch(dispatcherProvider.computation) {
-            val result = saveUserUseCase.save(user!!)
-            withContext(dispatcherProvider.main) {
-                when (result) {
-                    is DataResource.Success -> _saveUserUI.value = MyUiStates.Success
-                    is DataResource.Error -> _saveUserUI.value =
-                        MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
-                }
-            }
+            saveUserUseCase.save(user!!)
         }
     }
 
