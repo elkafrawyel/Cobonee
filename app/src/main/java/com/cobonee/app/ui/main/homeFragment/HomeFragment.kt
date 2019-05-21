@@ -65,7 +65,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             setUpAdapters()
 
         } else {
-            viewModel.opened = true
 
             setUpAdapters()
 

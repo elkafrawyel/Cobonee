@@ -96,7 +96,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         }
 
         offerAddToCart.setOnClickListener {
-            addOfferToCart()
+            mainViewModel.addCartItems(offer?.id!!, 1)
         }
 
         offerSaveImgv.setOnClickListener {
@@ -106,12 +106,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // Handle the back button event
             findNavController().navigateUp()
-            Log.i("MyApp","Back")
         }
-    }
-
-    private fun addOfferToCart() {
-        mainViewModel.addCartItems(offer?.id!!, 1)
     }
 
     private fun setOffer(offer: Offer) {
