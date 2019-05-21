@@ -43,7 +43,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private var deptId: String? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
@@ -265,7 +266,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
-            R.id.offerCv -> {
+            R.id.offerCv , R.id.offerImgv -> {
                 val bundle = Bundle()
                 bundle.putParcelable("offer", adapter!!.data[position] as Offer)
                 findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
