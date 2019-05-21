@@ -1,14 +1,12 @@
 package com.cobonee.app.ui.main.homeFragment
 
-import androidx.fragment.app.Fragment
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
 import com.cobonee.app.entity.Department
-import com.cobonee.app.entity.DepartmentResponse
 import com.cobonee.app.entity.Offer
-import com.cobonee.app.entity.OffersResponse
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
@@ -19,15 +17,11 @@ import kotlinx.coroutines.withContext
 
 class HomeViewModel : CoboneeViewModel() {
 
-    val fragmentSavedStates = mutableMapOf<String, Fragment.SavedState?>()
-
-
+//    var bundle: Bundle? = null
+var layoutManagerState: Parcelable? = null
     //============================================== Offers ==========================================================
     var page: Int = 0
     private var lastPage: Int = 1
-    var deptId: String? = null
-    var deptIndex: Int? = null
-    var cityId: String? = null
 
     private var offersJob: Job? = null
 
@@ -45,7 +39,11 @@ class HomeViewModel : CoboneeViewModel() {
         offersList.clear()
     }
 
-    fun getOffers() {
+    fun getOffers(cityId: String?, deptId: String?, loadMore: Boolean = false) {
+
+        if (!loadMore) {
+            refresh()
+        }
 
         if (deptId == null || cityId == null) {
             return
@@ -57,7 +55,7 @@ class HomeViewModel : CoboneeViewModel() {
             }
             page++
             if (page <= lastPage) {
-                offersJob = launchOffersJob(deptId!!, cityId!!, page)
+                offersJob = launchOffersJob(deptId, cityId, page)
             } else {
                 _offerUiState.value = MyUiStates.LastPage
             }
@@ -70,7 +68,7 @@ class HomeViewModel : CoboneeViewModel() {
     private fun launchOffersJob(deptId: String, cityId: String, page: Int): Job? {
         return scope.launch(dispatcherProvider.computation) {
             withContext(dispatcherProvider.main) {
-                showOffersLoading()
+                _offerUiState.value = MyUiStates.Loading
             }
             val result = offersUseCase.getOffers(deptId, cityId, page)
             withContext(dispatcherProvider.main) {
@@ -78,7 +76,9 @@ class HomeViewModel : CoboneeViewModel() {
 
                     is DataResource.Success -> {
                         lastPage = result.data.meta.lastPage!!
-                        showOffersSuccess(result.data)
+                        offersList.clear()
+                        offersList.addAll(result.data.offers)
+                        _offerUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {
                         if (result.exception.message != null) {
@@ -91,20 +91,6 @@ class HomeViewModel : CoboneeViewModel() {
                 }
             }
         }
-    }
-
-    private fun showOffersLoading() {
-        _offerUiState.value = MyUiStates.Loading
-    }
-
-    private fun showOffersSuccess(data: OffersResponse) {
-        offersList.clear()
-        offersList.addAll(data.offers)
-        _offerUiState.value = MyUiStates.Success
-    }
-
-    private fun showOffersError(message: String?) {
-
     }
 
     //================================================================================================================
@@ -144,8 +130,10 @@ class HomeViewModel : CoboneeViewModel() {
 
                     is DataResource.Success -> {
                         departmentList.clear()
-                        departmentList.addAll(result.data.departments)
-
+//                        departmentList.addAll(result.data.departments)
+                        departmentList.add(Department(1,"One", arrayListOf(),false))
+                        departmentList.add(Department(2,"Two", arrayListOf(),false))
+                        departmentList.add(Department(3,"Three", arrayListOf(),false))
                         _departmentsUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error -> {

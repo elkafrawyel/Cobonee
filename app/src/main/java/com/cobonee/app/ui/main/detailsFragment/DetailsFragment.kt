@@ -1,19 +1,16 @@
 package com.cobonee.app.ui.main.detailsFragment
 
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.chad.library.adapter.base.BaseQuickAdapter
-
 import com.cobonee.app.R
 import com.cobonee.app.entity.Coubone
 import com.cobonee.app.entity.Offer
@@ -23,13 +20,6 @@ import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.details_fragment.*
-import kotlinx.android.synthetic.main.details_fragment.offerBodyTv
-import kotlinx.android.synthetic.main.details_fragment.offerDiscountPercentTv
-import kotlinx.android.synthetic.main.details_fragment.offerDiscountPriceTv
-import kotlinx.android.synthetic.main.details_fragment.offerHeaderTv
-import kotlinx.android.synthetic.main.details_fragment.offerImageLoading
-import kotlinx.android.synthetic.main.details_fragment.offerOwnerTv
-import kotlinx.android.synthetic.main.details_fragment.offerPriceTv
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.timerTask
@@ -112,6 +102,12 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         offerSaveImgv.setOnClickListener {
             mainViewModel.addOffer(offer?.id!!)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // Handle the back button event
+            findNavController().navigateUp()
+            Log.i("MyApp","Back")
+        }
     }
 
     private fun addOfferToCart() {
@@ -152,29 +148,7 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             Glide.with(context!!).load(R.drawable.ic_favorite_stock).into(offerSaveImgv)
         }
 
-        Glide.with(requireContext()).load(offer.photos!![0]!!.large).addListener(object : RequestListener<Drawable?> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable?>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                offerImageLoading.visibility = View.GONE
-                offerImage.setImageResource(R.drawable.logo)
-                return false
-            }
-
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: Target<Drawable?>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                offerImageLoading.visibility = View.GONE
-                return false
-            }
-        }).into(offerImage)
+        Glide.with(requireContext()).load(offer.photos!![0]!!.large).into(offerImage)
 
         coubones = offer.coubones as ArrayList<Coubone>
 

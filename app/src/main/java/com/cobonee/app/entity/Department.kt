@@ -14,7 +14,8 @@ data class Department(
     @field:Json(name = "name")
     val name: String,
     @field:Json(name = "photos")
-    val photos: List<Photo>
+    val photos: List<Photo>,
+    var isSelected: Boolean = false
 )
 
 data class Photo(

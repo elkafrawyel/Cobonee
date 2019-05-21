@@ -47,7 +47,7 @@ interface RetrofitApiService {
     ): Deferred<UpdateProfileResponse>
 
     @GET("settings")
-    fun getSettings(): Deferred<Setting>
+    fun getSettingsAsync(): Deferred<Setting>
 
     @GET("favourites")
     fun favouritesAsync(

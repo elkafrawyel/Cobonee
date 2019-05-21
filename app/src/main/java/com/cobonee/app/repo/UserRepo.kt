@@ -8,6 +8,7 @@ import com.cobonee.app.utily.Constants
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
 import com.cobonee.app.utily.safeApiCall
+import java.io.IOException
 
 class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiService: RetrofitApiService) {
 
@@ -78,7 +79,12 @@ class UserRepo(private var preferenceHelper: PreferencesHelper, private var apiS
 
     private suspend fun contactUsCall(contactUseBody: ContactUseBody): DataResource<Boolean> {
         val result = apiService.contactUsAsync(contactUseBody).await()
-        return DataResource.Success(true)
+        if (result.message.equals("created"))
+        {
+            return DataResource.Success(true)
+        }else{
+            return DataResource.Error(IOException(Injector.getApplicationContext().resources.getString(R.string.error_contactUs)))
+        }
     }
 
     //========================================================================================================

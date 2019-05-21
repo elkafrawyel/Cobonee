@@ -1,7 +1,6 @@
 package com.cobonee.app.repo
 
 import com.cobonee.app.R
-import com.cobonee.app.entity.CityResponse
 import com.cobonee.app.entity.ReasonsResponse
 import com.cobonee.app.entity.Setting
 import com.cobonee.app.storage.remote.RetrofitApiService
@@ -22,7 +21,7 @@ class SettingsRepo(private val apiService: RetrofitApiService) {
     }
 
     private suspend fun settingsCall(): DataResource<Setting> {
-        val response = apiService.getSettings().await()
+        val response = apiService.getSettingsAsync().await()
         return DataResource.Success(response)
     }
     //=======================================================================================================

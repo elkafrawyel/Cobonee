@@ -97,9 +97,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
             is MyUiStates.Error -> {
-//                snackBar(states.message, homeRootView)
                 cartNumberTv.visibility = View.GONE
-
             }
         }
     }
@@ -133,7 +131,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             MyUiStates.Success -> {
                 mainPb.visibility = View.GONE
-
                 val citiesAdapter =
                     ArrayAdapter<City>(this@HomeActivity, R.layout.simple_spinner_item, viewModel.citiesList)
                 citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
@@ -169,7 +166,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.nav_deals -> {
-                findNavController(R.id.fragment).navigate(R.id.homeFragment)
+//                findNavController(R.id.fragment).navigate(R.id.homeFragment)
             }
             R.id.nav_cart -> {
                 findNavController(R.id.fragment).navigate(R.id.cartFragment)
@@ -197,7 +194,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_help -> {
                 findNavController(R.id.fragment).navigate(R.id.helpFragment)
-
             }
         }
 
@@ -319,18 +315,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> {
-                if (findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment) {
-                    drawerLayout.openDrawer(GravityCompat.START)
-                    return true
-                } else if (findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment) {
-                    findNavController(R.id.fragment).popBackStack()
-                    findNavController(R.id.fragment).navigate(R.id.homeFragment)
-                    return true
-                }
-            }
-        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -351,22 +335,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         LoginActivity.start(this)
     }
 
-
-    override fun onBackPressed() {
+    fun homeBackClicked(){
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            when {
-                findNavController(R.id.fragment).currentDestination?.id == R.id.homeFragment -> finish()
-                findNavController(R.id.fragment).currentDestination?.id == R.id.operationCompletedFragment -> {
-                    findNavController(R.id.fragment).popBackStack()
-                    findNavController(R.id.fragment).navigate(R.id.homeFragment)
-                }
-                else -> super.onBackPressed()
-            }
+         finish()
         }
     }
-
     fun setHomeTitle(title: String) {
         homeTitleTv.text = title
     }

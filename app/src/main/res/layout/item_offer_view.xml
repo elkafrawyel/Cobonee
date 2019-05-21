@@ -24,14 +24,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="invisible"/>
 
-        <ProgressBar
-            android:id="@+id/offerImageLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/offerImgv"
-            app:layout_constraintEnd_toEndOf="@id/offerImgv"
-            app:layout_constraintStart_toStartOf="@id/offerImgv"
-            app:layout_constraintTop_toTopOf="@id/offerImgv" />
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/bannerSliderVp"
             android:layout_width="0dp"

@@ -35,37 +35,15 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
         helper.getView<ViewPager>(R.id.bannerSliderVp).adapter = ImageSliderAdapter().also {
             val images: List<OfferPhoto> = listOf(
                 offer.photos?.get(0) as OfferPhoto,
-                offer.photos?.get(0) as OfferPhoto,
-                offer.photos?.get(0) as OfferPhoto,
-                offer.photos?.get(0) as OfferPhoto
+                offer.photos[0] as OfferPhoto,
+                offer.photos[0] as OfferPhoto,
+                offer.photos[0] as OfferPhoto
             )
             it.submitList(images)
         }
         helper.getView<PageIndicatorView>(R.id.pageIndicator).setViewPager(helper.getView(R.id.bannerSliderVp))
 
-        Glide.with(mContext).load(offer.photos!![0]!!.large).addListener(object : RequestListener<Drawable?> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable?>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                helper.setGone(R.id.offerImageLoading, false)
-                helper.setImageResource(R.id.offerImgv, R.drawable.logo)
-                return false
-            }
-
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: Target<Drawable?>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                helper.setGone(R.id.offerImageLoading, false)
-                return false
-            }
-        }).into(helper.getView(R.id.offerImgv))
+        Glide.with(mContext).load(offer.photos!![0]!!.large).into(helper.getView(R.id.offerImgv))
 
         if (offer.isFav) {
             helper.setImageResource(R.id.offerSaveImgv, R.drawable.ic_favorite_white)

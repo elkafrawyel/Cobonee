@@ -12,52 +12,34 @@
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
-            app:destination="@id/cartFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/cartFragment"/>
         <action
             android:id="@+id/action_homeFragment_to_aboutUsFragment"
-            app:destination="@id/aboutUsFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/aboutUsFragment"/>
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_helpFragment"
-            app:destination="@id/helpFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_homeFragment_to_savedFragment"
-            app:destination="@id/favouritesFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/favouritesFragment"/>
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_magazineFragment"
-            app:destination="@id/magazineFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/magazineFragment" />
         <action
             android:id="@+id/action_homeFragment_to_ordersFragment"
-            app:destination="@id/ordersFragment"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:destination="@id/ordersFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
