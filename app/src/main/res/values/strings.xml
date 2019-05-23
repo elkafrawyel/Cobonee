@@ -136,6 +136,10 @@
     <string name="addToCart">Add To Cart</string>
     <string name="error_login">Invalid Username or password</string>
     <string name="error_login_empty">Empty username or Password</string>
+    <string name="error_email_empty">Empty Email</string>
+    <string name="error_code_empty">Empty Code</string>
+    <string name="error_pass_empty">Empty Password</string>
+    <string name="error_pass_match">Password is not match</string>
     <string name="no_password_match">Password is not match</string>
     <string name="error_save_offer">Not Saved</string>
     <string name="login_success">Login success</string>

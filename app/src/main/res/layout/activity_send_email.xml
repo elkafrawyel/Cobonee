@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.forgetPassword.sendEmail.SendEmailActivity">
+    tools:context=".ui.auth.forgetPassword.sendEmail.SendEmailActivity"
+    android:id="@+id/forgetRootView">
 
     <ImageView
         android:id="@+id/image"
@@ -45,9 +46,21 @@
         android:drawableStart="@drawable/ic_email_black_24dp"
         android:drawablePadding="12dp"
         android:hint="@string/text_email"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message" />
+
+    <ProgressBar
+        android:id="@+id/loginLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/emailEt"
+        app:layout_constraintBottom_toBottomOf="@+id/emailEt"
+        android:visibility="visible"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/confirmEmail"

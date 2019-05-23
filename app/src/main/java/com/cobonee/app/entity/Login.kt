@@ -45,3 +45,27 @@ data class Errors(
     val email: String?
 )
 
+data class ForgetBody(
+    var email: String
+)
+
+data class ForgetResponse(
+    @field:Json(name = "check-the-code") val check_the_code: String
+)
+
+data class CheckCodeBody(
+    var email: String,
+    var code: String
+)
+
+data class CheckCodeResponse(
+    @field:Json(name = "token") val token: String
+)
+
+data class ResetBody(
+    var token: String,
+    var password: String,
+    var password_confirmation: String
+)
+
+

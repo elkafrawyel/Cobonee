@@ -111,6 +111,8 @@ object Injector {
 
     fun getRegisterUseCase() = RegisterUseCase(getRegisterRepo())
 
+    fun getForgetUseCase() = ForgetUseCase(ForgetRepo(getApiService()))
+
     fun getSaveUserUseCase() = SaveUserUseCase(getUserRepo())
 
     fun getUpdateProfileUseCase() = UpdateProfileUseCase(getUserRepo())

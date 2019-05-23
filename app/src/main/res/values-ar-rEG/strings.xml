@@ -140,5 +140,9 @@
     <string name="changePasswordMessage">من فضلك قم بتعيين كلمة المرور الجديدة</string>
     <string name="cart_item_added">تمت اضافة الكوبون الي السلة بنجاح</string>
     <string name="error_contactUs">فشل في ارسال البيانات</string>
+    <string name="error_email_empty">حقل البريد فارغ</string>
+    <string name="error_code_empty">حقل الكود فارغ</string>
+    <string name="error_pass_empty">حقل كلمة المرور فارغ</string>
+    <string name="error_pass_match">كلمة المرور غير متطابقة</string>
 
 </resources>
