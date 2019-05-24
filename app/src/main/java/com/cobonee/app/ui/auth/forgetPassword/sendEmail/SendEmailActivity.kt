@@ -13,7 +13,6 @@ import com.cobonee.app.ui.auth.forgetPassword.sendCode.SendCodeActivity
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.snackBar
 import kotlinx.android.synthetic.main.activity_send_email.*
-import kotlinx.android.synthetic.main.activity_send_email.loginLoading
 
 class SendEmailActivity : AppCompatActivity() {
 
@@ -38,23 +37,27 @@ class SendEmailActivity : AppCompatActivity() {
         }
 
 
-    }private fun onForgetResponse(state: MyUiStates?) {
+    }
+    private fun onForgetResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                loginLoading.visibility = View.VISIBLE
+                forgetLoading.visibility = View.VISIBLE
                 emailEt.visibility = View.INVISIBLE
             }
             MyUiStates.Success -> {
-                SendCodeActivity.start(this)
+
+                val intent = Intent(this@SendEmailActivity,SendCodeActivity::class.java)
+                intent.putExtra("email",emailEt.text.toString())
+                startActivity(intent)
             }
             is MyUiStates.Error -> {
                 snackBar(state.message, forgetRootView)
-                loginLoading.visibility = View.GONE
+                forgetLoading.visibility = View.GONE
                 emailEt.visibility = View.VISIBLE
             }
             MyUiStates.NoConnection -> {
                 snackBar(resources.getString(R.string.no_connection_error), forgetRootView)
-                loginLoading.visibility = View.GONE
+                forgetLoading.visibility = View.GONE
                 emailEt.visibility = View.VISIBLE
             }
             null -> {

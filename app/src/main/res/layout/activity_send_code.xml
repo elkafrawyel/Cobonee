@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.forgetPassword.sendCode.SendCodeActivity">
+    tools:context=".ui.auth.forgetPassword.sendCode.SendCodeActivity"
+    android:id="@+id/forgetRootView">
 
     <ImageView
         android:id="@+id/image"
@@ -32,9 +33,10 @@
         android:padding="8dp"
         android:text="@string/codeMessage"
         android:textAppearance="?attr/textAppearanceBody1"
-        app:layout_constraintEnd_toEndOf="@id/confirmEmail"
-        app:layout_constraintStart_toStartOf="@id/confirmEmail"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        app:layout_constraintEnd_toEndOf="@id/sendCode"
+        app:layout_constraintStart_toStartOf="@id/sendCode"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:visibility="gone"/>
 
 
     <EditText
@@ -42,14 +44,29 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:layout_weight="1"
         android:background="@drawable/bg_white"
         android:drawablePadding="12dp"
         app:layout_constraintEnd_toStartOf="@id/code2"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/message" />
+        app:layout_constraintTop_toBottomOf="@id/message"
+        android:hint="Code"/>
+
+
+    <ProgressBar
+        android:id="@+id/forgetLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/code1"
+        app:layout_constraintBottom_toBottomOf="@+id/code1"
+        android:visibility="visible"/>
 
     <EditText
         android:id="@+id/code2"
@@ -61,7 +78,8 @@
         android:drawablePadding="12dp"
         app:layout_constraintEnd_toStartOf="@id/code3"
         app:layout_constraintStart_toEndOf="@id/code1"
-        app:layout_constraintTop_toTopOf="@id/code1" />
+        app:layout_constraintTop_toTopOf="@id/code1"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/code3"
@@ -73,7 +91,8 @@
         android:drawablePadding="12dp"
         app:layout_constraintEnd_toStartOf="@id/code4"
         app:layout_constraintStart_toEndOf="@id/code2"
-        app:layout_constraintTop_toTopOf="@id/code1" />
+        app:layout_constraintTop_toTopOf="@id/code1"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/code4"
@@ -82,12 +101,13 @@
         android:layout_weight="1"
         android:background="@drawable/bg_white"
         android:drawablePadding="12dp"
-        app:layout_constraintEnd_toEndOf="@id/confirmEmail"
+        app:layout_constraintEnd_toEndOf="@id/sendCode"
         app:layout_constraintStart_toEndOf="@id/code3"
-        app:layout_constraintTop_toTopOf="@id/code1" />
+        app:layout_constraintTop_toTopOf="@id/code1"
+        android:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/confirmEmail"
+        android:id="@+id/sendCode"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_margin="16dp"

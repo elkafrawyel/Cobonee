@@ -17,7 +17,7 @@ class ForgetViewModel : CoboneeViewModel() {
 
     private var forgetJob: Job? = null
     private var user: User? = null
-    private var newToken: String? = null
+    public var newToken: String? = null
 
     private val forgetUseCase = Injector.getForgetUseCase()
     private val saveUserUseCase = Injector.getSaveUserUseCase()
@@ -164,7 +164,6 @@ class ForgetViewModel : CoboneeViewModel() {
                             data.data.mobile ?: "",
                             data.data.gender ?: ""
                         )
-                        saveUser()
                         _resetUiState.value = MyUiStates.Success
                     }
                     is DataResource.Error ->{
