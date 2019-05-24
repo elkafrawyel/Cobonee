@@ -19,4 +19,6 @@ interface CoboneeDao {
     @Query("DELETE  FROM cartItem WHERE itemId= :itemId")
     fun deleteCartItem(itemId: Int)
 
+    @Query("SELECT * FROM cartItem WHERE itemId= :itemId")
+    fun getCartItem(itemId: Int):CartItem
 }

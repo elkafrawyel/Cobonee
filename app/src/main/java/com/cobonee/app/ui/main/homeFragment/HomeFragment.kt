@@ -73,12 +73,21 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
             onOfferSuccess()
 
+            offersRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerStateOffers)
+            departmentRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerStateDepartment)
+
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // Handle the back button event
             (activity as HomeActivity).homeBackClicked()
         }
+    }
+
+    override fun onDestroyView() {
+        viewModel.layoutManagerStateOffers = offersRv.layoutManager?.onSaveInstanceState()
+        viewModel.layoutManagerStateDepartment = departmentRv.layoutManager?.onSaveInstanceState()
+        super.onDestroyView()
     }
 
     private fun setUpAdapters() {
@@ -266,7 +275,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
-            R.id.offerCv , R.id.offerImgv -> {
+            R.id.offerCv, R.id.offerImgv -> {
                 val bundle = Bundle()
                 bundle.putParcelable("offer", adapter!!.data[position] as Offer)
                 findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)

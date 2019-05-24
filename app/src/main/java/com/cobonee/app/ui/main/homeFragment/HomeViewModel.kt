@@ -1,5 +1,6 @@
 package com.cobonee.app.ui.main.homeFragment
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +19,8 @@ import kotlinx.coroutines.withContext
 class HomeViewModel : CoboneeViewModel() {
 
     var opened: Boolean = false
+    var layoutManagerStateOffers: Parcelable? = null
+    var layoutManagerStateDepartment: Parcelable? = null
     //============================================== Offers ==========================================================
     var page: Int = 0
     private var lastPage: Int = 1

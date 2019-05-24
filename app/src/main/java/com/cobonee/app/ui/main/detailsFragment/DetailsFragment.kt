@@ -154,14 +154,14 @@ class DetailsFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             adapterCoubons.replaceData(coubones)
         }
 
-        val images: List<OfferPhoto> = listOf(
-            offer.photos[0] as OfferPhoto,
-            offer.photos[0] as OfferPhoto,
-            offer.photos[0] as OfferPhoto,
-            offer.photos[0] as OfferPhoto
-        )
+//        val images: List<OfferPhoto> = listOf(
+//            offer.photos[0] as OfferPhoto,
+//            offer.photos[0] as OfferPhoto,
+//            offer.photos[0] as OfferPhoto,
+//            offer.photos[0] as OfferPhoto
+//        )
 
-        imageSliderAdapter.submitList(images)
+        imageSliderAdapter.submitList(offer.photos.filterNotNull())
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
