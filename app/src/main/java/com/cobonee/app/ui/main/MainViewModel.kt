@@ -15,6 +15,7 @@ import com.cobonee.app.utily.MyUiStates
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class MainViewModel : CoboneeViewModel() {
 
@@ -173,36 +174,35 @@ class MainViewModel : CoboneeViewModel() {
 
     //======================================================================================
 
-
     //====================================== Cart ==========================================
 
+    fun getCartItemsLiveData():LiveData<List<CartItem>> {
 
-    private fun getAllCartItemsUseCase() = Injector.getAllCartItemsUseCase()
+//        if (Injector.getPreferenceHelper().isLoggedIn) {
+            return Injector.getAllCartItemsUseCase().getAllCartItemsLiveData()
+//        } else {
+//            return DataResource.Error(IOException(Injector.getApplicationContext().resources.getString(R.string.error_you_must_login)))
+//        }
 
-    var cartItems: List<CartItem> = arrayListOf()
-
-    private var _allCartItemsUiState = MutableLiveData<MyUiStates>()
-    val allCartItemsAddOfferUiState: LiveData<MyUiStates>
-        get() = _allCartItemsUiState
-
-
-    fun getCartItems() {
-
-        scope.launch(dispatcherProvider.io) {
-
-            val result = getAllCartItemsUseCase().getAllCartItems()
-            withContext(dispatcherProvider.main) {
-                when (result) {
-                    is DataResource.Success -> {
-                        cartItems = result.data
-                        _allCartItemsUiState.value = MyUiStates.Success
-                    }
-                    is DataResource.Error -> {
-                        _allCartItemsUiState.value = MyUiStates.Error(result.exception.message!!)
-                    }
-                }
-            }
-        }
+//        scope.launch(dispatcherProvider.io) {
+//
+//            val result = getAllCartItemsUseCase().getAllCartItems()
+//            withContext(dispatcherProvider.main) {
+//                when (result) {
+//                    is DataResource.Success -> {
+//                        if (result.data.value != null) {
+//                            cartItemsLiveData = result.data
+//                        }else{
+//
+//                        }
+//                        _allCartItemsUiState.value = MyUiStates.Success
+//                    }
+//                    is DataResource.Error -> {
+//                        _allCartItemsUiState.value = MyUiStates.Error(result.exception.message!!)
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun getAddCartItemsUseCase() = Injector.getAddCartItemsUseCase()

@@ -72,13 +72,13 @@ interface RetrofitApiService {
     @POST("favourite/add")
     fun makeFavouritesAsync(
         @Header("Authorization") token: String,
-        @Body offerId: Int
+        @Body makeOffersBody: MakeOfferBody
     ): Deferred<MakeFavouritesResponse>
 
-    @POST("favourite/remove")
+    @POST("unfavourite/{id}")
     fun removeFavouritesAsync(
         @Header("Authorization") token: String,
-        @Body offerId: Int
+        @Path("id") offerId: String
     ): Deferred<MakeFavouritesResponse>
 
     @POST("join/request")

@@ -57,16 +57,18 @@
         app:layout_constraintTop_toBottomOf="@id/message"
         android:hint="Code"/>
 
-
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/forgetLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/loading"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/code1"
-        app:layout_constraintBottom_toBottomOf="@+id/code1"
-        android:visibility="visible"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/code2"

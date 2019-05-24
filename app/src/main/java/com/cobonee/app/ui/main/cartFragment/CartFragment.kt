@@ -53,7 +53,7 @@ class CartFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // Handle the back button event
             findNavController().navigateUp()
-            Log.i("MyApp","Cart Back")
+
         }
     }
 }

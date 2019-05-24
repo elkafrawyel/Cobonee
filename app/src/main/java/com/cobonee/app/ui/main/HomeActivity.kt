@@ -15,13 +15,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.cobonee.app.R
+import com.cobonee.app.entity.CartItem
 import com.cobonee.app.entity.City
 import com.cobonee.app.ui.auth.loginActivity.LoginActivity
-import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.utily.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.home_fragment.*
 
 
 const val HOME_INDEX = 0
@@ -53,10 +52,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.citiesUiState.observe(this, Observer { onCitiesResponse(it) })
-        viewModel.allCartItemsAddOfferUiState.observe(this, Observer { onCartItemsResponse(it) })
-
+        if (Injector.getPreferenceHelper().isLoggedIn) {
+            viewModel.getCartItemsLiveData().observe(this, Observer { onCartItemsResponse(it) })
+        }
         viewModel.getCities()
-        viewModel.getCartItems()
 
         citiesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -85,21 +84,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    private fun onCartItemsResponse(states: MyUiStates?) {
-        when (states) {
-            MyUiStates.Success -> {
-                val size = viewModel.cartItems.size
-                if (size == 0) {
-                    cartNumberTv.visibility = View.GONE
-                } else {
-                    cartNumberTv.visibility = View.VISIBLE
-                    cartNumberTv.text = size.toString()
-                }
-            }
-            is MyUiStates.Error -> {
-                cartNumberTv.visibility = View.GONE
-            }
+    private fun onCartItemsResponse(cartItem: List<CartItem>) {
+        if (cartItem.isEmpty()) {
+            cartNumberTv.visibility = View.GONE
+        } else {
+            cartNumberTv.visibility = View.VISIBLE
+            cartNumberTv.text = cartItem.size.toString()
         }
+
     }
 
     override fun onResume() {
@@ -127,21 +119,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun onCitiesResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                mainPb.visibility = View.VISIBLE
+                mainLoading.visibility = View.VISIBLE
             }
             MyUiStates.Success -> {
-                mainPb.visibility = View.GONE
+                mainLoading.visibility = View.GONE
                 val citiesAdapter =
                     ArrayAdapter<City>(this@HomeActivity, R.layout.simple_spinner_item, viewModel.citiesList)
                 citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 citiesSpinner.adapter = citiesAdapter
             }
             is MyUiStates.Error -> {
-                mainPb.visibility = View.GONE
+                mainLoading.visibility = View.GONE
                 snackBar(resources.getString(R.string.error_general), rootView)
             }
             MyUiStates.NoConnection -> {
-                mainPb.visibility = View.GONE
+                mainLoading.visibility = View.GONE
                 snackBar(resources.getString(R.string.no_connection_error), rootView)
             }
             null -> {
@@ -207,6 +199,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle("")
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
+                    cartNumberTv.visibility = View.VISIBLE
                     citiesSpinner.visibility = View.VISIBLE
                     navigationView.menu.getItem(HOME_INDEX).isChecked = true
                     navigationView.menu.getItem(HOME_INDEX).isCheckable = true
@@ -215,6 +208,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle(resources.getString(R.string.label_cart))
                     searchImgv.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                     navigationView.menu.getItem(CART_INDEX).isChecked = true
                     navigationView.menu.getItem(CART_INDEX).isCheckable = true

@@ -79,17 +79,13 @@ class HomeViewModel : CoboneeViewModel() {
 
                     is DataResource.Success -> {
                         lastPage = result.data.meta.lastPage!!
-                        offersList.clear()
-                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-//                        offersList.addAll(result.data.offers)
-                        _offerUiState.value = MyUiStates.Success
+                        if (result.data.offers.isEmpty()){
+                            _offerUiState.value = MyUiStates.Empty
+                        }else {
+                            offersList.clear()
+                            offersList.addAll(result.data.offers)
+                            _offerUiState.value = MyUiStates.Success
+                        }
                     }
                     is DataResource.Error -> {
                         if (result.exception.message != null) {

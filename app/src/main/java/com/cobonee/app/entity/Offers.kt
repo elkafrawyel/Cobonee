@@ -253,6 +253,11 @@ data class MakeFavouritesResponse(
     val message: String
 )
 
+data class MakeOfferBody(
+    @field:Json(name = "offer_id")
+    val offerId: Int
+)
+
 @Entity(tableName = "cartItem")
 data class CartItem(
     @PrimaryKey var itemId: Int,

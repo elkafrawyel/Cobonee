@@ -11,7 +11,7 @@ import com.cobonee.app.entity.CartItem
 interface CoboneeDao {
 
     @Query("SELECT * FROM cartItem WHERE userId LIKE :userId")
-    fun getAllCartItems(userId: Int): List<CartItem>
+    fun getAllCartItems(userId: Int): LiveData<List<CartItem>>
 
     @Insert
     fun insertCartItem(vararg item: CartItem)

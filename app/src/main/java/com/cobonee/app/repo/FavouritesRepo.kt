@@ -1,6 +1,7 @@
 package com.cobonee.app.repo
 
 import com.cobonee.app.R
+import com.cobonee.app.entity.MakeOfferBody
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
@@ -40,7 +41,7 @@ class FavouritesRepo(private var apiService: RetrofitApiService, private var pre
 
         if (preferenceHelper.isLoggedIn) {
             val response = apiService.makeFavouritesAsync(
-                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
+                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", MakeOfferBody(offerId = offerId)
             ).await()
             return if (response.message == Constants.SUCCESS) {
                 return DataResource.Success(true)
@@ -63,7 +64,7 @@ class FavouritesRepo(private var apiService: RetrofitApiService, private var pre
         if (preferenceHelper.isLoggedIn) {
 
             val response = apiService.removeFavouritesAsync(
-                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId
+                "${Constants.AUTHORIZATION_START} ${preferenceHelper.token}", offerId.toString()
             ).await()
             return if (response.message == Constants.SUCCESS) {
                 return DataResource.Success(true)

@@ -11,8 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.lifecycle.Observer
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -20,16 +18,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter.*
 import com.cobonee.app.R
 import com.cobonee.app.entity.City
-import com.cobonee.app.entity.Department
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.observeEvent
 import com.cobonee.app.utily.snackBar
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.home_fragment.view.*
 import java.util.*
 
 class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -141,7 +136,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     private fun onOfferSuccess() {
         Log.i("MyApp", "Offers Success")
-        homePb.visibility = View.GONE
+        homeLoading.visibility = View.GONE
+        emptyView.visibility = View.GONE
         offersRv.visibility = View.VISIBLE
         offersSwipe.isRefreshing = false
         offersAdapter.addData(viewModel.offersList)
@@ -151,7 +147,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private fun onOffersResponse(state: MyUiStates) {
         when (state) {
             MyUiStates.Loading -> {
-                homePb.visibility = View.VISIBLE
+                homeLoading.visibility = View.VISIBLE
+                emptyView.visibility = View.GONE
                 offersRv.visibility = View.VISIBLE
                 offersSwipe.isRefreshing = false
             }
@@ -160,19 +157,28 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
             is MyUiStates.Error -> {
                 offersAdapter.loadMoreFail()
-                homePb.visibility = View.GONE
+                emptyView.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 offersSwipe.isRefreshing = false
                 activity?.snackBar(state.message, homeRootView)
             }
             MyUiStates.NoConnection -> {
                 offersSwipe.isRefreshing = false
-                homePb.visibility = View.GONE
+                emptyView.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
             }
             MyUiStates.LastPage -> {
                 Log.i("MyApp", "Offers Last Page")
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 offersAdapter.loadMoreEnd(true)
+                offersSwipe.isRefreshing = false
+                emptyView.visibility = View.GONE
+
+            }
+            MyUiStates.Empty -> {
+                emptyView.visibility = View.VISIBLE
+                homeLoading.visibility = View.GONE
                 offersSwipe.isRefreshing = false
             }
         }
@@ -181,20 +187,20 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private fun onRemoveOfferResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                homePb.visibility = View.VISIBLE
+                homeLoading.visibility = View.VISIBLE
             }
             is MyUiStates.Error -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
             MyUiStates.Success -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 viewModel.offersList[position].isFav = false
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.remove_from_favourites), homeRootView)
             }
             MyUiStates.NoConnection -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
             null -> {
@@ -205,20 +211,20 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private fun onAddOfferResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                homePb.visibility = View.VISIBLE
+                homeLoading.visibility = View.VISIBLE
             }
             is MyUiStates.Error -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
             MyUiStates.Success -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 viewModel.offersList[position].isFav = true
                 offersAdapter.notifyItemChanged(position)
                 activity?.snackBar(getString(R.string.add_to_favourites), homeRootView)
             }
             MyUiStates.NoConnection -> {
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(activity?.resources?.getString(R.string.no_connection_error)!!, homeRootView)
             }
             null -> {
@@ -229,7 +235,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
     private fun onDepartmentResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                homePb.visibility = View.VISIBLE
+                homeLoading.visibility = View.VISIBLE
                 departmentRv.visibility = View.GONE
                 offersSwipe.isRefreshing = false
             }
@@ -243,12 +249,12 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             }
             is MyUiStates.Error -> {
                 offersSwipe.isRefreshing = false
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(state.message, homeRootView)
             }
             MyUiStates.NoConnection -> {
                 offersSwipe.isRefreshing = false
-                homePb.visibility = View.GONE
+                homeLoading.visibility = View.GONE
                 activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
             }
             null -> {
@@ -258,7 +264,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
     private fun onDepartmentSuccess() {
         offersSwipe.isRefreshing = false
-        homePb.visibility = View.GONE
+        homeLoading.visibility = View.GONE
         departmentRv.visibility = View.VISIBLE
         departmentsAdapter.addData(viewModel.departmentList)
     }

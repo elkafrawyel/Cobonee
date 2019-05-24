@@ -144,5 +144,6 @@
     <string name="error_code_empty">حقل الكود فارغ</string>
     <string name="error_pass_empty">حقل كلمة المرور فارغ</string>
     <string name="error_pass_match">كلمة المرور غير متطابقة</string>
+    <string name="error_no_offers">لا توجد عروض</string>
 
 </resources>

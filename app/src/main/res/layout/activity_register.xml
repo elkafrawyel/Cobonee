@@ -10,7 +10,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
                 android:src="@drawable/coponee_logo" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,16 +109,18 @@
 
                 </LinearLayout>
 
-                <ProgressBar
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/registerLoading"
-                    style="@style/CheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
                     android:visibility="gone"
+                    app:lottie_rawRes="@raw/loading"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -127,7 +128,7 @@
                 android:id="@+id/register_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:padding="15dp"
                 android:text="@string/text_register"
@@ -174,7 +175,7 @@
                 android:id="@+id/login_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/text_login"
                 android:textAllCaps="false"

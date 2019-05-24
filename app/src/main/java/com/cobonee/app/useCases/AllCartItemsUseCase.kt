@@ -10,11 +10,7 @@ import java.io.IOException
 
 class AllCartItemsUseCase(private val database: AppDatabase) {
 
-    suspend fun getAllCartItems(): DataResource<List<CartItem>>{
-        if (Injector.getPreferenceHelper().isLoggedIn) {
-            return DataResource.Success(database.cartItemDao().getAllCartItems(Injector.getPreferenceHelper().id))
-        } else {
-            return DataResource.Error(IOException(Injector.getApplicationContext().resources.getString(R.string.error_you_must_login)))
-        }
+     fun getAllCartItemsLiveData(): LiveData<List<CartItem>> {
+         return database.cartItemDao().getAllCartItems(Injector.getPreferenceHelper().id)
     }
 }

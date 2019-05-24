@@ -167,6 +167,7 @@
     <string name="changePasswordMessage">please type new password.</string>
     <string name="cart_item_added">Coubone added to cart.</string>
     <string name="error_contactUs">Sending Data Falied</string>
+    <string name="error_no_offers">No Offers</string>
 
 
 </resources>
