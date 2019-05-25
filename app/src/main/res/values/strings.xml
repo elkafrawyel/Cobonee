@@ -168,6 +168,8 @@
     <string name="cart_item_added">Coubone added to cart.</string>
     <string name="error_contactUs">Sending Data Falied</string>
     <string name="error_no_offers">No Offers</string>
+    <string name="loading">Loading...</string>
+    <string name="load_failed">Load Failed</string>
 
 
 </resources>

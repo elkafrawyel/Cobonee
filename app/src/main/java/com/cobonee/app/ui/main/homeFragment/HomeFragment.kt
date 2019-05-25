@@ -66,10 +66,12 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
             onDepartmentSuccess()
 
-            onOfferSuccess()
-
-            offersRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerStateOffers)
-            departmentRv.layoutManager?.onRestoreInstanceState(viewModel.layoutManagerStateDepartment)
+            homeLoading.visibility = View.GONE
+            emptyView.visibility = View.GONE
+            offersRv.visibility = View.VISIBLE
+            offersSwipe.isRefreshing = false
+            offersAdapter.replaceData(viewModel.allOffersList)
+            offersAdapter.loadMoreComplete()
 
         }
 
@@ -77,12 +79,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
             // Handle the back button event
             (activity as HomeActivity).homeBackClicked()
         }
-    }
-
-    override fun onDestroyView() {
-        viewModel.layoutManagerStateOffers = offersRv.layoutManager?.onSaveInstanceState()
-        viewModel.layoutManagerStateDepartment = departmentRv.layoutManager?.onSaveInstanceState()
-        super.onDestroyView()
     }
 
     private fun setUpAdapters() {
@@ -93,6 +89,7 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
 
         offersAdapter = AdapterOffers().apply {
             setEnableLoadMore(true)
+            setLoadMoreView(CustomLoadMoreView())
         }
 
         offersAdapter.onItemChildClickListener = this
@@ -121,21 +118,15 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         offersAdapter.data.clear()
         offersAdapter.notifyDataSetChanged()
         cityId = city.id.toString()
-        Log.i("MyApp", "Found City")
-
         if (viewModel.departmentList.size == 0) {
             viewModel.getDepartments()
-            Log.i("MyApp", "Department From City")
         } else {
             viewModel.getOffers(cityId, deptId)
-            Log.i("MyApp", "Offers From City")
-
         }
     }
 
 
     private fun onOfferSuccess() {
-        Log.i("MyApp", "Offers Success")
         homeLoading.visibility = View.GONE
         emptyView.visibility = View.GONE
         offersRv.visibility = View.VISIBLE
@@ -169,9 +160,8 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 activity?.snackBar(getString(R.string.no_connection_error), homeRootView)
             }
             MyUiStates.LastPage -> {
-                Log.i("MyApp", "Offers Last Page")
                 homeLoading.visibility = View.GONE
-                offersAdapter.loadMoreEnd(true)
+                offersAdapter.loadMoreEnd()
                 offersSwipe.isRefreshing = false
                 emptyView.visibility = View.GONE
 
@@ -244,8 +234,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 onDepartmentSuccess()
                 //click on first department
                 clickOnRecyclerItem(0, departmentRv)
-                Log.i("MyApp", "Department Success")
-
             }
             is MyUiStates.Error -> {
                 offersSwipe.isRefreshing = false
@@ -283,11 +271,11 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
         when (view?.id) {
             R.id.offerCv, R.id.offerImgv -> {
                 val bundle = Bundle()
-                bundle.putParcelable("offer", adapter!!.data[position] as Offer)
+                bundle.putParcelable("offer", viewModel.allOffersList[position])
                 findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
             }
             R.id.offerSaveImgv -> {
-                val offer = (adapter!!.data[position] as Offer)
+                val offer = viewModel.allOffersList[position]
                 if (offer.isFav) {
                     mainViewModel.removeOffer(offer.id!!)
                 } else {
@@ -309,8 +297,6 @@ class HomeFragment : Fragment(), OnItemChildClickListener, SwipeRefreshLayout.On
                 offersAdapter.notifyDataSetChanged()
                 this@HomeFragment.deptId = deptId.toString()
                 viewModel.getOffers(cityId = cityId, deptId = deptId.toString())
-                Log.i("MyApp", "Department Clicked")
-
             }
         }
     }

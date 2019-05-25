@@ -34,22 +34,22 @@ class HomeViewModel : CoboneeViewModel() {
         get() = _offerUiState
 
     var offersList: ArrayList<Offer> = arrayListOf()
+    var allOffersList: ArrayList<Offer> = arrayListOf()
 
     private fun refresh() {
         page = 0
         lastPage = 1
         offersList.clear()
+        allOffersList.clear()
     }
 
     fun getOffers(cityId: String?, deptId: String?, loadMore: Boolean = false) {
 
         if (!loadMore) {
             refresh()
-            Log.i("MyApp", "Data Refreshed")
         }
 
         if (deptId == null || cityId == null) {
-            Log.i("MyApp", "City or dept null")
             return
         }
 
@@ -59,7 +59,7 @@ class HomeViewModel : CoboneeViewModel() {
             }
             page++
             if (page <= lastPage) {
-                offersJob = launchOffersJob(deptId, cityId, page)
+                offersJob = launchOffersJob(deptId, cityId, page,loadMore)
             } else {
                 _offerUiState.value = MyUiStates.LastPage
             }
@@ -68,10 +68,12 @@ class HomeViewModel : CoboneeViewModel() {
         }
     }
 
-    private fun launchOffersJob(deptId: String, cityId: String, page: Int): Job? {
+    private fun launchOffersJob(deptId: String, cityId: String, page: Int, loadMore: Boolean): Job? {
         return scope.launch(dispatcherProvider.computation) {
-            withContext(dispatcherProvider.main) {
-                _offerUiState.value = MyUiStates.Loading
+            if (!loadMore) {
+                withContext(dispatcherProvider.main) {
+                    _offerUiState.value = MyUiStates.Loading
+                }
             }
             val result = offersUseCase.getOffers(deptId, cityId, page)
             withContext(dispatcherProvider.main) {
@@ -79,11 +81,12 @@ class HomeViewModel : CoboneeViewModel() {
 
                     is DataResource.Success -> {
                         lastPage = result.data.meta.lastPage!!
-                        if (result.data.offers.isEmpty()){
+                        if (result.data.offers.isEmpty()) {
                             _offerUiState.value = MyUiStates.Empty
-                        }else {
+                        } else {
                             offersList.clear()
                             offersList.addAll(result.data.offers)
+                            allOffersList.addAll(result.data.offers)
                             _offerUiState.value = MyUiStates.Success
                         }
                     }

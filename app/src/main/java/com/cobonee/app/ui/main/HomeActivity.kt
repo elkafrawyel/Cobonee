@@ -119,22 +119,22 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun onCitiesResponse(state: MyUiStates?) {
         when (state) {
             MyUiStates.Loading -> {
-                mainLoading.visibility = View.VISIBLE
+//                mainLoading.visibility = View.VISIBLE
             }
             MyUiStates.Success -> {
-                mainLoading.visibility = View.GONE
+//                mainLoading.visibility = View.GONE
                 val citiesAdapter =
                     ArrayAdapter<City>(this@HomeActivity, R.layout.simple_spinner_item, viewModel.citiesList)
                 citiesAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 citiesSpinner.adapter = citiesAdapter
             }
             is MyUiStates.Error -> {
-                mainLoading.visibility = View.GONE
-                snackBar(resources.getString(R.string.error_general), rootView)
+//                mainLoading.visibility = View.GONE
+//                snackBar(resources.getString(R.string.error_general), rootView)
             }
             MyUiStates.NoConnection -> {
-                mainLoading.visibility = View.GONE
-                snackBar(resources.getString(R.string.no_connection_error), rootView)
+//                mainLoading.visibility = View.GONE
+//                snackBar(resources.getString(R.string.no_connection_error), rootView)
             }
             null -> {
             }

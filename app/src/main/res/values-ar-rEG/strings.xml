@@ -145,5 +145,7 @@
     <string name="error_pass_empty">حقل كلمة المرور فارغ</string>
     <string name="error_pass_match">كلمة المرور غير متطابقة</string>
     <string name="error_no_offers">لا توجد عروض</string>
+    <string name="loading">يتم التحميل..</string>
+    <string name="load_failed">فشل التحميل.</string>
 
 </resources>

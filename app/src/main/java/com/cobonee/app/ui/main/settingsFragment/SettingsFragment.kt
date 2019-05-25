@@ -47,11 +47,10 @@ class SettingsFragment : Fragment() {
             requireContext(),
             R.array.language_array,
             R.layout.spinner_item_black
-        )
-            .also { adapter ->
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                spinner_language.adapter = adapter
-            }
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            spinner_language.adapter = adapter
+        }
         if (currentLocale == "ar") {
             spinner_language.setSelection(1)
 
@@ -72,10 +71,12 @@ class SettingsFragment : Fragment() {
                 if (position == 1 && currentLocale != "ar") {
                     Injector.getPreferenceHelper().language = Constants.Language.ARABIC.value
                     activity?.changeLanguage(Constants.Language.ARABIC)
+                    activity?.finish()
                     activity?.restartApplication()
                 } else if (position == 0 && currentLocale != "en") {
                     Injector.getPreferenceHelper().language = Constants.Language.ENGLISH.value
                     activity?.changeLanguage(Constants.Language.ENGLISH)
+                    activity?.finish()
                     activity?.restartApplication()
                 }
             }

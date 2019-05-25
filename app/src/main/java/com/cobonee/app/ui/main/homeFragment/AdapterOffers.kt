@@ -11,16 +11,16 @@ class AdapterOffers : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_offe
     override fun convert(helper: BaseViewHolder, offer: Offer) {
 
         val discount = mContext.resources.getString(R.string.label_discount) + "  ${offer.discount}%"
-        val price = mContext.resources.getString(R.string.label_price, offer.price)
+        val price = mContext.resources.getString(R.string.label_price,  offer.price)
         helper.setText(R.id.offerOwnerTv, offer.ownerName)
             .setText(R.id.offerDiscountPercentTv, discount)
             .setText(R.id.offerHeaderTv, offer.offerHeader)
             .setText(R.id.offerBodyTv, offer.offerBody)
-            .setText(R.id.offerDiscountPriceTv, offer.priceAfterDiscount.toString())
-            .setText(R.id.offerPriceTv, price)
+            .setText(R.id.offerDiscountPriceTv,price)
+            .setText(R.id.offerPriceTv, offer.priceAfterDiscount.toString())
             .addOnClickListener(R.id.offerCv, R.id.offerSaveImgv,R.id.offerImgv)
 
-        Glide.with(mContext).load(offer.photos!![0]!!.large).into(helper.getView(R.id.offerImgv))
+        Glide.with(mContext).load(offer.photos!![0]!!.original).into(helper.getView(R.id.offerImgv))
 
         if (offer.isFav) {
             helper.setImageResource(R.id.offerSaveImgv, R.drawable.ic_favorite_white)
