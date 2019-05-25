@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">cobonee</string>
+
+
+    <string name="facebook_app_id" translatable="false">424641284783372</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb424641284783372</string>
+
     <string name="label_deals">View deals</string>
     <string name="label_cart">Cart</string>
     <string name="label_saved">Archives</string>

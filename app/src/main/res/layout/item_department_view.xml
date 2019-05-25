@@ -22,7 +22,7 @@
     <View
         android:id="@+id/bottomLine"
         android:layout_width="0dp"
-        android:layout_height="4dp"
+        android:layout_height="2dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="@id/deptNameTv"
         app:layout_constraintStart_toStartOf="@id/deptNameTv"

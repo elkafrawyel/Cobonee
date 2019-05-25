@@ -3,19 +3,28 @@ package com.cobonee.app.ui.auth.loginActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.cobonee.app.R
 import com.cobonee.app.ui.auth.forgetPassword.sendEmail.SendEmailActivity
 import com.cobonee.app.ui.auth.registerActivity.RegisterActivity
 import com.cobonee.app.ui.main.HomeActivity
 import com.cobonee.app.utily.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
+
 
 class LoginActivity : AppCompatActivity() {
-
+    var callbackManager: CallbackManager? = null
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)
@@ -27,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(com.cobonee.app.R.layout.activity_login)
         if (Injector.getPreferenceHelper().language.equals(Constants.Language.ARABIC.value)) {
             Injector.getApplicationContext().changeLanguage(Constants.Language.ARABIC)
         } else {
@@ -36,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
         viewModel.loginUiState.observe(this, Observer { onLoginResponse(it) })
         viewModel.saveUserUI.observe(this, Observer { onUserSaved(it) })
+
 
         register_btn.setOnClickListener {
             RegisterActivity.start(this)
@@ -62,12 +72,44 @@ class LoginActivity : AppCompatActivity() {
         forget_pass.setOnClickListener {
             SendEmailActivity.start(this)
         }
+
+        //face login
+
+        callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance().logOut()
+
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val isLoggedIn = accessToken != null && !accessToken.isExpired
+        if(isLoggedIn){
+            LoginManager.getInstance().logOut()
+        }
+        login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Log.e("success", "Ok")
+                val accessToken = AccessToken.getCurrentAccessToken()
+                val isLoggedIn = accessToken != null && !accessToken.isExpired
+                if(isLoggedIn){
+                    viewModel.loginFac(accessToken.token)
+                }else{
+                    Log.e("Error", "noLogIN")
+                }
+            }
+
+            override fun onCancel() {
+                Log.e("Error", "cancel")
+            }
+
+            override fun onError(exception: FacebookException) {
+                Log.e("Error", exception.message.toString())
+            }
+        })
+
     }
 
     private fun onUserSaved(state: MyUiStates?) {
         when (state) {
             MyUiStates.Success -> {
-                toast(resources.getString(R.string.login_success))
+                toast(resources.getString(com.cobonee.app.R.string.login_success))
                 loginLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
@@ -98,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
                 edit_pass.visibility = View.VISIBLE
             }
             MyUiStates.NoConnection -> {
-                snackBar(resources.getString(R.string.no_connection_error), loginRootView)
+                snackBar(resources.getString(com.cobonee.app.R.string.no_connection_error), loginRootView)
                 loginLoading.visibility = View.GONE
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
@@ -107,4 +149,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
 }

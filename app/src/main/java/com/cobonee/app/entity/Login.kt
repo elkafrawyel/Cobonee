@@ -7,6 +7,11 @@ data class LoginBody(
     var password: String
 )
 
+data class LoginFaceBody(
+    var driver: String,
+    var access_token: String
+)
+
 data class RegisterBody(
     var name: String,
     var email: String,

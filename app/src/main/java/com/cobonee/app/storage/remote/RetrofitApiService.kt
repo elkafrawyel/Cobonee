@@ -35,6 +35,11 @@ interface RetrofitApiService {
         @Body loginBody: LoginBody
     ): Deferred<LoginResponse>
 
+    @POST("auth/login/social")
+    fun getLoginFaceAsync(
+        @Body loginFaceBody: LoginFaceBody
+    ): Deferred<LoginResponse>
+
     @POST("auth/password/forget")
     fun getForgetAsync(
         @Body forgetBody: ForgetBody

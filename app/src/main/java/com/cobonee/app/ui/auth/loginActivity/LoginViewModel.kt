@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
 import com.cobonee.app.entity.City
+import com.cobonee.app.entity.LoginFaceBody
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.User
 import com.cobonee.app.ui.CoboneeViewModel
@@ -20,6 +21,7 @@ class LoginViewModel : CoboneeViewModel() {
     private var loginJob: Job? = null
     private var user: User? = null
 
+    private val FACE = "facebook"
     private val loginUseCase = Injector.getLoginUseCase()
     private val saveUserUseCase = Injector.getSaveUserUseCase()
 
@@ -79,6 +81,13 @@ class LoginViewModel : CoboneeViewModel() {
         _loginUiState.value = MyUiStates.Success
     }
 
+    private fun showError(message: String?) {
+        if (message != null)
+            _loginUiState.value = MyUiStates.Error(message)
+        else
+            _loginUiState.value =
+                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+    }
     fun saveUser() {
         scope.launch(dispatcherProvider.computation) {
             val result = saveUserUseCase.save(user!!)
@@ -92,11 +101,34 @@ class LoginViewModel : CoboneeViewModel() {
         }
     }
 
-    private fun showError(message: String?) {
-        if (message != null)
-            _loginUiState.value = MyUiStates.Error(message)
-        else
-            _loginUiState.value =
-                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+
+    //--------------------------------------- face Login ---------------------------------
+
+    fun loginFac(faceToken: String) {
+        if (NetworkUtils.isWifiConnected()) {
+            if (loginJob?.isActive == true) {
+                return
+            }
+            loginJob = launchLoginFacJob(faceToken)
+        } else {
+            _loginUiState.value = MyUiStates.NoConnection
+        }
     }
+
+    private fun launchLoginFacJob(faceToken: String): Job? {
+        return scope.launch(dispatcherProvider.computation) {
+            withContext(dispatcherProvider.main) { showLoading() }
+            val result = loginUseCase.getFaceLogin(LoginFaceBody(FACE,faceToken))
+            withContext(dispatcherProvider.main) {
+                when (result) {
+
+                    is DataResource.Success -> {
+                        showSuccess(result.data)
+                    }
+                    is DataResource.Error -> showError(result.exception.message)
+                }
+            }
+        }
+    }
+
 }
