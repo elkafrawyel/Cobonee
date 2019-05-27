@@ -1,14 +1,21 @@
 package com.cobonee.app.ui.main.cartFragment
 
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.cobonee.app.R
+import com.cobonee.app.entity.Offer
 
-class AdapterCartItems : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_cart_view) {
+class AdapterCartItems : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_cart_view) {
 
-    override fun convert(helper: BaseViewHolder, item: String) {
+    override fun convert(helper: BaseViewHolder, offer: Offer) {
 
-        helper.addOnClickListener(R.id.offerCv,R.id.offerSaveImgv)
+        Glide.with(mContext).load(offer.photos!![0]!!.original).into(helper.getView(R.id.item_image))
+        helper.setText(R.id.titles1, offer.offerHeader)
+            .setText(R.id.titles2, offer.offerBody)
+
+
+        helper.addOnClickListener(R.id.icon_delete)
     }
 
 }

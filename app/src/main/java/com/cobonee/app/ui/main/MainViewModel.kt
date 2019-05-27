@@ -232,7 +232,7 @@ class MainViewModel : CoboneeViewModel() {
     private fun getRemoveCartItemsUseCase() = Injector.getRemoveCartItemsUseCase()
 
     private var _removeCartItemsUiState = MutableLiveData<Event<MyUiStates>>()
-    val removeCartItemsAddOfferUiState: LiveData<Event<MyUiStates>>
+    val removeCartItemsUiState: LiveData<Event<MyUiStates>>
         get() = _removeCartItemsUiState
 
 

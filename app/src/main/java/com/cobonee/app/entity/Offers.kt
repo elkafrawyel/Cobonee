@@ -264,3 +264,8 @@ data class CartItem(
     var userId: Int,
     var itemQuentity: Int
 )
+
+data class CartItemsBody(
+    @field:Json(name = "offers")
+    val offersId: Array<Int>
+)

@@ -86,9 +86,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun onCartItemsResponse(cartItem: List<CartItem>) {
         if (cartItem.isEmpty()) {
-            cartNumberTv.visibility = View.GONE
+//            cartNumberTv.visibility = View.GONE
         } else {
-            cartNumberTv.visibility = View.VISIBLE
+//            cartNumberTv.visibility = View.VISIBLE
             cartNumberTv.text = cartItem.size.toString()
         }
 

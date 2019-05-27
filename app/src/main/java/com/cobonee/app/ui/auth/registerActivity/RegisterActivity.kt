@@ -125,6 +125,7 @@ class RegisterActivity : AppCompatActivity() {
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
                 HomeActivity.start(this)
+                finish()
             }
             is MyUiStates.Error -> {
                 snackBar(state.message, registerRootView)

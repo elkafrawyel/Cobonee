@@ -18,9 +18,7 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -80,29 +78,29 @@ class LoginActivity : AppCompatActivity() {
 
         val accessToken = AccessToken.getCurrentAccessToken()
         val isLoggedIn = accessToken != null && !accessToken.isExpired
+
         if(isLoggedIn){
             LoginManager.getInstance().logOut()
         }
+
         login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                Log.e("success", "Ok")
                 val accessToken = AccessToken.getCurrentAccessToken()
                 val isLoggedIn = accessToken != null && !accessToken.isExpired
                 if(isLoggedIn){
                     viewModel.loginFac(accessToken.token)
                 }else{
-                    Log.e("Error", "noLogIN")
                 }
             }
-
             override fun onCancel() {
-                Log.e("Error", "cancel")
             }
-
             override fun onError(exception: FacebookException) {
-                Log.e("Error", exception.message.toString())
             }
         })
+
+        login_facebook_btn.setOnClickListener {
+            login_button.performClick()
+        }
 
     }
 
@@ -114,6 +112,7 @@ class LoginActivity : AppCompatActivity() {
                 edit_email.visibility = View.VISIBLE
                 edit_pass.visibility = View.VISIBLE
                 HomeActivity.start(this)
+                finish()
             }
             is MyUiStates.Error -> {
                 snackBar(state.message, loginRootView)

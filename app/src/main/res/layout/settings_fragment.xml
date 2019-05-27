@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="18dp"
         android:text="@string/text_change_payment"
+        android:visibility="gone"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +21,8 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:id="@+id/languageView"
-        android:padding="@dimen/dp_10">
+        android:padding="@dimen/dp_10"
+        android:layout_marginTop="18dp">
 
         <TextView
             android:id="@+id/language"
@@ -60,7 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:background="@android:color/white"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/change_password"
@@ -89,7 +92,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:background="@android:color/white"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/change_country"

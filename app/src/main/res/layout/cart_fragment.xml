@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cartRootView"
     tools:context=".ui.main.cartFragment.CartFragment">
 
     <RelativeLayout
         android:id="@+id/cartContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:paddingTop="15dp"
+        android:padding="16dp"
+        android:paddingTop="16dp"
         android:paddingBottom="@dimen/dp_10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="2"
+                android:id="@+id/listCount"
+                android:text="0"
                 android:textAppearance="?android:textAppearanceSmall" />
 
             <TextView
@@ -184,5 +186,18 @@
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/gray"
         android:layout_marginBottom="3dp"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/cartLoading"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/loading"
+        app:layout_constraintBottom_toBottomOf="@id/cartRv"
+        app:layout_constraintEnd_toEndOf="@id/cartRv"
+        app:layout_constraintStart_toStartOf="@id/cartRv"
+        app:layout_constraintTop_toTopOf="@id/cartRv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

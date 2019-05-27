@@ -59,7 +59,7 @@ class HomeViewModel : CoboneeViewModel() {
             }
             page++
             if (page <= lastPage) {
-                offersJob = launchOffersJob(deptId, cityId, page,loadMore)
+                offersJob = launchOffersJob(deptId, cityId, page, loadMore)
             } else {
                 _offerUiState.value = MyUiStates.LastPage
             }
@@ -80,14 +80,16 @@ class HomeViewModel : CoboneeViewModel() {
                 when (result) {
 
                     is DataResource.Success -> {
-                        lastPage = result.data.meta.lastPage!!
-                        if (result.data.offers.isEmpty()) {
-                            _offerUiState.value = MyUiStates.Empty
-                        } else {
-                            offersList.clear()
-                            offersList.addAll(result.data.offers)
-                            allOffersList.addAll(result.data.offers)
-                            _offerUiState.value = MyUiStates.Success
+                        if (result.data.meta != null) {
+                            lastPage = result.data.meta.lastPage!!
+                            if (result.data.offers.isEmpty()) {
+                                _offerUiState.value = MyUiStates.Empty
+                            } else {
+                                offersList.clear()
+                                offersList.addAll(result.data.offers)
+                                allOffersList.addAll(result.data.offers)
+                                _offerUiState.value = MyUiStates.Success
+                            }
                         }
                     }
                     is DataResource.Error -> {

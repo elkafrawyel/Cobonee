@@ -141,4 +141,6 @@ object Injector {
 
     fun getOrdersUseCase() = OrdersUseCase(getOrdersRepo())
 
+    fun CartItemsUseCase() = GetCartItemsUseCase(getOffersRepo())
+
 }

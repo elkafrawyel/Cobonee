@@ -147,5 +147,6 @@
     <string name="error_no_offers">لا توجد عروض</string>
     <string name="loading">يتم التحميل..</string>
     <string name="load_failed">فشل التحميل.</string>
+    <string name="cart_item_removed">تم حذف الكوبون من السلة</string>
 
 </resources>
