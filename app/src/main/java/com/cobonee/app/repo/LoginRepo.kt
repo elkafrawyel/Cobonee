@@ -27,8 +27,9 @@ class LoginRepo(private val apiService: RetrofitApiService) {
     private suspend fun loginCall(username: String, password: String): DataResource<LoginResponse> {
         if (username.isNotBlank() && password.isNotBlank()) {
             val response = apiService.getLoginAsync(LoginBody(username, password)).await()
-            if (response.errors != null) {
-                return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
+            if (response.error != null) {
+                return DataResource.Error(IOException(response.error))
+//                return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
             } else {
                 return DataResource.Success(response)
             }
@@ -49,8 +50,9 @@ class LoginRepo(private val apiService: RetrofitApiService) {
     private suspend fun loginFaceCall(loginFaceBody: LoginFaceBody): DataResource<LoginResponse> {
         if (loginFaceBody.access_token.isNotBlank()) {
             val response = apiService.getLoginFaceAsync(loginFaceBody).await()
-            if (response.errors != null) {
-                return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
+            if (response.error != null) {
+                return DataResource.Error(IOException(response.error))
+//                return DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
             } else {
                 return DataResource.Success(response)
             }

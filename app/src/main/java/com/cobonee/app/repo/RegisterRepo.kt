@@ -1,6 +1,5 @@
 package com.cobonee.app.repo
 
-import android.text.Editable
 import com.cobonee.app.R
 import com.cobonee.app.entity.LoginResponse
 import com.cobonee.app.entity.RegisterBody
@@ -30,8 +29,9 @@ class RegisterRepo(private val apiService: RetrofitApiService) {
     private suspend fun registerCall(name: String,username: String, password: String,cityId:String): DataResource<LoginResponse> {
         return if (name.isNotBlank() &&username.isNotBlank() && password.isNotBlank()) {
             val response = apiService.getRegisterAsync(RegisterBody(name,username, password,cityId)).await()
-            if (response.errors != null) {
-                DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
+            if (response.error != null) {
+                return DataResource.Error(IOException(response.error))
+//                DataResource.Error(IOException(Injector.getApplicationContext().getString(R.string.error_login)))
             } else {
                 DataResource.Success(response)
             }

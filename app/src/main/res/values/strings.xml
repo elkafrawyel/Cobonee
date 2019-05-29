@@ -176,6 +176,8 @@
     <string name="loading">Loading...</string>
     <string name="load_failed">Load Failed</string>
     <string name="cart_item_removed">Cart Item Removed</string>
+    <string name="create_order_error">Failed To Create Order</string>
+    <string name="cart_order_created">Your Order Created Sucessfully</string>
 
 
 </resources>

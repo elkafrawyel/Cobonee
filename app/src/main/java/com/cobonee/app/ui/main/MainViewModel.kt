@@ -177,32 +177,7 @@ class MainViewModel : CoboneeViewModel() {
     //====================================== Cart ==========================================
 
     fun getCartItemsLiveData():LiveData<List<CartItem>> {
-
-//        if (Injector.getPreferenceHelper().isLoggedIn) {
-            return Injector.getAllCartItemsUseCase().getAllCartItemsLiveData()
-//        } else {
-//            return DataResource.Error(IOException(Injector.getApplicationContext().resources.getString(R.string.error_you_must_login)))
-//        }
-
-//        scope.launch(dispatcherProvider.io) {
-//
-//            val result = getAllCartItemsUseCase().getAllCartItems()
-//            withContext(dispatcherProvider.main) {
-//                when (result) {
-//                    is DataResource.Success -> {
-//                        if (result.data.value != null) {
-//                            cartItemsLiveData = result.data
-//                        }else{
-//
-//                        }
-//                        _allCartItemsUiState.value = MyUiStates.Success
-//                    }
-//                    is DataResource.Error -> {
-//                        _allCartItemsUiState.value = MyUiStates.Error(result.exception.message!!)
-//                    }
-//                }
-//            }
-//        }
+        return Injector.getAllCartItemsUseCase().getAllCartItemsLiveData()
     }
 
     private fun getAddCartItemsUseCase() = Injector.getAddCartItemsUseCase()

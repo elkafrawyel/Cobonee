@@ -1,6 +1,8 @@
 package com.cobonee.app.repo
 
 import com.cobonee.app.R
+import com.cobonee.app.entity.CreateOrderBody
+import com.cobonee.app.entity.CreateOrderResponse
 import com.cobonee.app.entity.OffersResponse
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
@@ -21,11 +23,32 @@ class OrdersRepo(private val apiService: RetrofitApiService, private val prefere
     }
 
     private suspend fun ordersCall(): DataResource<OffersResponse> {
-            val response = apiService.getAuthOrdersAsync(
-                "${Constants.AUTHORIZATION_START} ${preferencesHelper.token}"
-            ).await()
-            return DataResource.Success(response)
+        val response = apiService.getAuthOrdersAsync(
+            "${Constants.AUTHORIZATION_START} ${preferencesHelper.token}"
+        ).await()
+        return DataResource.Success(response)
 
     }
     //=======================================================================================================
+
+    //=====================================Orders=========================================================
+
+    suspend fun createOrder(idsList: Array<Int>, quantitiesList: Array<Int>): DataResource<CreateOrderResponse> {
+        return safeApiCall(
+            call = { createOrderCall(idsList, quantitiesList) },
+            errorMessage = Injector.getApplicationContext().getString(R.string.error_offers)
+        )
+    }
+
+    private suspend fun createOrderCall(idsList: Array<Int>, quantitiesList: Array<Int>): DataResource<CreateOrderResponse> {
+        val response = apiService.createOrderAsync(
+            "${Constants.AUTHORIZATION_START} ${preferencesHelper.token}"
+            , CreateOrderBody(idsList, quantitiesList)
+        ).await()
+        return DataResource.Success(response)
+
+    }
+    //=======================================================================================================
+
+
 }

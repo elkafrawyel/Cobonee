@@ -24,8 +24,8 @@ data class LoginResponse(
     val data: Data,
     @field:Json(name = "token")
     val token: String?,
-    @field:Json(name = "errors")
-    val errors: Errors,
+    @field:Json(name = "error")
+    val error: String,
     @field:Json(name = "message")
     val message: String?
 )

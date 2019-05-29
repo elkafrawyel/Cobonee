@@ -10,10 +10,12 @@ class AdapterCartItems : BaseQuickAdapter<Offer, BaseViewHolder>(R.layout.item_c
 
     override fun convert(helper: BaseViewHolder, offer: Offer) {
 
+//        val total: Float = offer.priceAfterDiscount!! * offer.quantity
+
         Glide.with(mContext).load(offer.photos!![0]!!.original).into(helper.getView(R.id.item_image))
         helper.setText(R.id.titles1, offer.offerHeader)
-            .setText(R.id.titles2, offer.offerBody)
-
+//            .setText(R.id.coast, total.toString())
+//            .setText(R.id.coboneeQuantityValueTv,offer.quantity)
 
         helper.addOnClickListener(R.id.icon_delete)
     }

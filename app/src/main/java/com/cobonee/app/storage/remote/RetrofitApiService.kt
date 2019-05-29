@@ -109,4 +109,10 @@ interface RetrofitApiService {
     fun getCartItemsAsync(
         @Body cartItemsBody: CartItemsBody
     ): Deferred<OffersResponse>
+
+    @POST("orders/create")
+    fun createOrderAsync(
+        @Header("Authorization") token: String,
+        @Body createOrderBody: CreateOrderBody
+    ): Deferred<CreateOrderResponse>
 }

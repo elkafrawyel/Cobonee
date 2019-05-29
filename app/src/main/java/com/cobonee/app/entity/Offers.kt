@@ -253,6 +253,11 @@ data class MakeFavouritesResponse(
     val message: String
 )
 
+data class CreateOrderResponse(
+    @field:Json(name = "message")
+    val message: String
+)
+
 data class MakeOfferBody(
     @field:Json(name = "offer_id")
     val offerId: Int
@@ -268,4 +273,11 @@ data class CartItem(
 data class CartItemsBody(
     @field:Json(name = "offers")
     val offersId: Array<Int>
+)
+
+data class CreateOrderBody(
+    @field:Json(name = "offer_id")
+    val ids: Array<Int>,
+    @field:Json(name = "quantity")
+    val quantities: Array<Int>
 )

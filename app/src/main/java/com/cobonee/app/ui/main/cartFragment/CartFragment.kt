@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.cart_fragment.*
 
 class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
-
     companion object {
         fun newInstance() = CartFragment()
     }
@@ -45,7 +44,57 @@ class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         mainViewModel.getCartItemsLiveData().observe(this, Observer { onCartItems(it) })
         mainViewModel.removeCartItemsUiState.observeEvent(this) { onRemoveCartItems(it) }
 
+        viewModel.ordersUiState.observe(this, Observer { onCreateOrderResponse(it) })
         viewModel.uiState.observe(this, Observer { onCartItemsResponse(it) })
+    }
+
+    private fun onCreateOrderResponse(states: MyUiStates?) {
+        when(states){
+            MyUiStates.Loading -> {
+                cartLoading.visibility = View.VISIBLE
+            }
+
+            MyUiStates.Success -> {
+                cartLoading.visibility = View.GONE
+                activity?.snackBar(resources.getString(R.string.cart_order_created), cartRootView)
+            }
+
+            is MyUiStates.Error -> {
+                cartLoading.visibility = View.GONE
+                activity?.snackBar(states.message, cartRootView)
+            }
+
+            MyUiStates.NoConnection -> {
+                cartLoading.visibility = View.GONE
+                activity?.snackBar(resources.getString(R.string.no_connection_error), cartRootView)
+            }
+
+            null -> {
+
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        cartAdapter.onItemChildClickListener = this
+
+        cartRv.adapter = cartAdapter
+
+        next.setOnClickListener {
+            //            findNavController().navigate(R.id.paymentFragment)
+            val ids = viewModel.cartList.map { it.id }.toTypedArray()
+            val quantities = viewModel.cartList.map { 1 }.toTypedArray()
+
+            viewModel.createOrder(ids.filterNotNull().toTypedArray(), quantities.filterNotNull().toTypedArray())
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // Handle the back button event
+            findNavController().navigateUp()
+
+        }
     }
 
     private fun onRemoveCartItems(states: MyUiStates) {
@@ -84,6 +133,10 @@ class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 cartLoading.visibility = View.GONE
                 cartAdapter.addData(viewModel.cartList)
                 listCount.text = viewModel.cartList.size.toString()
+                total_cart_content.text = viewModel.totalPrice?.toString()
+                val charges = 30
+                chargesTv.text = charges.toString()
+                total.text = (viewModel.totalPrice?.plus(charges)).toString()
             }
             MyUiStates.LastPage -> {
 
@@ -109,30 +162,26 @@ class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
             R.id.icon_delete -> {
                 mainViewModel.removeCartItems((adapter?.data!![position] as Offer).id!!)
             }
+
+//            R.id.increaseCoboneeQuantity -> {
+//                viewModel.cartList[position].quantity = viewModel.cartList[position].quantity.plus(1)
+//                cartAdapter.notifyDataSetChanged()
+//            }
+//            R.id.decreaseCoboneeQuantity -> {
+//                if (viewModel.cartList[position].quantity > 0) {
+//                    viewModel.cartList[position].quantity = viewModel.cartList[position].quantity.minus(1)
+//                    cartAdapter.notifyDataSetChanged()
+//                }
+//            }
         }
     }
 
     private fun onCartItems(list: List<CartItem>?) {
         val offerIdList = list?.map { it.itemId }?.toTypedArray()
+        viewModel.cartItemsQuantityList.clear()
+        list?.map { it.itemQuentity }?.toCollection(viewModel.cartItemsQuantityList)
         viewModel.getCartItems(offerIdList!!)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        cartAdapter.onItemChildClickListener = this
-
-
-        cartRv.adapter = cartAdapter
-
-        next.setOnClickListener {
-            findNavController().navigate(R.id.paymentFragment)
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            // Handle the back button event
-            findNavController().navigateUp()
-
-        }
-    }
 }
