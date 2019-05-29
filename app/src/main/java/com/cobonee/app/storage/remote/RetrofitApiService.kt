@@ -103,7 +103,7 @@ interface RetrofitApiService {
     @GET("me/orders")
     fun getAuthOrdersAsync(
         @Header("Authorization") token: String
-    ): Deferred<OffersResponse>
+    ): Deferred<OrdersResponse>
 
     @POST("check/offers")
     fun getCartItemsAsync(

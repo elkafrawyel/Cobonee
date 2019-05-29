@@ -4,6 +4,7 @@ import com.cobonee.app.R
 import com.cobonee.app.entity.CreateOrderBody
 import com.cobonee.app.entity.CreateOrderResponse
 import com.cobonee.app.entity.OffersResponse
+import com.cobonee.app.entity.OrdersResponse
 import com.cobonee.app.storage.local.PreferencesHelper
 import com.cobonee.app.storage.remote.RetrofitApiService
 import com.cobonee.app.utily.Constants
@@ -15,14 +16,14 @@ class OrdersRepo(private val apiService: RetrofitApiService, private val prefere
 
     //=====================================Orders=========================================================
 
-    suspend fun getOrders(): DataResource<OffersResponse> {
+    suspend fun getOrders(): DataResource<OrdersResponse> {
         return safeApiCall(
             call = { ordersCall() },
             errorMessage = Injector.getApplicationContext().getString(R.string.error_offers)
         )
     }
 
-    private suspend fun ordersCall(): DataResource<OffersResponse> {
+    private suspend fun ordersCall(): DataResource<OrdersResponse> {
         val response = apiService.getAuthOrdersAsync(
             "${Constants.AUTHORIZATION_START} ${preferencesHelper.token}"
         ).await()

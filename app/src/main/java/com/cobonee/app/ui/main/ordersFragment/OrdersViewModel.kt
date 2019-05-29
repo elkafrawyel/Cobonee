@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
+import com.cobonee.app.entity.DataOrders
+import com.cobonee.app.entity.Offer
 import com.cobonee.app.entity.OffersResponse
+import com.cobonee.app.entity.OrdersResponse
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.utily.DataResource
 import com.cobonee.app.utily.Injector
@@ -16,7 +19,7 @@ import kotlinx.coroutines.withContext
 class OrdersViewModel : CoboneeViewModel() {
 
     private var ordersJob: Job? = null
-
+    var ordersList: ArrayList<DataOrders> = arrayListOf()
     private val ordersUseCase = Injector.getOrdersUseCase()
 
     private val _ordersUiState = MutableLiveData<MyUiStates>()
@@ -38,12 +41,18 @@ class OrdersViewModel : CoboneeViewModel() {
     private fun launchOrdersJob(): Job? {
         return scope.launch(dispatcherProvider.computation) {
             withContext(dispatcherProvider.main) { showLoading() }
-            val result = ordersUseCase.getOffers()
+            val result = ordersUseCase.getOrders()
             withContext(dispatcherProvider.main) {
                 when (result) {
 
                     is DataResource.Success -> {
-                        showSuccess(result.data)
+                        if (result.data.data.isEmpty()) {
+                            _ordersUiState.value = MyUiStates.Empty
+                        } else {
+                            ordersList.clear()
+                            ordersList.addAll(result.data.data)
+                            _ordersUiState.value = MyUiStates.Success
+                        }
                     }
                     is DataResource.Error -> showError(result.exception.message)
                 }
@@ -53,11 +62,6 @@ class OrdersViewModel : CoboneeViewModel() {
 
     private fun showLoading() {
         _ordersUiState.value = MyUiStates.Loading
-    }
-
-    private fun showSuccess(data: OffersResponse) {
-
-        _ordersUiState.value = MyUiStates.Success
     }
 
     private fun showError(message: String?) {

@@ -7,7 +7,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/orderCodeTextTv"
@@ -76,10 +77,11 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
             android:layout_marginEnd="12dp"
             android:clickable="false"
             android:insetTop="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:insetBottom="0dp"
             android:minHeight="0dp"
             android:padding="8dp"
@@ -87,7 +89,8 @@
             android:textColor="@color/colorPrimary"
             app:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/orderDiscountPercentTv" />
+            app:layout_constraintTop_toBottomOf="@id/orderDescTv"
+            />
 
         <TextView
             android:id="@+id/orderDescTv"
@@ -95,11 +98,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:padding="@dimen/dp_4"
+            android:layout_marginTop="18dp"
             android:text="@string/about_cobonee_text"
             android:textAppearance="?attr/textAppearanceBody2"
-            app:layout_constraintEnd_toStartOf="@id/orderOwnerMbtn"
             app:layout_constraintStart_toStartOf="@id/orderCodeTextTv"
-            app:layout_constraintTop_toTopOf="@id/orderOwnerMbtn" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderDiscountPercentTv" />
 
         <TextView
             android:id="@+id/orderDateTv"
@@ -112,7 +116,8 @@
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/orderCodeTextTv"
-            app:layout_constraintTop_toBottomOf="@id/orderDescTv" />
+            app:layout_constraintTop_toBottomOf="@id/orderDescTv"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/orderExpiredImgv"
@@ -122,6 +127,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

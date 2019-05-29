@@ -281,3 +281,23 @@ data class CreateOrderBody(
     @field:Json(name = "quantity")
     val quantities: Array<Int>
 )
+
+data class OrdersResponse(
+    @field:Json(name = "data")
+    val `data`: List<DataOrders>
+)
+
+data class DataOrders(
+    @field:Json(name = "coupon_number")
+    val coupon_number: Int,
+    @field:Json(name = "id")
+    val id: Int,
+    @field:Json(name = "offer")
+    val offer: Offer,
+    @field:Json(name = "order_number")
+    val order_number: Int,
+    @field:Json(name = "quantity")
+    val quantity: Int,
+    @field:Json(name = "status")
+    val status: String
+)

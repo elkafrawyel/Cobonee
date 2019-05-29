@@ -150,5 +150,6 @@
     <string name="cart_item_removed">تم حذف الكوبون من السلة</string>
     <string name="create_order_error">خطأ في انشاء الطلب</string>
     <string name="cart_order_created">"تم انشاء طلبك بنحاج "</string>
+    <string name="error_no_orders">لا يوجد طلبلت</string>
 
 </resources>

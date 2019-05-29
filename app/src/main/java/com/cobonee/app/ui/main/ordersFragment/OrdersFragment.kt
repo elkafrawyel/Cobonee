@@ -1,5 +1,6 @@
 package com.cobonee.app.ui.main.ordersFragment
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.cobonee.app.R
+import com.cobonee.app.entity.DataOrders
 import com.cobonee.app.utily.MyUiStates
+import com.cobonee.app.utily.snackBar
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.android.synthetic.main.orders_fragment.*
+import kotlinx.android.synthetic.main.orders_fragment.emptyView
 
 class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
@@ -18,6 +24,7 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         fun newInstance() = OrdersFragment()
     }
 
+    private var type: Int = 0
     private lateinit var viewModel: OrdersViewModel
     private val ordersAdapter = AdapterOrders()
 
@@ -31,44 +38,83 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(OrdersViewModel::class.java)
-        viewModel.ordersUiState.observe(this, Observer { onOrdersResponseSuccess(it) })
+        viewModel.ordersUiState.observe(this, Observer { onOrdersResponse(it) })
         viewModel.getOrders()
         // TODO: Use the ViewModel
     }
-
-    private fun onOrdersResponseSuccess(state: MyUiStates?) {
+    
+    
+    private fun onOrdersResponse(state: MyUiStates) {
         when (state) {
             MyUiStates.Loading -> {
-
+                ordersLoading.visibility = View.VISIBLE
+                emptyView.visibility = View.GONE
             }
-            MyUiStates.Success -> {
-
+            is MyUiStates.Success -> {
+                ordersLoading.visibility = View.GONE
+                emptyView.visibility = View.GONE
+                addDataToAdapter()
             }
             is MyUiStates.Error -> {
-
+                emptyView.visibility = View.GONE
+                ordersLoading.visibility = View.GONE
+                activity?.snackBar(state.message, ordersRootView)
             }
             MyUiStates.NoConnection -> {
-
+                emptyView.visibility = View.GONE
+                ordersLoading.visibility = View.GONE
+                activity?.snackBar(getString(R.string.no_connection_error), ordersRootView)
             }
-            null -> {
+            MyUiStates.Empty -> {
+                emptyView.visibility = View.VISIBLE
+                ordersLoading.visibility = View.GONE
             }
         }
     }
 
+    private fun addDataToAdapter() {
+        if(viewModel.ordersList.size>0){
+            if(type ==0){
+                val ordersList: ArrayList<DataOrders> =viewModel.ordersList
+                ordersList.removeAll{ it.status!="new" }
+                ordersAdapter.data.clear()
+                ordersAdapter.addData(ordersList)
+            }else{
+                val ordersList: ArrayList<DataOrders> =viewModel.ordersList
+                ordersList.removeAll{ it.status=="new" }
+                ordersAdapter.data.clear()
+                ordersAdapter.addData(ordersList)
+            }
+        }else{
+            viewModel.getOrders()
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ordersAdapter.addData("A")
-        ordersAdapter.addData("B")
-        ordersAdapter.addData("C")
-        ordersAdapter.addData("A")
-        ordersAdapter.addData("A")
-        ordersAdapter.addData("A")
+//        ordersAdapter.addData("A")
+//        ordersAdapter.addData("B")
+//        ordersAdapter.addData("C")
+//        ordersAdapter.addData("A")
+//        ordersAdapter.addData("A")
+//        ordersAdapter.addData("A")
 
         ordersAdapter.onItemChildClickListener = this
 
         ordersRv.adapter = ordersAdapter
 
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                type = tab?.position!!
+                addDataToAdapter()
+            }
+            override fun onTabUnselected(tab:TabLayout.Tab?){
+            }
+            override fun onTabReselected(tab:TabLayout.Tab?) {
+            }
+        })
     }
 
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
