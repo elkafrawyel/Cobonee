@@ -281,6 +281,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     cartNumberTv.visibility = View.INVISIBLE
                     setHomeTitle(resources.getString(R.string.lable_offer_details))
                     searchImgv.visibility = View.INVISIBLE
+                    cartNumberTv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                 }
@@ -316,6 +317,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     citiesSpinner.visibility = View.INVISIBLE
                     cartImgv.visibility = View.INVISIBLE
                 }
+
             }
         }
     }

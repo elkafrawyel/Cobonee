@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 
 import com.cobonee.app.R
 import com.cobonee.app.entity.CartItem
-import com.cobonee.app.entity.Offer
+import com.cobonee.app.entity.Coubone
 import com.cobonee.app.ui.main.MainViewModel
 import com.cobonee.app.utily.MyUiStates
 import com.cobonee.app.utily.observeEvent
@@ -160,7 +160,7 @@ class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     override fun onItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         when (view?.id) {
             R.id.icon_delete -> {
-                mainViewModel.removeCartItems((adapter?.data!![position] as Offer).id!!)
+                mainViewModel.removeCartItems((adapter?.data!![position] as Coubone).id!!)
             }
 
 //            R.id.increaseCoboneeQuantity -> {
@@ -177,10 +177,10 @@ class CartFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private fun onCartItems(list: List<CartItem>?) {
-        val offerIdList = list?.map { it.itemId }?.toTypedArray()
+        val coubonesIdList = list?.map { it.itemId }?.toTypedArray()
         viewModel.cartItemsQuantityList.clear()
         list?.map { it.itemQuentity }?.toCollection(viewModel.cartItemsQuantityList)
-        viewModel.getCartItems(offerIdList!!)
+        viewModel.getCartItems(coubonesIdList!!)
     }
 
 

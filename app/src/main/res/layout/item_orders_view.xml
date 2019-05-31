@@ -39,7 +39,7 @@
             android:id="@+id/orderDiscountPercentTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/discount_percent"
+            android:background="@drawable/discount_percent_mirror"
             android:gravity="center"
             android:text="خصم %50"
             android:textAppearance="?attr/textAppearanceCaption"
@@ -89,8 +89,7 @@
             android:textColor="@color/colorPrimary"
             app:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/orderDescTv"
-            />
+            app:layout_constraintTop_toBottomOf="@id/orderDescTv" />
 
         <TextView
             android:id="@+id/orderDescTv"

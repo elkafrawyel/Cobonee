@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.NetworkUtils
 import com.cobonee.app.R
+import com.cobonee.app.entity.ContactUseBody
+import com.cobonee.app.entity.Coubone
 import com.cobonee.app.entity.Offer
 import com.cobonee.app.ui.CoboneeViewModel
 import com.cobonee.app.useCases.CreateOrderUseCase
@@ -25,7 +27,7 @@ class CartViewModel : CoboneeViewModel() {
     val uiState: LiveData<MyUiStates>
         get() = _uiState
 
-    var cartList: ArrayList<Offer> = arrayListOf()
+    var cartList: ArrayList<Coubone> = arrayListOf()
 
     fun getCartItems(offerIds: Array<Int>) {
         if (NetworkUtils.isWifiConnected()) {
@@ -44,17 +46,23 @@ class CartViewModel : CoboneeViewModel() {
             val result = getAllCartItems().getCartItems(offersId = offerIds)
             when (result) {
                 is DataResource.Success -> {
-//                    result.data.offers.forEachIndexed { index, offer ->
-//                        offer.quantity = cartItemsQuantityList[index]
-//                    }
 
                     withContext(dispatcherProvider.main) {
                         cartList.clear()
                         totalPrice = 0F
 
-                        totalPrice = result.data.offers.sumByDouble { it.priceAfterDiscount!!.toDouble() }.toFloat()
 
-                        cartList.addAll(result.data.offers)
+
+                        result.data.cartItems.forEachIndexed { index: Int, coubone: Coubone ->
+                            coubone.quantity = cartItemsQuantityList[index]
+                        }
+
+                        totalPrice = result.data.cartItems.map {
+                            it.priceAfterDiscount!! * it.quantity
+                        }.sum()
+
+
+                        cartList.addAll(result.data.cartItems)
 
                         _uiState.value = MyUiStates.Success
 
@@ -69,7 +77,7 @@ class CartViewModel : CoboneeViewModel() {
         }
     }
 
-    //================================= createe Order =======================================================
+    //================================= create Order =======================================================
 
     private var createOrderJob: Job? = null
     private fun CreateOrderUseCase() = Injector.CreateOrderUseCase()
@@ -80,7 +88,6 @@ class CartViewModel : CoboneeViewModel() {
 
     fun createOrder(ids: Array<Int>, quantities: Array<Int>) {
         if (NetworkUtils.isWifiConnected()) {
-
             if (createOrderJob?.isActive == true)
                 return
             createOrderJob = launchCreateOrderJob(ids, quantities)
@@ -96,10 +103,11 @@ class CartViewModel : CoboneeViewModel() {
             withContext(dispatcherProvider.main) {
                 when (result) {
                     is DataResource.Success -> {
-                        if (result.data.message=="success") {
+                        if (result.data.message == "success") {
                             _ordersUiState.value = MyUiStates.Success
-                        }else{
-                            _ordersUiState.value = MyUiStates.Error(Injector.getApplicationContext().getString(R.string.create_order_error))
+                        } else {
+                            _ordersUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.create_order_error))
                         }
                     }
                     is DataResource.Error -> {

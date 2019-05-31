@@ -135,6 +135,11 @@ data class Offer(
     }
 }
 
+data class CartItemsResponse(
+    @field:Json(name = "data")
+    val cartItems: List<Coubone>
+)
+
 data class Coubone(
     @field:Json(name = "id")
     val id: Int?,
@@ -142,19 +147,24 @@ data class Coubone(
     val offerHeader: String?,
     @field:Json(name = "price_after_discount")
     val priceAfterDiscount: Float?,
+    @field:Json(name = "photos")
+    val photos: List<OfferPhoto?>?,
     var quantity: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readValue(Float::class.java.classLoader) as? Float,
+        parcel.createTypedArrayList(OfferPhoto),
         parcel.readInt()
-    )
+    ) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(offerHeader)
         parcel.writeValue(priceAfterDiscount)
+        parcel.writeTypedList(photos)
         parcel.writeInt(quantity)
     }
 
@@ -171,7 +181,6 @@ data class Coubone(
             return arrayOfNulls(size)
         }
     }
-
 }
 
 data class OfferPhoto(

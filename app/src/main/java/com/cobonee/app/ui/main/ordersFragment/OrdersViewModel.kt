@@ -40,7 +40,9 @@ class OrdersViewModel : CoboneeViewModel() {
 
     private fun launchOrdersJob(): Job? {
         return scope.launch(dispatcherProvider.computation) {
-            withContext(dispatcherProvider.main) { showLoading() }
+            withContext(dispatcherProvider.main) {
+                _ordersUiState.value = MyUiStates.Loading
+            }
             val result = ordersUseCase.getOrders()
             withContext(dispatcherProvider.main) {
                 when (result) {
@@ -54,21 +56,26 @@ class OrdersViewModel : CoboneeViewModel() {
                             _ordersUiState.value = MyUiStates.Success
                         }
                     }
-                    is DataResource.Error -> showError(result.exception.message)
+                    is DataResource.Error -> {
+                        if (result.exception.message != null)
+                            _ordersUiState.value = MyUiStates.Error(result.exception.message!!)
+                        else
+                            _ordersUiState.value =
+                                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
+                    }
                 }
             }
         }
     }
 
-    private fun showLoading() {
-        _ordersUiState.value = MyUiStates.Loading
+    fun getMyOrdersSmallList(type: Int): ArrayList<DataOrders> {
+        var smallList = ordersList
+        if (type == 0) {
+            smallList.removeAll { it.status != "new" }
+        } else {
+            smallList.removeAll { it.status == "new" }
+        }
+        return smallList
     }
 
-    private fun showError(message: String?) {
-        if (message != null)
-            _ordersUiState.value = MyUiStates.Error(message)
-        else
-            _ordersUiState.value =
-                MyUiStates.Error(Injector.getApplicationContext().getString(R.string.error_general))
-    }
 }

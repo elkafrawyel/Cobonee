@@ -42,8 +42,8 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
         viewModel.getOrders()
         // TODO: Use the ViewModel
     }
-    
-    
+
+
     private fun onOrdersResponse(state: MyUiStates) {
         when (state) {
             MyUiStates.Loading -> {
@@ -73,19 +73,10 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
     }
 
     private fun addDataToAdapter() {
-        if(viewModel.ordersList.size>0){
-            if(type ==0){
-                val ordersList: ArrayList<DataOrders> =viewModel.ordersList
-                ordersList.removeAll{ it.status!="new" }
-                ordersAdapter.data.clear()
-                ordersAdapter.addData(ordersList)
-            }else{
-                val ordersList: ArrayList<DataOrders> =viewModel.ordersList
-                ordersList.removeAll{ it.status=="new" }
-                ordersAdapter.data.clear()
-                ordersAdapter.addData(ordersList)
-            }
-        }else{
+        if (viewModel.ordersList.size > 0) {
+            ordersAdapter.data.clear()
+            ordersAdapter.addData(viewModel.getMyOrdersSmallList(type))
+        } else {
             viewModel.getOrders()
         }
     }
@@ -93,12 +84,6 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        ordersAdapter.addData("A")
-//        ordersAdapter.addData("B")
-//        ordersAdapter.addData("C")
-//        ordersAdapter.addData("A")
-//        ordersAdapter.addData("A")
-//        ordersAdapter.addData("A")
 
         ordersAdapter.onItemChildClickListener = this
 
@@ -110,9 +95,11 @@ class OrdersFragment : Fragment(), BaseQuickAdapter.OnItemChildClickListener {
                 type = tab?.position!!
                 addDataToAdapter()
             }
-            override fun onTabUnselected(tab:TabLayout.Tab?){
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
-            override fun onTabReselected(tab:TabLayout.Tab?) {
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
     }
