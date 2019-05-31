@@ -9,12 +9,12 @@ import java.io.IOException
 
 class AddCartItemsUseCase(private val database: AppDatabase) {
 
-    suspend fun addCartItems(itemId: Int, itemQuantity: Int): DataResource<Boolean> {
+    fun addCartItems(itemId: Int, itemQuantity: Int): DataResource<Boolean> {
         if (Injector.getPreferenceHelper().isLoggedIn) {
-            if (database.cartItemDao().getCartItem(itemId) == null) {
+//            if (database.cartItemDao().getCartItem(itemId) == null) {
                 val cartItem = CartItem(itemId, Injector.getPreferenceHelper().id, itemQuantity)
                 database.cartItemDao().insertCartItem(cartItem)
-            }
+//            }
             return DataResource.Success(true)
         } else {
             return DataResource.Error(IOException(Injector.getApplicationContext().resources.getString(R.string.error_you_must_login)))

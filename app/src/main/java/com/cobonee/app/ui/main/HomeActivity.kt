@@ -85,13 +85,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun onCartItemsResponse(cartItem: List<CartItem>) {
-        if (cartItem.isEmpty()) {
-//            cartNumberTv.visibility = View.GONE
-        } else {
-//            cartNumberTv.visibility = View.VISIBLE
+        if (cartItem.isNotEmpty()) {
             cartNumberTv.text = cartItem.size.toString()
         }
-
     }
 
     override fun onResume() {
@@ -113,6 +109,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             navigationView.menu.getItem(5).isVisible = false
             navigationView.menu.getItem(8).title = resources.getString(R.string.text_login)
         }
+
+        cartNumberVisability()
 
     }
 
@@ -199,7 +197,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     setHomeTitle("")
                     searchImgv.visibility = View.VISIBLE
                     cartImgv.visibility = View.VISIBLE
-                    cartNumberTv.visibility = View.VISIBLE
+                    cartNumberVisability()
                     citiesSpinner.visibility = View.VISIBLE
                     navigationView.menu.getItem(HOME_INDEX).isChecked = true
                     navigationView.menu.getItem(HOME_INDEX).isCheckable = true
@@ -278,10 +276,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
 
                 R.id.detailsFragment -> {
-                    cartNumberTv.visibility = View.INVISIBLE
                     setHomeTitle(resources.getString(R.string.lable_offer_details))
                     searchImgv.visibility = View.INVISIBLE
-                    cartNumberTv.visibility = View.VISIBLE
+                    cartNumberVisability()
                     cartImgv.visibility = View.VISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
                 }
@@ -312,14 +309,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 R.id.searchFragment -> {
                     setHomeTitle(resources.getString(R.string.lable_search))
-                    cartNumberTv.visibility = View.INVISIBLE
+                    cartNumberVisability()
+                    cartImgv.visibility = View.INVISIBLE
                     searchImgv.visibility = View.INVISIBLE
                     citiesSpinner.visibility = View.INVISIBLE
-                    cartImgv.visibility = View.INVISIBLE
                 }
 
             }
         }
+    }
+
+    private fun cartNumberVisability(){
+        if(Injector.getPreferenceHelper().isLoggedIn){
+            cartNumberTv.visibility = View.VISIBLE
+        }else{
+            cartNumberTv.visibility = View.INVISIBLE
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
